@@ -9,7 +9,7 @@ entstanden für eine Bewerbung.
 
 ## 2. Demo im Browser ohne Installation
 
-`https://GITHUB-NUTZER.github.io/werkstatt-terminassistent/`
+`https://dangtu1190-tech.github.io/werkstatt-terminassistent/`
 
 Das ist der statische Modus: vorberechnete Ergebnisse aus `docs/data/`,
 keine Modellaufrufe. Alle 15 Testmails lassen sich anklicken und zeigen den

@@ -36,13 +36,12 @@ _ADRESSE = re.compile(
     r"(?:[Ss]traße|[Ss]trasse|[Ss]tr\.|[Ww]eg|[Pp]latz|[Aa]llee|[Gg]asse|[Rr]ing|[Dd]amm|[Uu]fer)"
     r"\s+\d+[a-z]?\b"
 )
-# Nach dem Ortsnamen darf ein kleingeschriebener Zusatz folgen: "Frankfurt am
-# Main", "Rothenburg ob der Tauber". Nur Leerzeichen/Tabs als Trenner, damit
-# der Zusatz nicht über einen Zeilenumbruch hinweg gesucht wird.
-_ORT = re.compile(
-    r"\b\d{5}\s+[A-ZÄÖÜ][a-zäöüß]+(?:[- ][A-ZÄÖÜ][a-zäöüß]+)*"
-    r"(?:[ \t]+(?:am|an|der|im|bei|auf|ob)[ \t]+[A-ZÄÖÜ][a-zäöüß]+)*"
-)
+# Bewusst OHNE Zusatz nach dem Ortsnamen ("am Main", "ob der Tauber"): ein
+# Muster dafür fraß den Folgetext, weil am/an/bei/im gewöhnliche Präpositionen
+# sind. "63739 Aschaffenburg bei Herrn Mueller" wurde bis "Herrn" verschluckt,
+# danach fand _ANREDE die Anrede nicht mehr und der Nachname blieb offen.
+# "Frankfurt am Main" wird deshalb zu "[ORT_1] am Main" — Rest, kein Leck.
+_ORT = re.compile(r"\b\d{5}\s+[A-ZÄÖÜ][a-zäöüß]+(?:[- ][A-ZÄÖÜ][a-zäöüß]+)*")
 _ANREDE = re.compile(r"\b(?:Herrn?|Frau|Hr\.|Fr\.)\s+([A-ZÄÖÜ][\wäöüß\-]+(?:\s+[A-ZÄÖÜ][\wäöüß\-]+)?)")
 _HALLO = re.compile(r"^\s*(?:Hallo|Hi|Servus|Moin|Guten Tag)\s+([A-ZÄÖÜ][\wäöüß\-]+)\s*[,!]?\s*$", re.MULTILINE)
 _GRUSS = re.compile(

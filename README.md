@@ -50,10 +50,17 @@ zuordenbar, und ein geratener Platzhalter setzte die falsche Person wieder
 ein. Umgekehrt gilt: ist nur eine Person mit diesem Nachnamen bekannt, wird
 auch der allein stehende Nachname ersetzt und beim Zurücksetzen zum vollen
 Namen aufgefüllt — aus „Elektro Wittmann GmbH" wird so „Elektro Andrea
-Wittmann GmbH". Orte ohne vorangestellte PLZ bleiben stehen. Straßen mit
-unüblichen Vorworten fallen durch das Muster. Fahrzeugmodelle bleiben
-absichtlich sichtbar — ohne sie ist keine sinnvolle Terminplanung möglich,
-und sie sind für sich genommen nicht personenbezogen.
+Wittmann GmbH". Orte ohne vorangestellte PLZ bleiben stehen, und Ortsnamen
+mit Zusatz wie „am Main" bleiben teilweise sichtbar: maskiert wird
+„60313 Frankfurt", das „am Main" bleibt stehen. Ein Muster, das den Zusatz
+mitnimmt, verschluckt sonst gewöhnlichen Fließtext („bei Herrn Mueller") und
+verdeckt damit eine Anrede, hinter der ein Name steht. Straßen mit
+unüblichen Vorworten fallen durch das Muster. Zeichenfolgen, die wie ein
+Kennzeichen aussehen (z. B. „Raum A-B 4"), werden ebenfalls maskiert; diese
+Über-Maskierung ist gewollt, weil ein übersehenes Kennzeichen schwerer wiegt
+als ein maskierter Raumname. Fahrzeugmodelle bleiben absichtlich sichtbar —
+ohne sie ist keine sinnvolle Terminplanung möglich, und sie sind für sich
+genommen nicht personenbezogen.
 
 ## 4. Pipeline
 
@@ -132,7 +139,7 @@ Firmensignatur mit Adresse (m09, Elektro Wittmann GmbH).
 python -m pytest -q
 ```
 
-62 Tests laufen ohne Netzzugriff und ohne Schlüssel (Fake-Client). Ein
+61 Tests laufen ohne Netzzugriff und ohne Schlüssel (Fake-Client). Ein
 Test, der wirklich gegen ein Modell fragt, wird nur ausgeführt, wenn
 `LLM_API_KEY` gesetzt ist — sonst übersprungen (skip), nie fehlgeschlagen.
 

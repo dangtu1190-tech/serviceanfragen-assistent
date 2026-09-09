@@ -36,18 +36,10 @@ def test_kurze_modellnamen_bleiben_trotz_einstelliger_kennzeichen():
     assert text == "BMW X5, VW T6.1, VW ID.4, Audi A4"
 
 
-def test_ort_mit_zusatz_wird_ganz_ersetzt():
-    text, tab = anonymisiere("Wir wohnen in 60313 Frankfurt am Main.")
-    originale = [t["original"] for t in tab if t["typ"] == "ORT"]
-    assert originale == ["60313 Frankfurt am Main"]
-    assert text == "Wir wohnen in [ORT_1]."
-
-
-def test_ort_zusatz_greift_nicht_ueber_die_zeile():
-    text, tab = anonymisiere("63739 Aschaffenburg\nam Montag passt es")
-    originale = [t["original"] for t in tab if t["typ"] == "ORT"]
-    assert originale == ["63739 Aschaffenburg"]
-    assert "am Montag" in text
+def test_ort_zusatz_frisst_keine_folgeworte():
+    text, tab = anonymisiere("63739 Aschaffenburg bei Herrn Mueller vorbeikommen. 60313 Frankfurt am Main.")
+    assert "Mueller" not in text
+    assert [t["original"] for t in tab if t["typ"] == "ORT"] == ["63739 Aschaffenburg", "60313 Frankfurt"]
 
 
 def test_gemeinsamer_nachname_bleibt_allein_stehen():

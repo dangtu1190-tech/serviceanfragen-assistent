@@ -20,7 +20,8 @@
   .badge.abgelehnt { background: #b3261e; }
   #layout { display: grid; grid-template-columns: 260px 1fr 380px; gap: 12px; padding: 12px; align-items: start; }
   @media (max-width: 1000px) { #layout { grid-template-columns: 1fr; } }
-  .spalte { background: var(--bg); border: 1px solid var(--rand); border-radius: 4px; padding: 10px; }
+  .spalte { background: var(--bg); border: 1px solid var(--rand); border-radius: 4px; padding: 10px; min-width: 0; overflow-x: auto; }
+  #kopf-info .badge { white-space: normal; text-align: left; }
   .spalte h2 { font-size: 14px; margin: 0 0 8px; color: var(--akzent); }
   #mailliste { list-style: none; margin: 8px 0 0; padding: 0; }
   #mailliste li { padding: 6px 4px; border-bottom: 1px solid var(--rand); cursor: pointer; font-size: 13px; }

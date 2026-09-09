@@ -1,4 +1,5 @@
 import json
+import re
 from datetime import date
 
 from app.kalender import lade_kalender
@@ -61,3 +62,27 @@ def test_ungueltige_modellantwort_wird_pruefung_noetig():
     assert erg["extraktion"] is None and "JSON" in erg["extraktion_fehler"]
     assert erg["termin"] is None
     assert "Katrin Vollmer" not in erg["pseudonym_text"]
+
+
+def _woerter(wert: str) -> set[str]:
+    """Alle durch Leerraum getrennten Teile ab drei Zeichen."""
+    return {t for t in wert.split() if len(t) >= 3}
+
+
+def test_kein_original_erreicht_das_modell():
+    """Schaerfer als test_modell_sieht_keine_originale: auch Namensteile und
+    Bestandteile jedes Platzhalter-Originals duerfen nicht im Prompt stehen."""
+    kal = lade_kalender("data/kalender.json")
+    for mail in lade_mails():
+        fake = FakeClient(ANTWORT)
+        erg = verarbeite(mail, fake, kal, HEUTE)
+        gesendet = fake.aufrufe[0]
+        verboten = {mail["absender_email"]} | _woerter(mail["absender_name"])
+        for eintrag in erg["platzhalter"]:
+            verboten.add(eintrag["original"])
+            verboten |= _woerter(eintrag["original"])
+        for wert in verboten:
+            if not wert:
+                continue
+            muster = re.compile(r"(?<!\w)" + re.escape(wert) + r"(?!\w)", re.IGNORECASE)
+            assert not muster.search(gesendet), (mail["id"], wert)

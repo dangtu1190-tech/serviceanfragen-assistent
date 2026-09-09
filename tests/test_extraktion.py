@@ -1,5 +1,4 @@
 import json
-import os
 from datetime import date
 
 import pytest
@@ -53,6 +52,7 @@ def test_parse_toleriert_fehlende_optionale_felder():
 def test_prompt_enthaelt_datum_und_platzhalterregel():
     p = baue_prompt(date(2026, 9, 14))
     assert "2026-09-14" in p and "[NAME_1]" in p and "sicherheitsrelevant" in p
+    assert "Montag" in p and "Monday" not in p
 
 
 def test_extrahiere_sendet_nur_uebergebenen_text():
@@ -79,3 +79,16 @@ def test_konfig_defaults_langdock(monkeypatch):
     monkeypatch.setenv("LLM_API_KEY", "x")
     k = lade_konfig(env_datei=None)
     assert k.provider == "langdock" and "langdock.com" in k.base_url and k.model == "gpt-5.1"
+
+
+def test_env_datei_quotes_und_kein_ueberschreiben(tmp_path, monkeypatch):
+    env = tmp_path / ".env"
+    env.write_text('LLM_PROVIDER=ollama\nLLM_MODEL="llama3.1:8b"\n# Kommentar\nLLM_API_KEY=\'abc\'\n', encoding="utf-8")
+    monkeypatch.setenv("LLM_PROVIDER", "langdock")
+    monkeypatch.delenv("LLM_MODEL", raising=False)
+    monkeypatch.delenv("LLM_API_KEY", raising=False)
+    monkeypatch.delenv("LLM_BASE_URL", raising=False)
+    k = lade_konfig(env_datei=env)
+    assert k.provider == "langdock"          # gesetzte Variable gewinnt
+    assert k.model == "llama3.1:8b"          # Quotes entfernt
+    assert k.api_key == "abc"

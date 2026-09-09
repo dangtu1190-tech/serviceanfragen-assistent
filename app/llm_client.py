@@ -35,7 +35,10 @@ def _lies_env_datei(pfad: Path) -> None:
         if not zeile or zeile.startswith("#") or "=" not in zeile:
             continue
         k, v = zeile.split("=", 1)
-        os.environ.setdefault(k.strip(), v.strip())
+        v = v.strip()
+        if len(v) >= 2 and v[0] == v[-1] and v[0] in ("'", '"'):
+            v = v[1:-1]
+        os.environ.setdefault(k.strip(), v)
 
 
 def lade_konfig(env_datei: Path | str | None = Path(__file__).resolve().parent.parent / ".env") -> Konfig:

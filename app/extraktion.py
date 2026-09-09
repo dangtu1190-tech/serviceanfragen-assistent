@@ -12,6 +12,8 @@ from pydantic import BaseModel, ValidationError
 
 Kategorie = Literal["wartung", "reparatur", "reifen", "hu_au", "karosserie", "verkauf", "sonstiges"]
 
+WOCHENTAGE = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
+
 
 class Kunde(BaseModel):
     anrede: str | None = None
@@ -68,7 +70,7 @@ def baue_prompt(heute: date) -> str:
         "Du bist die Serviceannahme eines Autohauses. Du bekommst eine Kunden-E-Mail, in der "
         "personenbezogene Daten durch Platzhalter ersetzt sind, z. B. [NAME_1], [KENNZEICHEN_1], "
         "[TELEFON_1]. Übernimm Platzhalter wörtlich, erfinde keine Werte dahinter.\n"
-        f"Heute ist {heute.isoformat()} ({heute.strftime('%A')}). Relative Angaben wie "
+        f"Heute ist {heute.isoformat()} ({WOCHENTAGE[heute.weekday()]}). Relative Angaben wie "
         "'nächste Woche' oder 'Mittwoch' rechnest du auf Kalenderdaten um.\n"
         "Antworte ausschließlich mit einem JSON-Objekt nach diesem Schema:\n" + SCHEMA_TEXT + "\n"
         "Regeln: Jedes eigenständige Anliegen ist ein Listeneintrag. Bremsen, Lenkung, Reifen mit "

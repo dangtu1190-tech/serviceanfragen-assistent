@@ -96,3 +96,15 @@ def belege(kalender: dict, datum: str, halbtag: str) -> bool:
             tag["halbtage"][halbtag]["belegt"] += 1
             return True
     return False
+
+
+def gebe_frei(kalender: dict, datum: str, halbtag: str) -> bool:
+    """Gegenstück zu belege(): senkt belegt um eins, nie unter 0."""
+    for tag in kalender["tage"]:
+        if tag["datum"] == datum and halbtag in tag["halbtage"]:
+            h = tag["halbtage"][halbtag]
+            if h["belegt"] <= 0:
+                return False
+            h["belegt"] -= 1
+            return True
+    return False

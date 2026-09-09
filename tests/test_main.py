@@ -65,3 +65,15 @@ def test_neue_mail_anlegen(client):
     assert len(client.get("/api/mails").json()) == 16
     e = client.post("/api/mails/m16/verarbeiten").json()
     assert "Test Person" not in e["pseudonym_text"]
+
+
+def test_freigabe_zyklus_belegt_nur_einmal(client):
+    client.post("/api/mails/m01/verarbeiten")
+    for status in ("freigegeben", "abgelehnt", "freigegeben", "offen"):
+        assert client.post("/api/mails/m01/status", json={"status": status}).status_code == 200
+    kal = json.loads((speicher.DATEN / "kalender.json").read_text(encoding="utf-8"))
+    tag = [t for t in kal["tage"] if t["datum"] == "2026-09-21"][0]
+    assert tag["halbtage"]["vormittag"]["belegt"] == 0
+    client.post("/api/mails/m01/status", json={"status": "freigegeben"})
+    kal = json.loads((speicher.DATEN / "kalender.json").read_text(encoding="utf-8"))
+    assert [t for t in kal["tage"] if t["datum"] == "2026-09-21"][0]["halbtage"]["vormittag"]["belegt"] == 1

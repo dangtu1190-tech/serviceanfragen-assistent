@@ -8,7 +8,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from app import speicher
-from app.kalender import belege, lade_kalender, speichere_kalender
+from app.kalender import belege, gebe_frei, lade_kalender, speichere_kalender
 from app.llm_client import LLMClient, lade_konfig
 from app.pipeline import verarbeite
 
@@ -98,9 +98,16 @@ def erzeuge_app(client_factory=None) -> FastAPI:
             raise HTTPException(409, "Mail ist noch nicht verarbeitet")
         if aenderung.antwort_entwurf is not None:
             ergebnis["antwort_entwurf"] = aenderung.antwort_entwurf
-        if aenderung.status == "freigegeben" and ergebnis.get("termin") and ergebnis["status"] != "freigegeben":
+        vorher = ergebnis["status"]
+        termin = ergebnis.get("termin")
+        if termin and vorher != aenderung.status:
             kalender = lade_kalender(_kalender_pfad())
-            if belege(kalender, ergebnis["termin"]["datum"], ergebnis["termin"]["halbtag"]):
+            geaendert = False
+            if aenderung.status == "freigegeben":
+                geaendert = belege(kalender, termin["datum"], termin["halbtag"])
+            elif vorher == "freigegeben":
+                geaendert = gebe_frei(kalender, termin["datum"], termin["halbtag"])
+            if geaendert:
                 speichere_kalender(kalender, _kalender_pfad())
         ergebnis["status"] = aenderung.status
         speicher.speichere_ergebnisse(ergebnisse)

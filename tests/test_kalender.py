@@ -66,3 +66,12 @@ def test_belegen():
 def test_bis_vor_von_wird_offener_zeitraum():
     t = finde_termin(_kal(), _ex(wunschzeitraum={"von": "2026-09-25", "bis": "2026-09-14", "tageszeit": "egal"}), HEUTE)
     assert t["datum"] == "2026-09-25" and t["hinweis"] == ""
+
+
+def test_gebe_frei():
+    from app.kalender import gebe_frei
+    kal = _kal()
+    assert gebe_frei(kal, "2026-09-16", "vormittag") is True
+    assert kal["tage"][2]["halbtage"]["vormittag"]["belegt"] == 3
+    assert gebe_frei(kal, "2026-09-18", "vormittag") is False   # war 0
+    assert gebe_frei(kal, "2099-01-01", "vormittag") is False

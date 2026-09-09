@@ -16,6 +16,7 @@ EX = {
 def test_entwurf_mit_termin():
     t = baue_antwort(EX, {"datum": "2026-09-21", "halbtag": "vormittag", "hinweis": ""}, "Inspektion")
     assert t.startswith("Sehr geehrte Frau Krämer,")
+    assert '„Inspektion"' in t
     assert "Inspektion" in t and "HU/AU fällig" in t
     assert "Montag, 21.09.2026" in t and "Vormittag" in t
     assert "MKK-AB 1234" in t
@@ -35,6 +36,7 @@ def test_entwurf_verkauf_weiterleitung():
     ex = dict(EX, zustaendigkeit="verkauf", anliegen=[{"kategorie": "verkauf", "beschreibung": "Probefahrt"}])
     t = baue_antwort(ex, None, "Probefahrt")
     assert "Verkauf" in t and "weitergeleitet" in t
+    assert "Verkauf: Probefahrt" in t
     assert "Termin" not in t.split("weitergeleitet")[0]
 
 
@@ -43,3 +45,8 @@ def test_entwurf_ohne_namen_und_ohne_termin():
     t = baue_antwort(ex, None, "x")
     assert t.startswith("Guten Tag,")
     assert "melden uns" in t
+
+
+def test_entwurf_ohne_betreff():
+    t = baue_antwort(EX, None, "")
+    assert "vielen Dank für Ihre Anfrage." in t and '„' not in t

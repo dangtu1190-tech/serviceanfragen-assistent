@@ -35,16 +35,30 @@ def _fahrzeug_text(ex: dict) -> str:
     return text or "Ihr Fahrzeug"
 
 
+def _anliegen_zeilen(ex: dict) -> list[str]:
+    """Baut die itemisierte Liste der Anliegen."""
+    anliegen = ex.get("anliegen") or []
+    if not anliegen:
+        return []
+    zeilen = ["Wir haben notiert:"]
+    zeilen += [f"- {KATEGORIE_TEXT.get(a['kategorie'], a['kategorie'])}: {a['beschreibung']}" for a in anliegen]
+    return zeilen
+
+
 def baue_antwort(ex: dict, termin: dict | None, betreff: str) -> str:
-    zeilen = [_anrede(ex.get("kunde")), "", "vielen Dank für Ihre Anfrage."]
+    dank = f'vielen Dank für Ihre Anfrage „{betreff}".' if betreff else "vielen Dank für Ihre Anfrage."
+    zeilen = [_anrede(ex.get("kunde")), "", dank]
     if ex.get("zustaendigkeit") == "verkauf":
         zeilen += ["", "Ihr Anliegen betrifft unseren Verkauf. Ich habe Ihre Nachricht an die "
                    "Kolleginnen und Kollegen dort weitergeleitet; sie melden sich in Kürze bei Ihnen."]
+        anliegen_zeilen = _anliegen_zeilen(ex)
+        if anliegen_zeilen:
+            zeilen += [""] + anliegen_zeilen
     else:
-        anliegen = ex.get("anliegen") or []
-        if anliegen:
+        anliegen_zeilen = _anliegen_zeilen(ex)
+        if anliegen_zeilen:
             zeilen += ["", f"Für {_fahrzeug_text(ex)} haben wir folgende Punkte notiert:"]
-            zeilen += [f"- {KATEGORIE_TEXT.get(a['kategorie'], a['kategorie'])}: {a['beschreibung']}" for a in anliegen]
+            zeilen += anliegen_zeilen[1:]  # skip "Wir haben notiert:" header
         if termin:
             halbtag = "Vormittag" if termin["halbtag"] == "vormittag" else "Nachmittag"
             zeilen += ["", f"Wir schlagen Ihnen einen Termin am {_datum_text(termin['datum'])} am {halbtag} vor."]

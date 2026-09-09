@@ -91,3 +91,16 @@ def test_zuruecksetzen_rekursiv():
 def test_platzhalter_muster():
     assert PLATZHALTER_MUSTER.fullmatch("[KENNZEICHEN_12]")
     assert not PLATZHALTER_MUSTER.fullmatch("[name_1]")
+
+
+def test_adresse_frisst_kein_folgeleerzeichen():
+    text, tab = anonymisiere("Bitte kommen Sie zur Musterstrasse 12 dann klappt es.")
+    assert text == "Bitte kommen Sie zur [ADRESSE_1] dann klappt es."
+    assert zuruecksetzen(text, tab) == "Bitte kommen Sie zur Musterstrasse 12 dann klappt es."
+
+
+def test_adresse_nimmt_keine_fremden_vorwoerter():
+    text, tab = anonymisiere("Unser Kunde Peter Weg 3 hat angerufen. Kaiser-Wilhelm-Straße 5 auch.")
+    originale = [t["original"] for t in tab if t["typ"] == "ADRESSE"]
+    assert originale == ["Weg 3", "Kaiser-Wilhelm-Straße 5"]
+    assert text.startswith("Unser Kunde Peter [ADRESSE_1] hat")

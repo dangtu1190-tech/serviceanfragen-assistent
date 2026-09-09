@@ -18,10 +18,14 @@ _KENNZEICHEN = re.compile(
 _TELEFON = re.compile(r"(?<![\d.])(?:\+49|0)[\s\-/()]*\d(?:[\d\s\-/()]{4,}\d)")
 # "Musterstraße 12a", "Am Alten Weg 3", "Am Bahndamm 7": Vorworte mit Großbuchstaben,
 # Kern darf leer sein, damit "Weg"/"Platz" als eigenes Wort trifft
+# Vorworte nur aus einer Whitelist typischer Straßenvorworte, Kern darf Bindestriche enthalten,
+# Ende ohne optionales Leerzeichen (sonst wird das Folgeleerzeichen mitgefressen)
 _ADRESSE = re.compile(
-    r"\b(?:[A-ZÄÖÜ][\wäöüß]*[- ])*[A-ZÄÖÜ]?[\wäöüß]*"
+    r"\b(?:(?:Am|An|Im|In|Auf|Zum|Zur|Zu|Bei|Hinter|Unter|Vor|Alte[nr]?|Neue[nr]?|Obere[nr]?|"
+    r"Untere[nr]?|Große[nr]?|Grosse[nr]?|Kleine[nr]?|Lange[nr]?|Hohe[nr]?|Breite[nr]?)[- ])*"
+    r"[A-ZÄÖÜ]?[\wäöüß\-]*"
     r"(?:[Ss]traße|[Ss]trasse|[Ss]tr\.|[Ww]eg|[Pp]latz|[Aa]llee|[Gg]asse|[Rr]ing|[Dd]amm|[Uu]fer)"
-    r"\s+\d+\s?[a-z]?\b"
+    r"\s+\d+[a-z]?\b"
 )
 _ORT = re.compile(r"\b\d{5}\s+[A-ZÄÖÜ][a-zäöüß]+(?:[- ][A-ZÄÖÜ][a-zäöüß]+)*")
 _ANREDE = re.compile(r"\b(?:Herrn?|Frau|Hr\.|Fr\.)\s+([A-ZÄÖÜ][\wäöüß\-]+(?:\s+[A-ZÄÖÜ][\wäöüß\-]+)?)")

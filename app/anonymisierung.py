@@ -3,19 +3,28 @@
 Reiner Rechenkern, deterministisch, ohne Modell. Reihenfolge der Muster:
 E-Mail, Kennzeichen, Telefon, Adresse, PLZ+Ort, Namen. Bereits gesetzte
 Platzhalter werden nie erneut angefasst (Text wird an ihnen zerlegt).
-Bekannte Grenze: Namen im Fließtext ohne Anrede/Absender/Signatur bleiben.
+Bekannte Grenzen: Namen im Fließtext ohne Anrede/Absender/Signatur bleiben.
+Ein allein stehender Nachname, den sich zwei bekannte Personen teilen, bleibt
+ebenfalls stehen — er lässt sich nicht zuordnen (siehe `_mehrdeutige_teile`).
+Das Modul heißt aus historischen Gründen weiter `anonymisierung`.
 """
 import re
 
 PLATZHALTER_MUSTER = re.compile(r"\[(EMAIL|KENNZEICHEN|TELEFON|ADRESSE|ORT|NAME)_(\d+)\]")
 
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
-# Groß: 1-3 Buchstaben, Trenner, 1-2 Buchstaben; klein nur mit Bindestrich (sonst
-# träfe "und am 21"); dann optional Trenner, 2-4 Ziffern, optional E/H
+# Drei Zweige, weil die Mindestzahl der Ziffern vom Trenner abhängt: mit
+# Bindestrich reicht eine Ziffer ("B-A 1"), mit Leerzeichen braucht es zwei,
+# sonst träfe das Muster Fahrzeugmodelle wie "BMW X5". Klein nur mit
+# Bindestrich (sonst träfe "und am 21").
 _KENNZEICHEN = re.compile(
-    r"\b(?:[A-ZÄÖÜ]{1,3}[- ][A-ZÄÖÜ]{1,2}|[a-zäöü]{1,3}-[a-zäöü]{1,2})[- ]?\d{2,4}[EH]?\b"
+    r"\b(?:[A-ZÄÖÜ]{1,3}-[A-ZÄÖÜ]{1,2}[- ]?\d{1,4}[EH]?"      # Bindestrich: eine Ziffer reicht
+    r"|[A-ZÄÖÜ]{1,3} [A-ZÄÖÜ]{1,2}[- ]?\d{2,4}[EH]?"           # Leerzeichen: mindestens zwei (sonst "BMW X5")
+    r"|[a-zäöü]{1,3}-[a-zäöü]{1,2}[- ]?\d{1,4}[EH]?)\b"
 )
-_TELEFON = re.compile(r"(?<![\d.])(?:\+49|0)[\s\-/()]*\d(?:[\d\s\-/()]{4,}\d)")
+# Trennzeichen bewusst ohne \n: eine Nummer am Zeilenende darf die Folgezeile
+# (PLZ+Ort, Datum) nicht mitfressen.
+_TELEFON = re.compile(r"(?<![\d.])(?:\+49|0)[ \t\-/()]*\d(?:[\d \t\-/()]{4,}\d)")
 # "Musterstraße 12a", "Am Alten Weg 3", "Am Bahndamm 7": Vorworte mit Großbuchstaben,
 # Kern darf leer sein, damit "Weg"/"Platz" als eigenes Wort trifft
 # Vorworte nur aus einer Whitelist typischer Straßenvorworte, Kern darf Bindestriche enthalten,
@@ -27,12 +36,20 @@ _ADRESSE = re.compile(
     r"(?:[Ss]traße|[Ss]trasse|[Ss]tr\.|[Ww]eg|[Pp]latz|[Aa]llee|[Gg]asse|[Rr]ing|[Dd]amm|[Uu]fer)"
     r"\s+\d+[a-z]?\b"
 )
-_ORT = re.compile(r"\b\d{5}\s+[A-ZÄÖÜ][a-zäöüß]+(?:[- ][A-ZÄÖÜ][a-zäöüß]+)*")
+# Nach dem Ortsnamen darf ein kleingeschriebener Zusatz folgen: "Frankfurt am
+# Main", "Rothenburg ob der Tauber". Nur Leerzeichen/Tabs als Trenner, damit
+# der Zusatz nicht über einen Zeilenumbruch hinweg gesucht wird.
+_ORT = re.compile(
+    r"\b\d{5}\s+[A-ZÄÖÜ][a-zäöüß]+(?:[- ][A-ZÄÖÜ][a-zäöüß]+)*"
+    r"(?:[ \t]+(?:am|an|der|im|bei|auf|ob)[ \t]+[A-ZÄÖÜ][a-zäöüß]+)*"
+)
 _ANREDE = re.compile(r"\b(?:Herrn?|Frau|Hr\.|Fr\.)\s+([A-ZÄÖÜ][\wäöüß\-]+(?:\s+[A-ZÄÖÜ][\wäöüß\-]+)?)")
 _HALLO = re.compile(r"^\s*(?:Hallo|Hi|Servus|Moin|Guten Tag)\s+([A-ZÄÖÜ][\wäöüß\-]+)\s*[,!]?\s*$", re.MULTILINE)
 _GRUSS = re.compile(
-    r"^\s*(?:Viele|Liebe|Beste|Schöne|Herzliche|Freundliche)?\s*(?:Grüße|Gruß|Grüsse|LG|MfG|VG|"
-    r"Mit freundlichen Grüßen|Mit freundlichem Gruß|Servus|Ciao|Danke und Gruß|Best regards|Kind regards|Regards)"
+    r"^\s*(?:Viele|Liebe|Beste|Schöne|Schoene|Herzliche|Freundliche)?\s*"
+    r"(?:Mit freundlichen Grüßen|Mit freundlichen Gruessen|Mit freundlichem Gruß|"
+    r"Grüße|Grüsse|Gruesse|Gruß|Gruss|LG|MfG|VG|"
+    r"Servus|Ciao|Danke und Gruß|Danke und Gruss|Best regards|Kind regards|Regards)"
     r"[\s,!.]*$",
     re.IGNORECASE,
 )
@@ -105,11 +122,28 @@ def _teile(name: str) -> list[str]:
     return [t for t in name.split() if len(t) >= 3 and t.lower() not in _KEIN_NAME]
 
 
+def _mehrdeutige_teile(kandidaten: list[str]) -> set[str]:
+    """Namensteile (klein geschrieben), die zu mehr als einem Kandidaten gehören.
+
+    Zwei Personen mit demselben Nachnamen ("Sabine Krämer", "Peter Krämer"):
+    ein allein stehendes "Krämer" lässt sich nicht zuordnen. Ein Platzhalter
+    dafür wäre geraten und würde beim Zurücksetzen die falsche Person einsetzen.
+    Solche Teile werden deshalb nur als Bestandteil des vollen Namens ersetzt.
+    """
+    herkunft: dict[str, set[str]] = {}
+    for name in kandidaten:
+        for teil in _teile(name):
+            herkunft.setdefault(teil.lower(), set()).add(name.lower())
+    return {teil for teil, quellen in herkunft.items() if len(quellen) > 1}
+
+
 def _ersetze_namen(text: str, kandidaten: list[str], tabelle: list, zuordnung: dict) -> str:
     """Drei Durchgänge: erst alle Namen registrieren (längste zuerst, damit
     'Weber' aus 'Karl Weber' denselben Platzhalter bekommt), dann volle Namen
-    ersetzen (Groß-/Kleinschreibung egal), dann Namensteile (exakt)."""
+    ersetzen (Groß-/Kleinschreibung egal), dann eindeutige Namensteile (exakt).
+    Mehrdeutige Teile bleiben stehen, siehe `_mehrdeutige_teile`."""
     kandidaten = sorted(kandidaten, key=len, reverse=True)
+    mehrdeutig = _mehrdeutige_teile(kandidaten)
     for name in kandidaten:
         platz = _platzhalter("NAME", name, tabelle, zuordnung)
         for teil in _teile(name):
@@ -118,7 +152,8 @@ def _ersetze_namen(text: str, kandidaten: list[str], tabelle: list, zuordnung: d
         platz = zuordnung[("NAME", name)]
         text = _ersetze(text, re.compile(r"\b" + re.escape(name) + r"\b", re.IGNORECASE),
                         "NAME", tabelle, zuordnung, fest=platz)
-    teile = sorted({t for n in kandidaten for t in _teile(n)}, key=len, reverse=True)
+    teile = sorted({t for n in kandidaten for t in _teile(n) if t.lower() not in mehrdeutig},
+                   key=len, reverse=True)
     for teil in teile:
         text = _ersetze(text, re.compile(r"\b" + re.escape(teil) + r"\b"),
                         "NAME", tabelle, zuordnung, fest=zuordnung[("NAME", teil)])

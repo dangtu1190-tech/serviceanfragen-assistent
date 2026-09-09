@@ -8,7 +8,7 @@
 
 **Tech Stack:** Python 3.12, FastAPI, uvicorn, pydantic v2, openai (SDK, nur als HTTP-Client), pytest, Vanilla JS.
 
-**Spec:** `docs/superpowers/specs/2026-09-09-werkstatt-terminassistent-design.md`
+**Spec:** `planung/specs/2026-09-09-werkstatt-terminassistent-design.md`
 
 ## Global Constraints
 

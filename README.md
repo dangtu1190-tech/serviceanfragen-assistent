@@ -13,15 +13,18 @@ entstanden für eine Bewerbung.
 
 Das ist der statische Modus: vorberechnete Ergebnisse aus `docs/data/`,
 keine Modellaufrufe. Alle 15 Testmails lassen sich anklicken und zeigen den
-kompletten Ablauf inklusive Anonymisierung, Extraktion und Terminvorschlag,
+kompletten Ablauf inklusive Pseudonymisierung, Extraktion und Terminvorschlag,
 so wie sie beim letzten Echtlauf entstanden sind. Für eine neue Mail
 „live" gegen ein Modell rechnen zu lassen, geht nur lokal (Abschnitt 5).
 
-## 3. Das Kernstück: Anonymisierung vor dem Modellaufruf
+## 3. Das Kernstück: Pseudonymisierung vor dem Modellaufruf
 
 Bevor eine Mail an das Modell geht, ersetzt eine deterministische
 Regex-Erkennung personenbezogene Angaben durch Platzhalter. Das Modell sieht
-nie den Original-Text.
+nie den Original-Text. Es ist bewusst Pseudonymisierung und keine
+Anonymisierung: die Zuordnungstabelle bleibt lokal und macht den Schritt
+umkehrbar, an das Modell gehen ausschließlich die Platzhalter. (Das Modul
+heißt aus der Entstehungsgeschichte heraus weiterhin `anonymisierung.py`.)
 
 | Typ | Beispiel | Platzhalter |
 |---|---|---|
@@ -39,11 +42,18 @@ werden sie anhand der Zuordnungstabelle wieder auf die Originalwerte
 zurückgesetzt, rekursiv über das ganze JSON-Ergebnis.
 
 Ehrliche Grenzen: Namen, die im Fließtext ohne Anrede, Absenderfeld oder
-Signatur auftauchen, werden nicht erkannt. Orte ohne vorangestellte PLZ
-bleiben stehen. Straßen mit unüblichen Vorworten fallen durch das Muster.
-Fahrzeugmodelle bleiben absichtlich sichtbar — ohne sie ist keine sinnvolle
-Terminplanung möglich, und sie sind für sich genommen nicht
-personenbezogen.
+Signatur auftauchen, werden nicht erkannt. Signaturen, die durchgehend klein
+geschrieben sind, ebenfalls nicht — die Namenszeile wird über den
+Großbuchstaben am Wortanfang gefunden. Teilen sich zwei erkannte Personen
+einen Nachnamen, bleibt ein allein stehender Nachname stehen; er ist nicht
+zuordenbar, und ein geratener Platzhalter setzte die falsche Person wieder
+ein. Umgekehrt gilt: ist nur eine Person mit diesem Nachnamen bekannt, wird
+auch der allein stehende Nachname ersetzt und beim Zurücksetzen zum vollen
+Namen aufgefüllt — aus „Elektro Wittmann GmbH" wird so „Elektro Andrea
+Wittmann GmbH". Orte ohne vorangestellte PLZ bleiben stehen. Straßen mit
+unüblichen Vorworten fallen durch das Muster. Fahrzeugmodelle bleiben
+absichtlich sichtbar — ohne sie ist keine sinnvolle Terminplanung möglich,
+und sie sind für sich genommen nicht personenbezogen.
 
 ## 4. Pipeline
 
@@ -51,7 +61,7 @@ personenbezogen.
 Mail
   │
   ▼
-1. Anonymisierung   – personenbezogene Angaben durch Platzhalter ersetzen
+1. Pseudonymisierung – personenbezogene Angaben durch Platzhalter ersetzen
   │
   ▼
 2. Extraktion        – Modellaufruf liefert strukturiertes JSON (Kunde,
@@ -78,7 +88,10 @@ In der `.env` den Schlüssel eintragen (`LLM_API_KEY`), dann:
 - Windows: `run.bat`
 - Linux/Mac: `sh run.sh`
 
-Danach im Browser `http://localhost:8040` öffnen.
+Danach im Browser `http://localhost:8040` öffnen. Ohne `.env` starten die
+Skripte den Server trotzdem, mit einem Hinweis: die 15 vorberechneten
+Ergebnisse aus `data/` lassen sich ansehen, ein neuer Modellaufruf scheitert
+am fehlenden Schlüssel und endet sichtbar als `pruefung_noetig`.
 
 Alle Testmails auf einmal verarbeiten (ohne Server):
 
@@ -119,7 +132,7 @@ Firmensignatur mit Adresse (m09, Elektro Wittmann GmbH).
 python -m pytest -q
 ```
 
-48 Tests laufen ohne Netzzugriff und ohne Schlüssel (Fake-Client). Ein
+62 Tests laufen ohne Netzzugriff und ohne Schlüssel (Fake-Client). Ein
 Test, der wirklich gegen ein Modell fragt, wird nur ausgeführt, wenn
 `LLM_API_KEY` gesetzt ist — sonst übersprungen (skip), nie fehlgeschlagen.
 

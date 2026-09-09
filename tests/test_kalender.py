@@ -61,3 +61,8 @@ def test_belegen():
     assert kal["tage"][4]["halbtage"]["vormittag"]["belegt"] == 1
     assert belege(kal, "2026-09-16", "vormittag") is False
     assert belege(kal, "2099-01-01", "vormittag") is False
+
+
+def test_bis_vor_von_wird_offener_zeitraum():
+    t = finde_termin(_kal(), _ex(wunschzeitraum={"von": "2026-09-25", "bis": "2026-09-14", "tageszeit": "egal"}), HEUTE)
+    assert t["datum"] == "2026-09-25" and t["hinweis"] == ""

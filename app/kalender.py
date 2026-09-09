@@ -75,6 +75,8 @@ def finde_termin(kalender: dict, extraktion: dict, heute: date) -> dict | None:
             von += timedelta(days=1)
     if von < heute:
         von = heute
+    if bis is not None and bis < von:
+        bis = None
     treffer = _erster_freier(kalender, von, bis, tageszeit)
     if treffer:
         return {"datum": treffer[0], "halbtag": treffer[1], "hinweis": ""}

@@ -42,6 +42,22 @@ def _mail(mail_id: str) -> dict:
     raise HTTPException(404, f"Mail {mail_id} unbekannt")
 
 
+def _gib_alten_termin_frei(ergebnis: dict | None) -> None:
+    """Gibt den Halbtag eines bereits freigegebenen Termins zurück.
+
+    Ohne das bliebe der alte Halbtag beim erneuten Verarbeiten für immer
+    belegt: das Ergebnis wird überschrieben, der Kalendereintrag nicht.
+    """
+    if not ergebnis or ergebnis.get("status") != "freigegeben":
+        return
+    termin = ergebnis.get("termin")
+    if not termin:
+        return
+    kalender = lade_kalender(_kalender_pfad())
+    if gebe_frei(kalender, termin["datum"], termin["halbtag"]):
+        speichere_kalender(kalender, _kalender_pfad())
+
+
 def erzeuge_app(client_factory=None) -> FastAPI:
     app = FastAPI(title="Werkstatt-Terminassistent")
     konfig = lade_konfig()
@@ -73,8 +89,9 @@ def erzeuge_app(client_factory=None) -> FastAPI:
     @app.post("/api/mails/{mail_id}/verarbeiten")
     def verarbeiten(mail_id: str):
         mail = _mail(mail_id)
-        ergebnis = verarbeite(mail, factory(), lade_kalender(_kalender_pfad()), _heute())
         ergebnisse = speicher.lade_ergebnisse()
+        _gib_alten_termin_frei(ergebnisse.get(mail_id))
+        ergebnis = verarbeite(mail, factory(), lade_kalender(_kalender_pfad()), _heute())
         ergebnisse[mail_id] = ergebnis
         speicher.speichere_ergebnisse(ergebnisse)
         return ergebnis
@@ -96,8 +113,6 @@ def erzeuge_app(client_factory=None) -> FastAPI:
         ergebnis = ergebnisse.get(mail_id)
         if not ergebnis:
             raise HTTPException(409, "Mail ist noch nicht verarbeitet")
-        if aenderung.antwort_entwurf is not None:
-            ergebnis["antwort_entwurf"] = aenderung.antwort_entwurf
         vorher = ergebnis["status"]
         termin = ergebnis.get("termin")
         if termin and vorher != aenderung.status:
@@ -105,10 +120,16 @@ def erzeuge_app(client_factory=None) -> FastAPI:
             geaendert = False
             if aenderung.status == "freigegeben":
                 geaendert = belege(kalender, termin["datum"], termin["halbtag"])
+                if not geaendert:
+                    # Halbtag inzwischen voll: Status bleibt, sonst stünde ein
+                    # freigegebener Termin ohne Kapazität im Kalender.
+                    raise HTTPException(409, "Halbtag ist voll, Termin kann nicht freigegeben werden")
             elif vorher == "freigegeben":
                 geaendert = gebe_frei(kalender, termin["datum"], termin["halbtag"])
             if geaendert:
                 speichere_kalender(kalender, _kalender_pfad())
+        if aenderung.antwort_entwurf is not None:
+            ergebnis["antwort_entwurf"] = aenderung.antwort_entwurf
         ergebnis["status"] = aenderung.status
         speicher.speichere_ergebnisse(ergebnisse)
         return ergebnis

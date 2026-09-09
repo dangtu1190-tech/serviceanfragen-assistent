@@ -77,3 +77,39 @@ def test_freigabe_zyklus_belegt_nur_einmal(client):
     client.post("/api/mails/m01/status", json={"status": "freigegeben"})
     kal = json.loads((speicher.DATEN / "kalender.json").read_text(encoding="utf-8"))
     assert [t for t in kal["tage"] if t["datum"] == "2026-09-21"][0]["halbtage"]["vormittag"]["belegt"] == 1
+
+
+def test_neu_verarbeiten_gibt_freigegebenen_halbtag_zurueck(client):
+    """Ohne Freigabe des alten Termins bliebe der Halbtag für immer belegt."""
+    def belegt() -> int:
+        kal = json.loads((speicher.DATEN / "kalender.json").read_text(encoding="utf-8"))
+        tag = [t for t in kal["tage"] if t["datum"] == "2026-09-21"][0]
+        return tag["halbtage"]["vormittag"]["belegt"]
+
+    client.post("/api/mails/m01/verarbeiten")
+    client.post("/api/mails/m01/status", json={"status": "freigegeben"})
+    assert belegt() == 1
+    r = client.post("/api/mails/m01/verarbeiten").json()
+    assert r["status"] == "offen"
+    assert belegt() == 0
+    client.post("/api/mails/m01/status", json={"status": "freigegeben"})
+    assert belegt() == 1
+
+
+def test_freigabe_bei_vollem_halbtag_wird_abgelehnt(client):
+    """Der Vorschlag reserviert nichts: bis zur Freigabe kann der Halbtag vollaufen."""
+    pfad = speicher.DATEN / "kalender.json"
+    termin = client.post("/api/mails/m01/verarbeiten").json()["termin"]
+
+    kal = json.loads(pfad.read_text(encoding="utf-8"))
+    halbtag = [t for t in kal["tage"] if t["datum"] == termin["datum"]][0]["halbtage"][termin["halbtag"]]
+    halbtag["belegt"] = halbtag["kapazitaet"]
+    pfad.write_text(json.dumps(kal, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    r = client.post("/api/mails/m01/status", json={"status": "freigegeben"})
+    assert r.status_code == 409
+    assert r.json()["detail"] == "Halbtag ist voll, Termin kann nicht freigegeben werden"
+    assert client.get("/api/mails/m01").json()["ergebnis"]["status"] == "offen"
+    kal = json.loads(pfad.read_text(encoding="utf-8"))
+    halbtag = [t for t in kal["tage"] if t["datum"] == termin["datum"]][0]["halbtage"][termin["halbtag"]]
+    assert halbtag["belegt"] == halbtag["kapazitaet"]

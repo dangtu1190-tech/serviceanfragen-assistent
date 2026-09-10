@@ -17,7 +17,11 @@ Was ich im Gespräch live zeige (5 Minuten):
    braucht sie wörtlich. Der Fehlercode löst zugleich die Qualifikation
    Steuerung aus, und die Terminregel für Stillstand sucht den ersten freien
    Techniker mit dieser Qualifikation ab heute statt im Wunschzeitraum, mit
-   dem Hinweis „Produktionsstillstand, Einsatz vorgezogen."
+   dem Hinweis „Produktionsstillstand, Einsatz vorgezogen." Dazu der Hinweis,
+   dass mehrere Vorschläge auf denselben Techniker am selben Tag fallen
+   können, im aktuellen Lauf etwa m07 und m10 beide auf T2 am 14.09. Ein
+   Vorschlag reserviert nichts, erst die Freigabe belegt den Slot im
+   Kalender, und ab dann ist der Techniker für die anderen Mails belegt.
 
 3. Mail m05 (zweiter Vakuumlötofen) öffnen: Zuständigkeit Vertrieb, weil es
    um eine neue Anlage geht, kein Servicetechniker wird gesucht. Die
@@ -34,7 +38,10 @@ Was ich im Gespräch live zeige (5 Minuten):
    wie die spätere Anrede „[NAME_2], das Thermoelement …". „Kolb" dagegen
    wird gar nicht als Namensteil erkannt, sondern schon vorher als
    Firmen-Kurzform von „Kolb Zahnradfabrik GmbH" maskiert, weil die
-   Firmenerkennung vor der Namenserkennung läuft. Zum Vergleich die Zeilen
+   Firmenerkennung vor der Namenserkennung läuft. Eine Ausnahme davon gibt
+   es: der volle Name des Absenders fällt vor der Firma, sonst zerfiele die
+   Signatur eines Absenders, der wie seine Firma heißt, in
+   „[NAME_1] [FIRMA_1]" und der Nachname wäre wieder ablesbar. Zum Vergleich die Zeilen
    „Von: Instandhaltung" und „Von: Schichtführer" in den tieferen
    Zitatebenen zeigen: Die bleiben unverändert sichtbar, weil Rollenwörter
    wie „Instandhaltung" und „Schichtführer" auf einer Ausschlussliste

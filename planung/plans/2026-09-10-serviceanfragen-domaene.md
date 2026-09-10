@@ -16,7 +16,7 @@
 - Kein API-Schlüssel im Repo. `data/*.json` werden nur in den dafür vorgesehenen Tasks geändert; `data/ergebnisse.json` und `docs/data/*` erst im Echtlauf (Task 7).
 - Das Modell bekommt ausschließlich `pseudonym_text`. Anlagen-/Seriennummern und Fehlercodes werden NICHT ersetzt.
 - Basisdatum 2026-09-14 (Montag). Rechenkerne nehmen `heute` als Parameter.
-- Dateien unter 300 Zeilen. Arbeitsverzeichnis `C:\Users\dtn\Desktop\werkstatt-terminassistent` (Bash `/c/Users/dtn/Desktop/werkstatt-terminassistent`), Branch `serviceanfragen`. Python `python`. Vor jedem Commit `python -m pytest -q` grün (Echtlauf-Test skippt ohne Schlüssel) und `git status --short` ohne `__pycache__`.
+- Dateien unter 300 Zeilen. Arbeitsverzeichnis `<Projektordner>`, Branch `serviceanfragen`. Python `python`. Vor jedem Commit `python -m pytest -q` grün (Echtlauf-Test skippt ohne Schlüssel) und `git status --short` ohne `__pycache__`.
 - Vorhandene Testmodule, die das alte Schema testen, werden im jeweiligen Task angepasst, nie „vorübergehend" gelöscht.
 
 ---

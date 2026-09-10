@@ -192,7 +192,7 @@ Text, nicht aus Betreff oder Metadaten.
 python -m pytest -q
 ```
 
-68 Tests laufen ohne Netzzugriff und ohne Schlüssel (Fake-Client). Ein
+74 Tests laufen ohne Netzzugriff und ohne Schlüssel (Fake-Client). Ein
 Test, der wirklich gegen ein Modell fragt, wird nur ausgeführt, wenn
 `LLM_API_KEY` gesetzt ist, sonst übersprungen (skip), nie fehlgeschlagen.
 
@@ -222,4 +222,4 @@ JSON-Dateien und manuell eingespielten Testmails.
 
 ## 11. Wie ich das in einem Betrieb umsetzen würde
 
-Das Folgende existiert nicht, es ist mein Vorschlag für den nächsten Schritt. Dasselbe Muster passt auf Serviceanfragen, Ersatzteilanfragen und Reklamationen, unabhängig von der Branche. Kunden-, Fahrzeug- oder Anlagendaten kämen aus dem führenden System statt aus der Mail (im Autohaus das Dealer-Management-System, im Anlagenbau das ERP), Kennzeichen oder Auftragsnummer wären der Schlüssel für den Abgleich. Der Sachbearbeiter sähe den Entwurf in seiner gewohnten Oberfläche, bestätigt und sendet, jede Antwort wird mit Absender und Zeitpunkt protokolliert. Dringlichkeit, Kapazität je Arbeitsplatz und Ersatzteilverfügbarkeit könnten die Priorisierung steuern.
+Das Folgende existiert nicht, es ist mein Vorschlag für den nächsten Schritt. Im Anlagenbau kämen die Stammdaten aus dem ERP statt aus der Mail. Anlagen- und Auftragsnummer wären der Schlüssel für den Abgleich, über ihn hingen Kunde, Anlagenhistorie, Wartungsvertrag und der zuletzt zuständige Techniker am Vorgang, statt dass das Modell sie aus dem Text erraten müsste. Der Sachbearbeiter sähe den Entwurf in seiner gewohnten Oberfläche, bestätigt und sendet, jede Antwort wird mit Absender und Zeitpunkt protokolliert. Dringlichkeit, Kapazität je Qualifikation und Ersatzteilverfügbarkeit steuerten die Priorisierung, ein Stillstand mit vorrätigem Teil ginge also vor eine Turnuswartung. Dasselbe Muster passt auf Serviceanfragen, Ersatzteilanfragen und Reklamationen in jedem Betrieb, der ein führendes System für seine Stammdaten hat.

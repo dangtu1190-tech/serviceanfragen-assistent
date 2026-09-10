@@ -1,292 +1,47 @@
 {
   "m01": {
     "mail_id": "m01",
-    "roh_text": "Guten Tag,\n\nmein Toyota Corolla (MKK-KV 2187) ist für die jährliche Inspektion fällig. Nächste Woche vormittags würde mir gut passen, am liebsten Montag oder Dienstag.\n\nViele Grüße\nKatrin Vollmer\n0176 4471 9920",
-    "pseudonym_text": "Guten Tag,\n\nmein Toyota Corolla ([KENNZEICHEN_1]) ist für die jährliche Inspektion fällig. Nächste Woche vormittags würde mir gut passen, am liebsten Montag oder Dienstag.\n\nViele Grüße\n[NAME_1]\n[TELEFON_1]",
+    "roh_text": "Guten Morgen,\n\nder Ofen in Halle 3 ist mit der Jahreswartung dran, die Wartungsanzeige leuchtet seit letzter Woche. Die Nummer vom Typenschild habe ich gerade nicht zur Hand, es ist der große Vakuumhärteofen, den Sie 2019 bei uns aufgestellt haben. Nächste Woche würde passen, wir haben da wenig Chargen.\n\nViele Grüße\nFrank Lindemann\nInstandhaltung\nHartmann Wärmebehandlung GmbH\nAm Gewerbepark 12\n36381 Schlüchtern\nTel. 06661 / 90 12 34",
+    "pseudonym_text": "Guten Morgen,\n\nder Ofen in Halle 3 ist mit der Jahreswartung dran, die Wartungsanzeige leuchtet seit letzter Woche. Die Nummer vom Typenschild habe ich gerade nicht zur Hand, es ist der große Vakuumhärteofen, den Sie 2019 bei uns aufgestellt haben. Nächste Woche würde passen, wir haben da wenig Chargen.\n\nViele Grüße\n[NAME_1]\nInstandhaltung\n[FIRMA_1]\nAm Gewerbepark 12\n[ORT_1]\nTel. [TELEFON_1]",
     "platzhalter": [
       {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_1]",
-        "original": "MKK-KV 2187"
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Hartmann Wärmebehandlung GmbH"
       },
       {
         "typ": "TELEFON",
         "platzhalter": "[TELEFON_1]",
-        "original": "0176 4471 9920"
-      },
-      {
-        "typ": "NAME",
-        "platzhalter": "[NAME_1]",
-        "original": "Katrin Vollmer"
-      }
-    ],
-    "extraktion": {
-      "kunde": {
-        "anrede": null,
-        "name": "Katrin Vollmer"
-      },
-      "fahrzeug": {
-        "marke": "Toyota",
-        "modell": "Corolla",
-        "baujahr": null,
-        "kilometerstand": null
-      },
-      "kennzeichen": "MKK-KV 2187",
-      "anliegen": [
-        {
-          "kategorie": "wartung",
-          "beschreibung": "jaehrliche Inspektion durchfuehren"
-        }
-      ],
-      "dringlichkeit": "mittel",
-      "wunschzeitraum": {
-        "von": "2026-09-21",
-        "bis": "2026-09-22",
-        "tageszeit": "vormittag"
-      },
-      "zustaendigkeit": "werkstatt",
-      "unklarheiten": []
-    },
-    "extraktion_fehler": null,
-    "termin": {
-      "datum": "2026-09-21",
-      "halbtag": "vormittag",
-      "hinweis": ""
-    },
-    "antwort_entwurf": "Guten Tag Katrin Vollmer,\n\nvielen Dank für Ihre Anfrage „Inspektion Corolla\".\n\nFür Toyota Corolla (MKK-KV 2187) haben wir folgende Punkte notiert:\n- Wartung: jaehrliche Inspektion durchfuehren\n\nWir schlagen Ihnen einen Termin am Montag, 21.09.2026 am Vormittag vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nMit freundlichen Grüßen\nIhr Serviceteam",
-    "status": "offen",
-    "anbieter": "langdock",
-    "modell": "gpt-5.1",
-    "dauer_ms": 2814,
-    "zeitpunkt": "2026-09-09T10:16:58"
-  },
-  "m02": {
-    "mail_id": "m02",
-    "roh_text": "Hallo,\n\nseit gestern quietschen die Bremsen an meinem Lexus NX (GN-TR 811) bei jedem Bremsen laut, und das Bremspedal fühlt sich weicher an als sonst. Ich fahre das Auto so ungern weiter. Können Sie sich das so schnell wie möglich ansehen?\n\nDanke und Gruß\nThomas Reinfeld",
-    "pseudonym_text": "Hallo,\n\nseit gestern quietschen die Bremsen an meinem Lexus NX ([KENNZEICHEN_1]) bei jedem Bremsen laut, und das Bremspedal fühlt sich weicher an als sonst. Ich fahre das Auto so ungern weiter. Können Sie sich das so schnell wie möglich ansehen?\n\nDanke und Gruß\n[NAME_1]",
-    "platzhalter": [
-      {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_1]",
-        "original": "GN-TR 811"
-      },
-      {
-        "typ": "NAME",
-        "platzhalter": "[NAME_1]",
-        "original": "Thomas Reinfeld"
-      }
-    ],
-    "extraktion": {
-      "kunde": {
-        "anrede": null,
-        "name": "Thomas Reinfeld"
-      },
-      "fahrzeug": {
-        "marke": "Lexus",
-        "modell": "NX",
-        "baujahr": null,
-        "kilometerstand": null
-      },
-      "kennzeichen": "GN-TR 811",
-      "anliegen": [
-        {
-          "kategorie": "reparatur",
-          "beschreibung": "Bremsen quietschen laut und Bremspedal fühlt sich weich an, Überprüfung Bremsanlage gewünscht"
-        }
-      ],
-      "dringlichkeit": "sicherheitsrelevant",
-      "wunschzeitraum": {
-        "von": "2026-09-14",
-        "bis": null,
-        "tageszeit": "egal"
-      },
-      "zustaendigkeit": "werkstatt",
-      "unklarheiten": [
-        "Fehlender konkreter Terminwunsch (Datum/Uhrzeit)",
-        "Baujahr des Fahrzeugs unbekannt",
-        "Kilometerstand des Fahrzeugs unbekannt",
-        "Ob das Fahrzeug gebracht werden kann oder abgeschleppt werden soll, ist unklar"
-      ]
-    },
-    "extraktion_fehler": null,
-    "termin": {
-      "datum": "2026-09-14",
-      "halbtag": "vormittag",
-      "hinweis": "Sicherheitsrelevant, Termin vorgezogen."
-    },
-    "antwort_entwurf": "Guten Tag Thomas Reinfeld,\n\nvielen Dank für Ihre Anfrage „Bremsen quietschen stark\".\n\nFür Lexus NX (GN-TR 811) haben wir folgende Punkte notiert:\n- Reparatur: Bremsen quietschen laut und Bremspedal fühlt sich weich an, Überprüfung Bremsanlage gewünscht\n\nWir schlagen Ihnen einen Termin am Montag, 14.09.2026 am Vormittag vor.\nSicherheitsrelevant, Termin vorgezogen.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Termin passend planen können, benötigen wir noch:\n- Fehlender konkreter Terminwunsch (Datum/Uhrzeit)\n- Baujahr des Fahrzeugs unbekannt\n- Kilometerstand des Fahrzeugs unbekannt\n- Ob das Fahrzeug gebracht werden kann oder abgeschleppt werden soll, ist unklar\n\nMit freundlichen Grüßen\nIhr Serviceteam",
-    "status": "offen",
-    "anbieter": "langdock",
-    "modell": "gpt-5.1",
-    "dauer_ms": 7037,
-    "zeitpunkt": "2026-09-09T10:17:01"
-  },
-  "m03": {
-    "mail_id": "m03",
-    "roh_text": "Ei gude,\n\nmei T6 macht seit e paar Daach so e komisch Geräusch vorne links, so e Klappern wenn isch über die Bordsteinkant fahr. Is nix Wildes, aber es nervt. Kennzeiche is HU-HG 45. Wann kann isch mal vorbeikomme? Am beste Nachmittags, morgens bin isch aufm Bau.\n\nGruß\nHeinz",
-    "pseudonym_text": "Ei gude,\n\nmei T6 macht seit e paar Daach so e komisch Geräusch vorne links, so e Klappern wenn isch über die Bordsteinkant fahr. Is nix Wildes, aber es nervt. Kennzeiche is [KENNZEICHEN_1]. Wann kann isch mal vorbeikomme? Am beste Nachmittags, morgens bin isch aufm Bau.\n\nGruß\n[NAME_1]",
-    "platzhalter": [
-      {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_1]",
-        "original": "HU-HG 45"
-      },
-      {
-        "typ": "NAME",
-        "platzhalter": "[NAME_1]",
-        "original": "Heinz Gerlach"
-      }
-    ],
-    "extraktion": {
-      "kunde": {
-        "anrede": null,
-        "name": "Heinz Gerlach"
-      },
-      "fahrzeug": {
-        "marke": "VW",
-        "modell": "T6",
-        "baujahr": null,
-        "kilometerstand": null
-      },
-      "kennzeichen": "HU-HG 45",
-      "anliegen": [
-        {
-          "kategorie": "reparatur",
-          "beschreibung": "Klappergeräusch vorne links bei Überfahren von Bordsteinkanten"
-        }
-      ],
-      "dringlichkeit": "mittel",
-      "wunschzeitraum": {
-        "von": "2026-09-14",
-        "bis": null,
-        "tageszeit": "nachmittag"
-      },
-      "zustaendigkeit": "werkstatt",
-      "unklarheiten": [
-        "Konkretes Wunschdatum für den Werkstatttermin"
-      ]
-    },
-    "extraktion_fehler": null,
-    "termin": {
-      "datum": "2026-09-14",
-      "halbtag": "nachmittag",
-      "hinweis": ""
-    },
-    "antwort_entwurf": "Guten Tag Heinz Gerlach,\n\nvielen Dank für Ihre Anfrage „Mein Bus macht Geräusche\".\n\nFür VW T6 (HU-HG 45) haben wir folgende Punkte notiert:\n- Reparatur: Klappergeräusch vorne links bei Überfahren von Bordsteinkanten\n\nWir schlagen Ihnen einen Termin am Montag, 14.09.2026 am Nachmittag vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Termin passend planen können, benötigen wir noch:\n- Konkretes Wunschdatum für den Werkstatttermin\n\nMit freundlichen Grüßen\nIhr Serviceteam",
-    "status": "offen",
-    "anbieter": "langdock",
-    "modell": "gpt-5.1",
-    "dauer_ms": 3751,
-    "zeitpunkt": "2026-09-09T10:17:08"
-  },
-  "m04": {
-    "mail_id": "m04",
-    "roh_text": "Hallo liebes Werkstatt-Team,\n\nich möchte bei meinem Toyota Yaris die Winterreifen aufziehen lassen, die Reifen liegen bei Ihnen im Einlagerungsservice. Gerne Ende September oder Anfang Oktober, Tageszeit ist mir egal.\n\nLiebe Grüße\nMelanie Osterhaus",
-    "pseudonym_text": "Hallo liebes Werkstatt-Team,\n\nich möchte bei meinem Toyota Yaris die Winterreifen aufziehen lassen, die Reifen liegen bei Ihnen im Einlagerungsservice. Gerne Ende September oder Anfang Oktober, Tageszeit ist mir egal.\n\nLiebe Grüße\n[NAME_1]",
-    "platzhalter": [
-      {
-        "typ": "NAME",
-        "platzhalter": "[NAME_1]",
-        "original": "Melanie Osterhaus"
-      }
-    ],
-    "extraktion": {
-      "kunde": {
-        "anrede": null,
-        "name": "Melanie Osterhaus"
-      },
-      "fahrzeug": {
-        "marke": "Toyota",
-        "modell": "Yaris",
-        "baujahr": null,
-        "kilometerstand": null
-      },
-      "kennzeichen": null,
-      "anliegen": [
-        {
-          "kategorie": "reifen",
-          "beschreibung": "eingelagerte Winterreifen montieren"
-        }
-      ],
-      "dringlichkeit": "mittel",
-      "wunschzeitraum": {
-        "von": "2026-09-25",
-        "bis": "2026-10-10",
-        "tageszeit": "egal"
-      },
-      "zustaendigkeit": "werkstatt",
-      "unklarheiten": [
-        "Kennzeichen des Fahrzeugs fehlt"
-      ]
-    },
-    "extraktion_fehler": null,
-    "termin": {
-      "datum": "2026-09-25",
-      "halbtag": "vormittag",
-      "hinweis": ""
-    },
-    "antwort_entwurf": "Guten Tag Melanie Osterhaus,\n\nvielen Dank für Ihre Anfrage „Winterreifen\".\n\nFür Toyota Yaris haben wir folgende Punkte notiert:\n- Reifen: eingelagerte Winterreifen montieren\n\nWir schlagen Ihnen einen Termin am Freitag, 25.09.2026 am Vormittag vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Termin passend planen können, benötigen wir noch:\n- Kennzeichen des Fahrzeugs fehlt\n\nMit freundlichen Grüßen\nIhr Serviceteam",
-    "status": "offen",
-    "anbieter": "langdock",
-    "modell": "gpt-5.1",
-    "dauer_ms": 2543,
-    "zeitpunkt": "2026-09-09T10:17:12"
-  },
-  "m05": {
-    "mail_id": "m05",
-    "roh_text": "Sehr geehrte Damen und Herren,\n\nunser VW Crafter, Baujahr 2020, Kennzeichen MKK-JB 3300, hat jetzt 118.000 km drauf. Bitte folgende Punkte erledigen:\n1. Ölwechsel mit Filter\n2. HU/AU ist im Oktober fällig, bitte gleich mitmachen\n3. Die Klimaanlage kühlt kaum noch, bitte prüfen und ggf. befüllen\n\nDer Wagen kann in der Woche vom 21.09. jederzeit kommen.\n\nMit freundlichen Grüßen\nJürgen Bastian\nBastian Bau GmbH\nIndustriestraße 14\n63607 Wächtersbach\nTel. 06053 / 90 44 12",
-    "pseudonym_text": "Sehr geehrte Damen und Herren,\n\nunser VW Crafter, Baujahr 2020, Kennzeichen [KENNZEICHEN_1], hat jetzt 118.000 km drauf. Bitte folgende Punkte erledigen:\n1. Ölwechsel mit Filter\n2. HU/AU ist im Oktober fällig, bitte gleich mitmachen\n3. Die Klimaanlage kühlt kaum noch, bitte prüfen und ggf. befüllen\n\nDer Wagen kann in der Woche vom 21.09. jederzeit kommen.\n\nMit freundlichen Grüßen\n[NAME_1]\n[NAME_1] Bau GmbH\n[ADRESSE_1]\n[ORT_1]\nTel. [TELEFON_1]",
-    "platzhalter": [
-      {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_1]",
-        "original": "MKK-JB 3300"
-      },
-      {
-        "typ": "TELEFON",
-        "platzhalter": "[TELEFON_1]",
-        "original": "06053 / 90 44 12"
-      },
-      {
-        "typ": "ADRESSE",
-        "platzhalter": "[ADRESSE_1]",
-        "original": "Industriestraße 14"
+        "original": "06661 / 90 12 34"
       },
       {
         "typ": "ORT",
         "platzhalter": "[ORT_1]",
-        "original": "63607 Wächtersbach"
+        "original": "36381 Schlüchtern"
       },
       {
         "typ": "NAME",
         "platzhalter": "[NAME_1]",
-        "original": "Jürgen Bastian"
+        "original": "Frank Lindemann"
       }
     ],
     "extraktion": {
       "kunde": {
+        "firma": "Hartmann Wärmebehandlung GmbH"
+      },
+      "ansprechpartner": {
         "anrede": null,
-        "name": "Jürgen Bastian"
+        "name": "Frank Lindemann"
       },
-      "fahrzeug": {
-        "marke": "VW",
-        "modell": "Crafter",
-        "baujahr": 2020,
-        "kilometerstand": 118000
+      "anlage": {
+        "typ": "großer Vakuumhärteofen Halle 3",
+        "nummer": null,
+        "baujahr": 2019
       },
-      "kennzeichen": "MKK-JB 3300",
       "anliegen": [
         {
           "kategorie": "wartung",
-          "beschreibung": "Ölwechsel mit Filter durchführen"
-        },
-        {
-          "kategorie": "hu_au",
-          "beschreibung": "HU/AU im Oktober fällig, Durchführung mit einplanen"
-        },
-        {
-          "kategorie": "reparatur",
-          "beschreibung": "Klimaanlage kühlt kaum, Anlage prüfen und ggf. befüllen"
+          "beschreibung": "Jahreswartung für großen Vakuumhärteofen in Halle 3, Wartungsanzeige leuchtet seit letzter Woche, Anlagennummer nicht zur Hand"
         }
       ],
       "dringlichkeit": "mittel",
@@ -295,184 +50,128 @@
         "bis": "2026-09-25",
         "tageszeit": "egal"
       },
-      "zustaendigkeit": "werkstatt",
-      "unklarheiten": []
+      "zustaendigkeit": "service",
+      "unklarheiten": [
+        "Anlagennummer bzw. Seriennummer vom Typenschild wird noch benötigt",
+        "Genaue Anlagenbezeichnung laut Lieferdokumenten gewünscht",
+        "Ob weitere Arbeiten außer der regulären Jahreswartung gewünscht sind (z.B. Kalibrierung, Software-Update)"
+      ]
     },
     "extraktion_fehler": null,
     "termin": {
       "datum": "2026-09-21",
-      "halbtag": "vormittag",
+      "techniker": "T2",
+      "qualifikation": "vakuumtechnik",
       "hinweis": ""
     },
-    "antwort_entwurf": "Guten Tag Jürgen Bastian,\n\nvielen Dank für Ihre Anfrage „Crafter: Ölwechsel, TÜV und Klima\".\n\nFür VW Crafter (MKK-JB 3300) haben wir folgende Punkte notiert:\n- Wartung: Ölwechsel mit Filter durchführen\n- HU/AU: HU/AU im Oktober fällig, Durchführung mit einplanen\n- Reparatur: Klimaanlage kühlt kaum, Anlage prüfen und ggf. befüllen\n\nWir schlagen Ihnen einen Termin am Montag, 21.09.2026 am Vormittag vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "ersatzteile": [],
+    "antwort_entwurf": "Guten Tag Frank Lindemann,\n\nvielen Dank für Ihre Anfrage „Wartung Ofen Halle 3“.\n\nFür Ihre Anlage großer Vakuumhärteofen Halle 3 haben wir notiert:\n- Wartung: Jahreswartung für großen Vakuumhärteofen in Halle 3, Wartungsanzeige leuchtet seit letzter Woche, Anlagennummer nicht zur Hand\n\nWir schlagen Ihnen den Einsatz eines Servicetechnikers (Vakuumtechnik) am Montag, 21.09.2026 vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Anlagennummer bzw. Seriennummer vom Typenschild wird noch benötigt\n- Genaue Anlagenbezeichnung laut Lieferdokumenten gewünscht\n- Ob weitere Arbeiten außer der regulären Jahreswartung gewünscht sind (z.B. Kalibrierung, Software-Update)\n\nMit freundlichen Grüßen\nIhr Serviceteam",
     "status": "offen",
     "anbieter": "langdock",
     "modell": "gpt-5.1",
-    "dauer_ms": 3732,
-    "zeitpunkt": "2026-09-09T10:17:14"
+    "dauer_ms": 2812,
+    "zeitpunkt": "2026-09-10T13:39:04"
   },
-  "m06": {
-    "mail_id": "m06",
-    "roh_text": "Hallo,\n\nich interessiere mich für den Toyota bZ4X und würde gerne eine Probefahrt machen. Außerdem hätte ich gern ein Leasingangebot für 36 Monate, ca. 15.000 km im Jahr. Mein aktuelles Auto (AB-NK 77) würde ich eventuell in Zahlung geben.\n\nBeste Grüße\nNadine Kessler\n0151 22 33 44 55",
-    "pseudonym_text": "Hallo,\n\nich interessiere mich für den Toyota bZ4X und würde gerne eine Probefahrt machen. Außerdem hätte ich gern ein Leasingangebot für 36 Monate, ca. 15.000 km im Jahr. Mein aktuelles Auto ([KENNZEICHEN_1]) würde ich eventuell in Zahlung geben.\n\nBeste Grüße\n[NAME_1]\n[TELEFON_1]",
+  "m02": {
+    "mail_id": "m02",
+    "roh_text": "Hallo,\n\nunsere VIM 30 (SN VIM-3000-0917) ist heute um 8:40 Uhr mit Fehlercode F-217 am Bedienfeld stehen geblieben. Der Rezeptlauf lässt sich nicht fortsetzen, die Charge sitzt im Ofen. Wir haben die Anlage nicht neu gestartet, weil wir nicht wissen, ob das der Charge schadet. Bitte rufen Sie mich so schnell wie möglich an, die Produktion steht.\n\nSabine Roth\nWerksleitung\nRoth & Söhne Metallguss GmbH & Co. KG\n0171 555 20 44",
+    "pseudonym_text": "Hallo,\n\nunsere VIM 30 (SN VIM-3000-0917) ist heute um 8:40 Uhr mit Fehlercode F-217 am Bedienfeld stehen geblieben. Der Rezeptlauf lässt sich nicht fortsetzen, die Charge sitzt im Ofen. Wir haben die Anlage nicht neu gestartet, weil wir nicht wissen, ob das der Charge schadet. Bitte rufen Sie mich so schnell wie möglich an, die Produktion steht.\n\n[NAME_1] [FIRMA_1]\nWerksleitung\n[FIRMA_1]\n[TELEFON_1]",
     "platzhalter": [
       {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_1]",
-        "original": "AB-NK 77"
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Roth & Söhne Metallguss GmbH & Co. KG"
       },
       {
         "typ": "TELEFON",
         "platzhalter": "[TELEFON_1]",
-        "original": "0151 22 33 44 55"
+        "original": "0171 555 20 44"
       },
       {
         "typ": "NAME",
         "platzhalter": "[NAME_1]",
-        "original": "Nadine Kessler"
+        "original": "Sabine Roth"
       }
     ],
     "extraktion": {
       "kunde": {
+        "firma": "Roth & Söhne Metallguss GmbH & Co. KG"
+      },
+      "ansprechpartner": {
         "anrede": null,
-        "name": "Nadine Kessler"
+        "name": "Sabine Roth"
       },
-      "fahrzeug": {
-        "marke": "Toyota",
-        "modell": "bZ4X",
-        "baujahr": null,
-        "kilometerstand": null
+      "anlage": {
+        "typ": "VIM 30",
+        "nummer": "VIM-3000-0917",
+        "baujahr": null
       },
-      "kennzeichen": "AB-NK 77",
       "anliegen": [
         {
-          "kategorie": "verkauf",
-          "beschreibung": "Probefahrt mit Toyota bZ4X"
-        },
-        {
-          "kategorie": "verkauf",
-          "beschreibung": "Leasingangebot 36 Monate, 15.000 km/Jahr für Toyota bZ4X"
-        },
-        {
-          "kategorie": "verkauf",
-          "beschreibung": "Inzahlungnahme aktuelles Fahrzeug mit Kennzeichen AB-NK 77"
+          "kategorie": "stoerung",
+          "beschreibung": "Anlage VIM 30 (SN VIM-3000-0917) ist heute um 8:40 Uhr mit Fehlercode F-217 stehen geblieben, Rezeptlauf lässt sich nicht fortsetzen, Charge sitzt im Ofen, Produktion steht."
         }
       ],
-      "dringlichkeit": "mittel",
+      "dringlichkeit": "stillstand",
       "wunschzeitraum": {
-        "von": null,
-        "bis": null,
+        "von": "2026-09-14",
+        "bis": "2026-09-14",
         "tageszeit": "egal"
       },
-      "zustaendigkeit": "verkauf",
+      "zustaendigkeit": "service",
       "unklarheiten": [
-        "Konkreter Wunschtermin oder Zeitraum für die Probefahrt fehlt",
-        "Bevorzugte Tageszeit oder Wochentage für Probefahrt/Verkaufsgespräch fehlen",
-        "Ausstattungswünsche bzw. Variante des Toyota bZ4X für das Leasingangebot fehlen",
-        "Fahrzeugdaten des bisherigen Autos (Marke, Modell, Baujahr, Laufleistung) für die Inzahlungnahme fehlen"
+        "Keine Beschreibung zu begleitenden Symptomen oder vorangegangenen Meldungen vor Fehlercode F-217 vorhanden.",
+        "Keine Information, ob bereits Meldungs- oder Chargenprotokolle von der Steuerung gesichert wurden."
       ]
     },
     "extraktion_fehler": null,
-    "termin": null,
-    "antwort_entwurf": "Guten Tag Nadine Kessler,\n\nvielen Dank für Ihre Anfrage „Probefahrt bZ4X\".\n\nIhr Anliegen betrifft unseren Verkauf. Ich habe Ihre Nachricht an die Kolleginnen und Kollegen dort weitergeleitet; sie melden sich in Kürze bei Ihnen.\n\nWir haben notiert:\n- Verkauf: Probefahrt mit Toyota bZ4X\n- Verkauf: Leasingangebot 36 Monate, 15.000 km/Jahr für Toyota bZ4X\n- Verkauf: Inzahlungnahme aktuelles Fahrzeug mit Kennzeichen AB-NK 77\n\nDamit wir den Termin passend planen können, benötigen wir noch:\n- Konkreter Wunschtermin oder Zeitraum für die Probefahrt fehlt\n- Bevorzugte Tageszeit oder Wochentage für Probefahrt/Verkaufsgespräch fehlen\n- Ausstattungswünsche bzw. Variante des Toyota bZ4X für das Leasingangebot fehlen\n- Fahrzeugdaten des bisherigen Autos (Marke, Modell, Baujahr, Laufleistung) für die Inzahlungnahme fehlen\n\nMit freundlichen Grüßen\nIhr Serviceteam",
-    "status": "offen",
-    "anbieter": "langdock",
-    "modell": "gpt-5.1",
-    "dauer_ms": 3459,
-    "zeitpunkt": "2026-09-09T10:17:18"
-  },
-  "m07": {
-    "mail_id": "m07",
-    "roh_text": "Guten Tag,\n\nich brauche für meinen Lexus ES (F-RS 1290) einen Termin für den Wechsel der Scheibenwischer und einen Check der Standheizung, bevor es kalt wird. Ich kann nur am Mittwoch 16.09. oder Donnerstag 17.09., beides ginge vormittags oder nachmittags.\n\nMfG\nRalf Steinbach",
-    "pseudonym_text": "Guten Tag,\n\nich brauche für meinen Lexus ES ([KENNZEICHEN_1]) einen Termin für den Wechsel der Scheibenwischer und einen Check der Standheizung, bevor es kalt wird. Ich kann nur am Mittwoch 16.09. oder Donnerstag 17.09., beides ginge vormittags oder nachmittags.\n\nMfG\n[NAME_1]",
-    "platzhalter": [
-      {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_1]",
-        "original": "F-RS 1290"
-      },
-      {
-        "typ": "NAME",
-        "platzhalter": "[NAME_1]",
-        "original": "Ralf Steinbach"
-      }
-    ],
-    "extraktion": {
-      "kunde": {
-        "anrede": null,
-        "name": "Ralf Steinbach"
-      },
-      "fahrzeug": {
-        "marke": "Lexus",
-        "modell": "ES",
-        "baujahr": null,
-        "kilometerstand": null
-      },
-      "kennzeichen": "F-RS 1290",
-      "anliegen": [
-        {
-          "kategorie": "wartung",
-          "beschreibung": "Wechsel der Scheibenwischer"
-        },
-        {
-          "kategorie": "wartung",
-          "beschreibung": "Funktionscheck der Standheizung"
-        }
-      ],
-      "dringlichkeit": "mittel",
-      "wunschzeitraum": {
-        "von": "2026-09-16",
-        "bis": "2026-09-17",
-        "tageszeit": "egal"
-      },
-      "zustaendigkeit": "werkstatt",
-      "unklarheiten": []
-    },
-    "extraktion_fehler": null,
     "termin": {
-      "datum": "2026-09-18",
-      "halbtag": "vormittag",
-      "hinweis": "Im Wunschzeitraum ist nichts frei, Vorschlag liegt außerhalb."
+      "datum": "2026-09-14",
+      "techniker": "T3",
+      "qualifikation": "steuerung",
+      "hinweis": "Produktionsstillstand, Einsatz vorgezogen."
     },
-    "antwort_entwurf": "Guten Tag Ralf Steinbach,\n\nvielen Dank für Ihre Anfrage „Termin Mittwoch oder Donnerstag\".\n\nFür Lexus ES (F-RS 1290) haben wir folgende Punkte notiert:\n- Wartung: Wechsel der Scheibenwischer\n- Wartung: Funktionscheck der Standheizung\n\nWir schlagen Ihnen einen Termin am Freitag, 18.09.2026 am Vormittag vor.\nIm Wunschzeitraum ist nichts frei, Vorschlag liegt außerhalb.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "ersatzteile": [],
+    "antwort_entwurf": "Guten Tag Sabine Roth,\n\nvielen Dank für Ihre Anfrage „DRINGEND: VIM 30 steht, Fehler F-217“.\n\nFür Ihre Anlage VIM 30 (VIM-3000-0917) haben wir notiert:\n- Störung: Anlage VIM 30 (SN VIM-3000-0917) ist heute um 8:40 Uhr mit Fehlercode F-217 stehen geblieben, Rezeptlauf lässt sich nicht fortsetzen, Charge sitzt im Ofen, Produktion steht.\n\nWir schlagen Ihnen den Einsatz eines Servicetechnikers (Steuerung) am Montag, 14.09.2026 vor.\nProduktionsstillstand, Einsatz vorgezogen.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Keine Beschreibung zu begleitenden Symptomen oder vorangegangenen Meldungen vor Fehlercode F-217 vorhanden.\n- Keine Information, ob bereits Meldungs- oder Chargenprotokolle von der Steuerung gesichert wurden.\n\nMit freundlichen Grüßen\nIhr Serviceteam",
     "status": "offen",
     "anbieter": "langdock",
     "modell": "gpt-5.1",
-    "dauer_ms": 1906,
-    "zeitpunkt": "2026-09-09T10:17:21"
+    "dauer_ms": 2438,
+    "zeitpunkt": "2026-09-10T13:39:06"
   },
-  "m08": {
-    "mail_id": "m08",
-    "roh_text": "Termin für Inspektion? Toyota Aygo, HU-MS 77. Danke, M. Schulz",
-    "pseudonym_text": "Termin für Inspektion? Toyota Aygo, [KENNZEICHEN_1]. Danke, [NAME_1]",
+  "m03": {
+    "mail_id": "m03",
+    "roh_text": "Sehr geehrte Damen und Herren,\n\nwir betreiben seit 2003 einen Vakuumhärteofen von Ihnen, auf dem Typenschild steht als Nummer R 03/118. Die Anlage läuft noch gut, wir möchten aber einen Wartungsvertrag abschließen. Bitte senden Sie mir ein Angebot für eine jährliche Wartung inklusive Vakuumprüfung.\n\nMit freundlichen Grüßen\nMichael Berger\nEinkauf\nBerger Zerspanung GmbH",
+    "pseudonym_text": "Sehr geehrte Damen und Herren,\n\nwir betreiben seit 2003 einen Vakuumhärteofen von Ihnen, auf dem Typenschild steht als Nummer R 03/118. Die Anlage läuft noch gut, wir möchten aber einen Wartungsvertrag abschließen. Bitte senden Sie mir ein Angebot für eine jährliche Wartung inklusive Vakuumprüfung.\n\nMit freundlichen Grüßen\n[NAME_1] [FIRMA_1]\nEinkauf\n[FIRMA_1]",
     "platzhalter": [
       {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_1]",
-        "original": "HU-MS 77"
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Berger Zerspanung GmbH"
       },
       {
         "typ": "NAME",
         "platzhalter": "[NAME_1]",
-        "original": "M. Schulz"
+        "original": "Michael Berger"
       }
     ],
     "extraktion": {
       "kunde": {
+        "firma": "Berger Zerspanung GmbH"
+      },
+      "ansprechpartner": {
         "anrede": null,
-        "name": "M. Schulz"
+        "name": "Michael Berger"
       },
-      "fahrzeug": {
-        "marke": "Toyota",
-        "modell": "Aygo",
-        "baujahr": null,
-        "kilometerstand": null
+      "anlage": {
+        "typ": "Vakuumhärteofen",
+        "nummer": "R 03/118",
+        "baujahr": 2003
       },
-      "kennzeichen": "HU-MS 77",
       "anliegen": [
         {
-          "kategorie": "wartung",
-          "beschreibung": "Inspektion durchführen"
+          "kategorie": "angebot",
+          "beschreibung": "Angebot für Wartungsvertrag mit jährlicher Wartung inklusive Vakuumprüfung für Anlage R 03/118"
         }
       ],
       "dringlichkeit": "mittel",
@@ -481,49 +180,425 @@
         "bis": null,
         "tageszeit": "egal"
       },
-      "zustaendigkeit": "werkstatt",
+      "zustaendigkeit": "service",
       "unklarheiten": [
-        "Gewünschter Zeitraum oder konkretes Datum für die Inspektion fehlt",
-        "Kilometerstand bzw. ob eine bestimmte Inspektionsstufe (z. B. Jahres- oder km-Inspektion) gewünscht ist"
+        "Konkreter Leistungsumfang und gewünschte Laufzeit des Wartungsvertrags fehlen",
+        "Standort der Anlage ist nicht angegeben"
       ]
     },
     "extraktion_fehler": null,
     "termin": {
       "datum": "2026-09-15",
-      "halbtag": "nachmittag",
+      "techniker": "T5",
+      "qualifikation": "vakuumtechnik",
       "hinweis": ""
     },
-    "antwort_entwurf": "Guten Tag M. Schulz,\n\nvielen Dank für Ihre Anfrage „Inspektion\".\n\nFür Toyota Aygo (HU-MS 77) haben wir folgende Punkte notiert:\n- Wartung: Inspektion durchführen\n\nWir schlagen Ihnen einen Termin am Dienstag, 15.09.2026 am Nachmittag vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Termin passend planen können, benötigen wir noch:\n- Gewünschter Zeitraum oder konkretes Datum für die Inspektion fehlt\n- Kilometerstand bzw. ob eine bestimmte Inspektionsstufe (z. B. Jahres- oder km-Inspektion) gewünscht ist\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "ersatzteile": [],
+    "antwort_entwurf": "Guten Tag Michael Berger,\n\nvielen Dank für Ihre Anfrage „Angebot Wartungsvertrag“.\n\nFür Ihre Anlage Vakuumhärteofen (R 03/118) haben wir notiert:\n- Angebot: Angebot für Wartungsvertrag mit jährlicher Wartung inklusive Vakuumprüfung für Anlage R 03/118\n\nWir schlagen Ihnen den Einsatz eines Servicetechnikers (Vakuumtechnik) am Dienstag, 15.09.2026 vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Konkreter Leistungsumfang und gewünschte Laufzeit des Wartungsvertrags fehlen\n- Standort der Anlage ist nicht angegeben\n\nMit freundlichen Grüßen\nIhr Serviceteam",
     "status": "offen",
     "anbieter": "langdock",
     "modell": "gpt-5.1",
-    "dauer_ms": 4619,
-    "zeitpunkt": "2026-09-09T10:17:23"
+    "dauer_ms": 2153,
+    "zeitpunkt": "2026-09-10T13:39:09"
+  },
+  "m04": {
+    "mail_id": "m04",
+    "roh_text": "Hallo Herr Weber,\n\nzu unserer VKUQ 50, Anlagennummer VK-5000-0231, habe ich drei Punkte:\n1. Wir brauchen zwei neue Heizelemente, bei der letzten Charge sind zwei durchgebrannt. Bitte Preis und Lieferzeit.\n2. Die Jahreswartung ist im Oktober fällig, gern in der ersten Oktoberwoche.\n3. Unsere Geschäftsführung möchte ein Angebot für ein Retrofit der Steuerung, die alte Bedienoberfläche versteht keiner mehr.\n\nDanke und Gruß\nKatja Menzel\nEinkauf Technik\nPräzisionsteile Menzel AG\nIndustriestraße 8\n63741 Aschaffenburg",
+    "pseudonym_text": "Hallo Herr [NAME_2],\n\nzu unserer VKUQ 50, Anlagennummer VK-5000-0231, habe ich drei Punkte:\n1. Wir brauchen zwei neue Heizelemente, bei der letzten Charge sind zwei durchgebrannt. Bitte Preis und Lieferzeit.\n2. Die Jahreswartung ist im Oktober fällig, gern in der ersten Oktoberwoche.\n3. Unsere Geschäftsführung möchte ein Angebot für ein Retrofit der Steuerung, die alte Bedienoberfläche versteht keiner mehr.\n\nDanke und Gruß\n[NAME_1]\nEinkauf Technik\n[FIRMA_1]\n[ADRESSE_1]\n[ORT_1]",
+    "platzhalter": [
+      {
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Präzisionsteile Menzel AG"
+      },
+      {
+        "typ": "ADRESSE",
+        "platzhalter": "[ADRESSE_1]",
+        "original": "Industriestraße 8"
+      },
+      {
+        "typ": "ORT",
+        "platzhalter": "[ORT_1]",
+        "original": "63741 Aschaffenburg"
+      },
+      {
+        "typ": "NAME",
+        "platzhalter": "[NAME_1]",
+        "original": "Katja Menzel"
+      },
+      {
+        "typ": "NAME",
+        "platzhalter": "[NAME_2]",
+        "original": "Weber"
+      }
+    ],
+    "extraktion": {
+      "kunde": {
+        "firma": "Präzisionsteile Menzel AG"
+      },
+      "ansprechpartner": {
+        "anrede": null,
+        "name": "Katja Menzel"
+      },
+      "anlage": {
+        "typ": "VKUQ 50",
+        "nummer": "VK-5000-0231",
+        "baujahr": null
+      },
+      "anliegen": [
+        {
+          "kategorie": "ersatzteil",
+          "beschreibung": "Zwei neue Heizelemente für VKUQ 50, Anlagennummer VK-5000-0231, Preis- und Lieferzeitanfrage."
+        },
+        {
+          "kategorie": "wartung",
+          "beschreibung": "Jahreswartung der VKUQ 50 im Oktober, bevorzugt in der ersten Oktoberwoche."
+        },
+        {
+          "kategorie": "angebot",
+          "beschreibung": "Angebot für ein Retrofit der Steuerung, Austausch bzw. Modernisierung der alten Bedienoberfläche."
+        }
+      ],
+      "dringlichkeit": "mittel",
+      "wunschzeitraum": {
+        "von": "2026-10-01",
+        "bis": "2026-10-07",
+        "tageszeit": "egal"
+      },
+      "zustaendigkeit": "service",
+      "unklarheiten": [
+        "Technische Spezifikation bzw. genaue Typenbezeichnung der benötigten Heizelemente für ein konkretes Angebot fehlt.",
+        "Genauer Umfang der gewünschten Jahreswartung (Standardumfang oder zusätzliche Prüfungen) ist nicht angegeben.",
+        "Detaillierter Umfang des gewünschten Steuerungs-Retrofit (z. B. nur HMI/Bedienoberfläche oder komplette SPS-Modernisierung) ist unklar."
+      ]
+    },
+    "extraktion_fehler": null,
+    "termin": {
+      "datum": "2026-10-01",
+      "techniker": "T1",
+      "qualifikation": "steuerung",
+      "hinweis": ""
+    },
+    "ersatzteile": [
+      {
+        "teil": "Heizelement Graphit",
+        "status": "ab Lager"
+      }
+    ],
+    "antwort_entwurf": "Guten Tag Katja Menzel,\n\nvielen Dank für Ihre Anfrage „Mehrere Punkte zu Anlage VK-5000-0231“.\n\nFür Ihre Anlage VKUQ 50 (VK-5000-0231) haben wir notiert:\n- Ersatzteil: Zwei neue Heizelemente für VKUQ 50, Anlagennummer VK-5000-0231, Preis- und Lieferzeitanfrage.\n- Wartung: Jahreswartung der VKUQ 50 im Oktober, bevorzugt in der ersten Oktoberwoche.\n- Angebot: Angebot für ein Retrofit der Steuerung, Austausch bzw. Modernisierung der alten Bedienoberfläche.\n\nErsatzteil Heizelement Graphit: ab Lager\nEin Angebot mit Preisen und Lieferzeit folgt gesondert.\n\nWir schlagen Ihnen den Einsatz eines Servicetechnikers (Steuerung) am Donnerstag, 01.10.2026 vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Technische Spezifikation bzw. genaue Typenbezeichnung der benötigten Heizelemente für ein konkretes Angebot fehlt.\n- Genauer Umfang der gewünschten Jahreswartung (Standardumfang oder zusätzliche Prüfungen) ist nicht angegeben.\n- Detaillierter Umfang des gewünschten Steuerungs-Retrofit (z. B. nur HMI/Bedienoberfläche oder komplette SPS-Modernisierung) ist unklar.\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "status": "offen",
+    "anbieter": "langdock",
+    "modell": "gpt-5.1",
+    "dauer_ms": 4084,
+    "zeitpunkt": "2026-09-10T13:39:11"
+  },
+  "m05": {
+    "mail_id": "m05",
+    "roh_text": "Sehr geehrte Damen und Herren,\n\nwir planen für 2027 einen zweiten Vakuumlötofen für Wärmetauscher aus Aluminium, Nutzraum etwa 1200 x 800 x 800 mm, Chargengewicht bis 400 kg. Bitte senden Sie uns Unterlagen und ein Richtpreisangebot. Ein Termin für eine Besichtigung Ihrer Referenzanlage wäre ebenfalls interessant.\n\nMit freundlichen Grüßen\nThorsten Vogel\nLeiter Produktionstechnik\nAeroForm Luftfahrttechnik GmbH\nFlugplatzstraße 21\n63329 Egelsbach\nTelefon 06103 / 44 55 66",
+    "pseudonym_text": "Sehr geehrte Damen und Herren,\n\nwir planen für 2027 einen zweiten Vakuumlötofen für Wärmetauscher aus Aluminium, Nutzraum etwa 1200 x 800 x 800 mm, Chargengewicht bis 400 kg. Bitte senden Sie uns Unterlagen und ein Richtpreisangebot. Ein Termin für eine Besichtigung Ihrer Referenzanlage wäre ebenfalls interessant.\n\nMit freundlichen Grüßen\n[NAME_1]\nLeiter Produktionstechnik\n[FIRMA_1]\n[ADRESSE_1]\n[ORT_1]\nTelefon [TELEFON_1]",
+    "platzhalter": [
+      {
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "AeroForm Luftfahrttechnik GmbH"
+      },
+      {
+        "typ": "TELEFON",
+        "platzhalter": "[TELEFON_1]",
+        "original": "06103 / 44 55 66"
+      },
+      {
+        "typ": "ADRESSE",
+        "platzhalter": "[ADRESSE_1]",
+        "original": "Flugplatzstraße 21"
+      },
+      {
+        "typ": "ORT",
+        "platzhalter": "[ORT_1]",
+        "original": "63329 Egelsbach"
+      },
+      {
+        "typ": "NAME",
+        "platzhalter": "[NAME_1]",
+        "original": "Thorsten Vogel"
+      }
+    ],
+    "extraktion": {
+      "kunde": {
+        "firma": "AeroForm Luftfahrttechnik GmbH"
+      },
+      "ansprechpartner": {
+        "anrede": null,
+        "name": "Thorsten Vogel"
+      },
+      "anlage": {
+        "typ": "Vakuumlötofen für Aluminium-Wärmetauscher",
+        "nummer": null,
+        "baujahr": null
+      },
+      "anliegen": [
+        {
+          "kategorie": "angebot",
+          "beschreibung": "Anfrage Unterlagen und Richtpreisangebot für neuen Vakuumlötofen (Nutzraum ca. 1200 x 800 x 800 mm, Chargengewicht bis 400 kg) für 2027"
+        },
+        {
+          "kategorie": "sonstiges",
+          "beschreibung": "Wunsch nach Termin zur Besichtigung einer Referenzanlage für Vakuumlöten von Aluminium-Wärmetauschern"
+        }
+      ],
+      "dringlichkeit": "mittel",
+      "wunschzeitraum": {
+        "von": null,
+        "bis": null,
+        "tageszeit": "egal"
+      },
+      "zustaendigkeit": "vertrieb",
+      "unklarheiten": [
+        "Gibt es Anforderungen an Ofentemperatur, Vakuumniveau und Zykluszeiten?",
+        "Sind Vorgaben zu Ausführung (ein-/zweikammerig, Quer-/Längsbeschickung, Automatisierungsgrad) vorhanden?",
+        "Gibt es Präferenzen zur Anordnung der Ofenperipherie (Kühlsystem, Vakuumpumpen, Gasversorgung)?",
+        "Gewünschter Liefer- und Inbetriebnahmetermin im Jahr 2027?",
+        "Bevorzugter Zeitraum und Standort für die Besichtigung einer Referenzanlage?"
+      ]
+    },
+    "extraktion_fehler": null,
+    "termin": null,
+    "ersatzteile": [],
+    "antwort_entwurf": "Guten Tag Thorsten Vogel,\n\nvielen Dank für Ihre Anfrage „Anfrage zweiter Vakuumlötofen“.\n\nIhr Anliegen betrifft unseren Vertrieb. Ich habe Ihre Nachricht an die Kolleginnen und Kollegen dort weitergeleitet, sie melden sich in Kürze bei Ihnen.\n\nWir haben notiert:\n- Angebot: Anfrage Unterlagen und Richtpreisangebot für neuen Vakuumlötofen (Nutzraum ca. 1200 x 800 x 800 mm, Chargengewicht bis 400 kg) für 2027\n- Sonstiges: Wunsch nach Termin zur Besichtigung einer Referenzanlage für Vakuumlöten von Aluminium-Wärmetauschern\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Gibt es Anforderungen an Ofentemperatur, Vakuumniveau und Zykluszeiten?\n- Sind Vorgaben zu Ausführung (ein-/zweikammerig, Quer-/Längsbeschickung, Automatisierungsgrad) vorhanden?\n- Gibt es Präferenzen zur Anordnung der Ofenperipherie (Kühlsystem, Vakuumpumpen, Gasversorgung)?\n- Gewünschter Liefer- und Inbetriebnahmetermin im Jahr 2027?\n- Bevorzugter Zeitraum und Standort für die Besichtigung einer Referenzanlage?\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "status": "offen",
+    "anbieter": "langdock",
+    "modell": "gpt-5.1",
+    "dauer_ms": 3312,
+    "zeitpunkt": "2026-09-10T13:39:15"
+  },
+  "m06": {
+    "mail_id": "m06",
+    "roh_text": "Hallo Serviceteam,\n\nbitte kümmern Sie sich darum, siehe unten. Bestellung läuft über mich.\n\nGruß\nPetra Schulz\nEinkauf\nKolb Zahnradfabrik GmbH\n\n> Von: Bernd Kolb\n> Petra, bitte an den Hersteller weiterleiten, ich komme nicht dazu.\n>\n> > Von: Instandhaltung\n> > Bernd, das Thermoelement an Ofen 2 (SN VK-2200-0144) zeigt seit Dienstag 30 Grad zu wenig, wir fahren im Moment nach dem Referenzfühler.\n> > Brauchen ein neues Thermoelement Typ S und jemanden, der es kalibriert.\n> >\n> > > Von: Schichtführer\n> > > Ofen 2 Temperatur passt nicht, bitte prüfen.",
+    "pseudonym_text": "Hallo Serviceteam,\n\nbitte kümmern Sie sich darum, siehe unten. Bestellung läuft über mich.\n\nGruß\n[NAME_1]\nEinkauf\n[FIRMA_1]\n\n> Von: [NAME_2] [FIRMA_1]\n> [NAME_1], bitte an den Hersteller weiterleiten, ich komme nicht dazu.\n>\n> > Von: Instandhaltung\n> > [NAME_2], das Thermoelement an Ofen 2 (SN VK-2200-0144) zeigt seit Dienstag 30 Grad zu wenig, wir fahren im Moment nach dem Referenzfühler.\n> > Brauchen ein neues Thermoelement Typ S und jemanden, der es kalibriert.\n> >\n> > > Von: Schichtführer\n> > > Ofen 2 Temperatur passt nicht, bitte prüfen.",
+    "platzhalter": [
+      {
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Kolb Zahnradfabrik GmbH"
+      },
+      {
+        "typ": "NAME",
+        "platzhalter": "[NAME_1]",
+        "original": "Petra Schulz"
+      },
+      {
+        "typ": "NAME",
+        "platzhalter": "[NAME_2]",
+        "original": "Bernd Kolb"
+      }
+    ],
+    "extraktion": {
+      "kunde": {
+        "firma": "Kolb Zahnradfabrik GmbH"
+      },
+      "ansprechpartner": {
+        "anrede": null,
+        "name": "Petra Schulz"
+      },
+      "anlage": {
+        "typ": "Ofen 2",
+        "nummer": "VK-2200-0144",
+        "baujahr": null
+      },
+      "anliegen": [
+        {
+          "kategorie": "ersatzteil",
+          "beschreibung": "Neues Thermoelement Typ S für Ofen 2 (SN VK-2200-0144) benötigt, aktuelles Thermoelement zeigt ca. 30 °C zu wenig."
+        },
+        {
+          "kategorie": "wartung",
+          "beschreibung": "Einsatz eines Service-Technikers zur Prüfung und Kalibrierung des neuen Thermoelements an Ofen 2 (SN VK-2200-0144)."
+        }
+      ],
+      "dringlichkeit": "hoch",
+      "wunschzeitraum": {
+        "von": null,
+        "bis": null,
+        "tageszeit": "egal"
+      },
+      "zustaendigkeit": "service",
+      "unklarheiten": [
+        "Kein gewünschter Terminzeitraum für Lieferung und Serviceeinsatz angegeben.",
+        "Keine Angabe, ob weitere Ersatzteile (z. B. Keramikteile, Kabel, Anschlussadapter) für den Thermoelementtausch benötigt werden.",
+        "Keine Information, ob eine Kalibrierung vor Ort unter Prozessbedingungen oder im kalten Zustand gewünscht ist."
+      ]
+    },
+    "extraktion_fehler": null,
+    "termin": {
+      "datum": "2026-09-15",
+      "techniker": "T4",
+      "qualifikation": "elektrik",
+      "hinweis": ""
+    },
+    "ersatzteile": [
+      {
+        "teil": "Thermoelement Typ S",
+        "status": "ab Lager"
+      }
+    ],
+    "antwort_entwurf": "Guten Tag Petra Schulz,\n\nvielen Dank für Ihre Anfrage „WG: WG: Thermoelement Ofen 2“.\n\nFür Ihre Anlage Ofen 2 (VK-2200-0144) haben wir notiert:\n- Ersatzteil: Neues Thermoelement Typ S für Ofen 2 (SN VK-2200-0144) benötigt, aktuelles Thermoelement zeigt ca. 30 °C zu wenig.\n- Wartung: Einsatz eines Service-Technikers zur Prüfung und Kalibrierung des neuen Thermoelements an Ofen 2 (SN VK-2200-0144).\n\nErsatzteil Thermoelement Typ S: ab Lager\nEin Angebot mit Preisen und Lieferzeit folgt gesondert.\n\nWir schlagen Ihnen den Einsatz eines Servicetechnikers (Elektrik) am Dienstag, 15.09.2026 vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Kein gewünschter Terminzeitraum für Lieferung und Serviceeinsatz angegeben.\n- Keine Angabe, ob weitere Ersatzteile (z. B. Keramikteile, Kabel, Anschlussadapter) für den Thermoelementtausch benötigt werden.\n- Keine Information, ob eine Kalibrierung vor Ort unter Prozessbedingungen oder im kalten Zustand gewünscht ist.\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "status": "offen",
+    "anbieter": "langdock",
+    "modell": "gpt-5.1",
+    "dauer_ms": 3618,
+    "zeitpunkt": "2026-09-10T13:39:18"
+  },
+  "m07": {
+    "mail_id": "m07",
+    "roh_text": "Hello,\n\nour VIM 22 furnace, serial VIM-2200-0417, cannot reach the working vacuum since this morning. We stop at about 5x10-2 mbar, the pump runs constantly. The heat treatment line is down and we have two batches waiting. Please advise whether a technician can come this week, and whether we should check the door seal ourselves in the meantime.\n\nBest regards\nDaniel Price\nMaintenance Manager\nNorthgate Aerospace Ltd.\nPhone +44 1234 567890",
+    "pseudonym_text": "Hello,\n\nour VIM 22 furnace, serial VIM-2200-0417, cannot reach the working vacuum since this morning. We stop at about 5x10-2 mbar, the pump runs constantly. The heat treatment line is down and we have two batches waiting. Please advise whether a technician can come this week, and whether we should check the door seal ourselves in the meantime.\n\nBest regards\n[NAME_1]\nMaintenance Manager\n[FIRMA_1]\nPhone [TELEFON_1]",
+    "platzhalter": [
+      {
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Northgate Aerospace Ltd."
+      },
+      {
+        "typ": "TELEFON",
+        "platzhalter": "[TELEFON_1]",
+        "original": "+44 1234 567890"
+      },
+      {
+        "typ": "NAME",
+        "platzhalter": "[NAME_1]",
+        "original": "Daniel Price"
+      }
+    ],
+    "extraktion": {
+      "kunde": {
+        "firma": "Northgate Aerospace Ltd."
+      },
+      "ansprechpartner": {
+        "anrede": null,
+        "name": "Daniel Price"
+      },
+      "anlage": {
+        "typ": "VIM 22",
+        "nummer": "VIM-2200-0417",
+        "baujahr": null
+      },
+      "anliegen": [
+        {
+          "kategorie": "stoerung",
+          "beschreibung": "VIM 22 erreicht seit heute Morgen das Arbeitsvakuum nicht mehr, bleibt bei ca. 5x10-2 mbar stehen, Pumpe läuft dauerhaft, Wärmebehandlungslinie steht, zwei Chargen warten"
+        },
+        {
+          "kategorie": "wartung",
+          "beschreibung": "Kunde fragt nach Technikertermin in dieser Woche und ob die Türdichtung vorab selbst geprüft werden soll"
+        }
+      ],
+      "dringlichkeit": "stillstand",
+      "wunschzeitraum": {
+        "von": "2026-09-14",
+        "bis": "2026-09-20",
+        "tageszeit": "egal"
+      },
+      "zustaendigkeit": "service",
+      "unklarheiten": []
+    },
+    "extraktion_fehler": null,
+    "termin": {
+      "datum": "2026-09-14",
+      "techniker": "T2",
+      "qualifikation": "vakuumtechnik",
+      "hinweis": "Produktionsstillstand, Einsatz vorgezogen."
+    },
+    "ersatzteile": [],
+    "antwort_entwurf": "Guten Tag Daniel Price,\n\nvielen Dank für Ihre Anfrage „Vacuum leak VIM 22, line down“.\n\nFür Ihre Anlage VIM 22 (VIM-2200-0417) haben wir notiert:\n- Störung: VIM 22 erreicht seit heute Morgen das Arbeitsvakuum nicht mehr, bleibt bei ca. 5x10-2 mbar stehen, Pumpe läuft dauerhaft, Wärmebehandlungslinie steht, zwei Chargen warten\n- Wartung: Kunde fragt nach Technikertermin in dieser Woche und ob die Türdichtung vorab selbst geprüft werden soll\n\nWir schlagen Ihnen den Einsatz eines Servicetechnikers (Vakuumtechnik) am Montag, 14.09.2026 vor.\nProduktionsstillstand, Einsatz vorgezogen.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "status": "offen",
+    "anbieter": "langdock",
+    "modell": "gpt-5.1",
+    "dauer_ms": 3094,
+    "zeitpunkt": "2026-09-10T13:39:22"
+  },
+  "m08": {
+    "mail_id": "m08",
+    "roh_text": "Hallo,\n\nseit ein paar Tagen riecht es beim Öffnen unseres Härteofens komisch, so verbrannt. Und die letzte Charge war nicht durchgehärtet, die Härteprüfung ist unten durchgefallen. Ich weiß nicht, ob das zusammenhängt. Kann sich das mal jemand anschauen?\n\nGruß\nJürgen Aurich\nSchmiedewerk Aurich GmbH\n06021 / 33 44 55",
+    "pseudonym_text": "Hallo,\n\nseit ein paar Tagen riecht es beim Öffnen unseres Härteofens komisch, so verbrannt. Und die letzte Charge war nicht durchgehärtet, die Härteprüfung ist unten durchgefallen. Ich weiß nicht, ob das zusammenhängt. Kann sich das mal jemand anschauen?\n\nGruß\n[NAME_1]\n[FIRMA_1]\n[TELEFON_1]",
+    "platzhalter": [
+      {
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Schmiedewerk Aurich GmbH"
+      },
+      {
+        "typ": "TELEFON",
+        "platzhalter": "[TELEFON_1]",
+        "original": "06021 / 33 44 55"
+      },
+      {
+        "typ": "NAME",
+        "platzhalter": "[NAME_1]",
+        "original": "Jürgen Aurich"
+      }
+    ],
+    "extraktion": {
+      "kunde": {
+        "firma": "Schmiedewerk Aurich GmbH"
+      },
+      "ansprechpartner": {
+        "anrede": null,
+        "name": "Jürgen Aurich"
+      },
+      "anlage": {
+        "typ": "Härteofen",
+        "nummer": null,
+        "baujahr": null
+      },
+      "anliegen": [
+        {
+          "kategorie": "stoerung",
+          "beschreibung": "Härteofen riecht beim Öffnen verbrannt, letzte Charge nicht durchgehärtet, Härteprüfung unten nicht bestanden"
+        }
+      ],
+      "dringlichkeit": "hoch",
+      "wunschzeitraum": {
+        "von": null,
+        "bis": null,
+        "tageszeit": "egal"
+      },
+      "zustaendigkeit": "service",
+      "unklarheiten": [
+        "Anlagennummer bzw. Seriennummer des Härteofens fehlt",
+        "Baujahr bzw. genauer Anlagentyp fehlen",
+        "Keine Information, ob der Ofen aktuell weiter betrieben wird oder ob Produktion eingeschränkt ist",
+        "Kein gewünschter Terminzeitraum genannt"
+      ]
+    },
+    "extraktion_fehler": null,
+    "termin": {
+      "datum": "2026-09-15",
+      "techniker": "T4",
+      "qualifikation": "mechanik",
+      "hinweis": ""
+    },
+    "ersatzteile": [],
+    "antwort_entwurf": "Guten Tag Jürgen Aurich,\n\nvielen Dank für Ihre Anfrage „Ofen riecht komisch“.\n\nFür Ihre Anlage Härteofen haben wir notiert:\n- Störung: Härteofen riecht beim Öffnen verbrannt, letzte Charge nicht durchgehärtet, Härteprüfung unten nicht bestanden\n\nWir schlagen Ihnen den Einsatz eines Servicetechnikers (Mechanik) am Dienstag, 15.09.2026 vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Anlagennummer bzw. Seriennummer des Härteofens fehlt\n- Baujahr bzw. genauer Anlagentyp fehlen\n- Keine Information, ob der Ofen aktuell weiter betrieben wird oder ob Produktion eingeschränkt ist\n- Kein gewünschter Terminzeitraum genannt\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "status": "offen",
+    "anbieter": "langdock",
+    "modell": "gpt-5.1",
+    "dauer_ms": 3164,
+    "zeitpunkt": "2026-09-10T13:39:25"
   },
   "m09": {
     "mail_id": "m09",
-    "roh_text": "Sehr geehrtes Serviceteam,\n\nfür unsere zwei VW Caddy (MKK-EW 501 und MKK-EW 502) steht die Wartung an. Beide Fahrzeuge sollten möglichst am selben Tag kommen, damit unsere Monteure nur einmal ausfallen. Bevorzugt in der Woche vom 28.09., vormittags.\n\nMit freundlichen Grüßen\nAndrea Wittmann\nElektro Wittmann GmbH\nAm Bahndamm 7\n63571 Gelnhausen\nTelefon 06051 / 88 17 20\nMobil 0171 6 55 43 21",
-    "pseudonym_text": "Sehr geehrtes Serviceteam,\n\nfür unsere zwei VW Caddy ([KENNZEICHEN_1] und [KENNZEICHEN_2]) steht die Wartung an. Beide Fahrzeuge sollten möglichst am selben Tag kommen, damit unsere Monteure nur einmal ausfallen. Bevorzugt in der Woche vom 28.09., vormittags.\n\nMit freundlichen Grüßen\n[NAME_1]\nElektro [NAME_1] GmbH\n[ADRESSE_1]\n[ORT_1]\nTelefon [TELEFON_1]\nMobil [TELEFON_2]",
+    "roh_text": "Guten Tag,\n\ndie Türdichtung an unserem Vakuumofen ist spröde und wir verlieren Vakuum. Bitte schicken Sie uns ein Angebot für eine neue Dichtung. Das Foto vom Typenschild mit der Anlagennummer hänge ich an, damit Sie die richtige Ausführung finden.\n\nMit freundlichen Grüßen\nAndrea Wittmann\nWittmann Feinmechanik GmbH\nAm Bahndamm 7\n63571 Gelnhausen\nTelefon 06051 / 88 17 20",
+    "pseudonym_text": "Guten Tag,\n\ndie Türdichtung an unserem Vakuumofen ist spröde und wir verlieren Vakuum. Bitte schicken Sie uns ein Angebot für eine neue Dichtung. Das Foto vom Typenschild mit der Anlagennummer hänge ich an, damit Sie die richtige Ausführung finden.\n\nMit freundlichen Grüßen\n[NAME_1] [FIRMA_1]\n[FIRMA_1]\n[ADRESSE_1]\n[ORT_1]\nTelefon [TELEFON_1]",
     "platzhalter": [
       {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_1]",
-        "original": "MKK-EW 501"
-      },
-      {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_2]",
-        "original": "MKK-EW 502"
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Wittmann Feinmechanik GmbH"
       },
       {
         "typ": "TELEFON",
         "platzhalter": "[TELEFON_1]",
         "original": "06051 / 88 17 20"
-      },
-      {
-        "typ": "TELEFON",
-        "platzhalter": "[TELEFON_2]",
-        "original": "0171 6 55 43 21"
       },
       {
         "typ": "ADRESSE",
@@ -543,121 +618,132 @@
     ],
     "extraktion": {
       "kunde": {
+        "firma": "Wittmann Feinmechanik GmbH"
+      },
+      "ansprechpartner": {
         "anrede": null,
-        "name": "Andrea Wittmann"
+        "name": "Andrea Wittmann Wittmann Feinmechanik GmbH"
       },
-      "fahrzeug": {
-        "marke": "VW",
-        "modell": "Caddy",
-        "baujahr": null,
-        "kilometerstand": null
+      "anlage": {
+        "typ": "Vakuumofen",
+        "nummer": null,
+        "baujahr": null
       },
-      "kennzeichen": null,
       "anliegen": [
         {
-          "kategorie": "wartung",
-          "beschreibung": "Inspektion/Wartung für zwei VW Caddy (MKK-EW 501 und MKK-EW 502) am selben Tag"
+          "kategorie": "angebot",
+          "beschreibung": "Angebot für neue Türdichtung am Vakuumofen wegen spröder Dichtung und Vakuumverlust"
         }
       ],
       "dringlichkeit": "mittel",
       "wunschzeitraum": {
-        "von": "2026-09-28",
-        "bis": "2026-10-02",
-        "tageszeit": "vormittag"
+        "von": null,
+        "bis": null,
+        "tageszeit": "egal"
       },
-      "zustaendigkeit": "werkstatt",
+      "zustaendigkeit": "service",
       "unklarheiten": [
-        "Genaues Baujahr und Kilometerstand der beiden VW Caddy fehlen",
-        "Gibt es herstellerspezifische Wartung (z. B. nach Serviceheft/Intervallanzeige) oder besondere Zusatzarbeiten?",
-        "Sind beide Fahrzeuge an einem beliebigen Vormittag in der Woche 28.09.–02.10. verfügbar oder gibt es Ausschlusstage?"
+        "Anlagennummer vom Typenschild/Foto ist nicht übermittelt",
+        "Ausführung und Abmessungen der benötigten Türdichtung noch unklar"
       ]
     },
     "extraktion_fehler": null,
     "termin": {
-      "datum": "2026-09-28",
-      "halbtag": "vormittag",
+      "datum": "2026-09-15",
+      "techniker": "T5",
+      "qualifikation": "vakuumtechnik",
       "hinweis": ""
     },
-    "antwort_entwurf": "Guten Tag Andrea Wittmann,\n\nvielen Dank für Ihre Anfrage „Caddy Flotte Wartung\".\n\nFür VW Caddy haben wir folgende Punkte notiert:\n- Wartung: Inspektion/Wartung für zwei VW Caddy (MKK-EW 501 und MKK-EW 502) am selben Tag\n\nWir schlagen Ihnen einen Termin am Montag, 28.09.2026 am Vormittag vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Termin passend planen können, benötigen wir noch:\n- Genaues Baujahr und Kilometerstand der beiden VW Caddy fehlen\n- Gibt es herstellerspezifische Wartung (z. B. nach Serviceheft/Intervallanzeige) oder besondere Zusatzarbeiten?\n- Sind beide Fahrzeuge an einem beliebigen Vormittag in der Woche 28.09.–02.10. verfügbar oder gibt es Ausschlusstage?\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "ersatzteile": [],
+    "antwort_entwurf": "Guten Tag Andrea Wittmann Wittmann Feinmechanik GmbH,\n\nvielen Dank für Ihre Anfrage „Türdichtung, Foto vom Typenschild anbei“.\n\nFür Ihre Anlage Vakuumofen haben wir notiert:\n- Angebot: Angebot für neue Türdichtung am Vakuumofen wegen spröder Dichtung und Vakuumverlust\n\nWir schlagen Ihnen den Einsatz eines Servicetechnikers (Vakuumtechnik) am Dienstag, 15.09.2026 vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Anlagennummer vom Typenschild/Foto ist nicht übermittelt\n- Ausführung und Abmessungen der benötigten Türdichtung noch unklar\n\nMit freundlichen Grüßen\nIhr Serviceteam",
     "status": "offen",
     "anbieter": "langdock",
     "modell": "gpt-5.1",
-    "dauer_ms": 3631,
-    "zeitpunkt": "2026-09-09T10:17:28"
+    "dauer_ms": 1934,
+    "zeitpunkt": "2026-09-10T13:39:28"
   },
   "m10": {
     "mail_id": "m10",
-    "roh_text": "Hello,\n\nI need an appointment for my Toyota RAV4, license plate F-DP 2020. The tyre pressure warning light comes on every few days and the rear left tyre seems to lose air. I work from home, so any day next week is fine.\n\nBest regards\nDaniel Price",
-    "pseudonym_text": "Hello,\n\nI need an appointment for my Toyota RAV4, license plate [KENNZEICHEN_1]. The tyre pressure warning light comes on every few days and the rear left tyre seems to lose air. I work from home, so any day next week is fine.\n\nBest regards\n[NAME_1]",
+    "roh_text": "Ofen 2 steht. Vorpumpe läuft nicht an, Sicherung ok. SN VSP-1800-0221. Rückruf 0160 77 88 99 0.",
+    "pseudonym_text": "Ofen 2 steht. Vorpumpe läuft nicht an, Sicherung ok. SN VSP-1800-0221. Rückruf [TELEFON_1].",
     "platzhalter": [
       {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_1]",
-        "original": "F-DP 2020"
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Härterei Hoffmann KG"
+      },
+      {
+        "typ": "TELEFON",
+        "platzhalter": "[TELEFON_1]",
+        "original": "0160 77 88 99 0"
       },
       {
         "typ": "NAME",
         "platzhalter": "[NAME_1]",
-        "original": "Daniel Price"
+        "original": "R. Hoffmann"
       }
     ],
     "extraktion": {
       "kunde": {
+        "firma": null
+      },
+      "ansprechpartner": {
         "anrede": null,
-        "name": "Daniel Price"
+        "name": null
       },
-      "fahrzeug": {
-        "marke": "Toyota",
-        "modell": "RAV4",
-        "baujahr": null,
-        "kilometerstand": null
+      "anlage": {
+        "typ": "Ofen 2",
+        "nummer": "VSP-1800-0221",
+        "baujahr": null
       },
-      "kennzeichen": "F-DP 2020",
       "anliegen": [
         {
-          "kategorie": "reifen",
-          "beschreibung": "Reifen verliert Luft, Reifendruck-Warnleuchte geht alle paar Tage an"
+          "kategorie": "stoerung",
+          "beschreibung": "Ofen 2 steht, Vorpumpe läuft nicht an, Sicherung ok, Seriennummer VSP-1800-0221"
         }
       ],
-      "dringlichkeit": "sicherheitsrelevant",
+      "dringlichkeit": "stillstand",
       "wunschzeitraum": {
-        "von": "2026-09-21",
-        "bis": "2026-09-25",
+        "von": null,
+        "bis": null,
         "tageszeit": "egal"
       },
-      "zustaendigkeit": "werkstatt",
+      "zustaendigkeit": "service",
       "unklarheiten": [
-        "Baujahr des Fahrzeugs fehlt",
-        "Kilometerstand des Fahrzeugs fehlt"
+        "Name und Firma des Kunden fehlen",
+        "Standort der Anlage fehlt",
+        "Gewünschter Termin für Telefonrückruf oder Einsatz fehlt"
       ]
     },
     "extraktion_fehler": null,
     "termin": {
       "datum": "2026-09-14",
-      "halbtag": "vormittag",
-      "hinweis": "Sicherheitsrelevant, Termin vorgezogen."
+      "techniker": "T2",
+      "qualifikation": "vakuumtechnik",
+      "hinweis": "Produktionsstillstand, Einsatz vorgezogen."
     },
-    "antwort_entwurf": "Guten Tag Daniel Price,\n\nvielen Dank für Ihre Anfrage „Appointment RAV4\".\n\nFür Toyota RAV4 (F-DP 2020) haben wir folgende Punkte notiert:\n- Reifen: Reifen verliert Luft, Reifendruck-Warnleuchte geht alle paar Tage an\n\nWir schlagen Ihnen einen Termin am Montag, 14.09.2026 am Vormittag vor.\nSicherheitsrelevant, Termin vorgezogen.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Termin passend planen können, benötigen wir noch:\n- Baujahr des Fahrzeugs fehlt\n- Kilometerstand des Fahrzeugs fehlt\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "ersatzteile": [],
+    "antwort_entwurf": "Guten Tag,\n\nvielen Dank für Ihre Anfrage „Ofen 2 steht“.\n\nFür Ihre Anlage Ofen 2 (VSP-1800-0221) haben wir notiert:\n- Störung: Ofen 2 steht, Vorpumpe läuft nicht an, Sicherung ok, Seriennummer VSP-1800-0221\n\nWir schlagen Ihnen den Einsatz eines Servicetechnikers (Vakuumtechnik) am Montag, 14.09.2026 vor.\nProduktionsstillstand, Einsatz vorgezogen.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Name und Firma des Kunden fehlen\n- Standort der Anlage fehlt\n- Gewünschter Termin für Telefonrückruf oder Einsatz fehlt\n\nMit freundlichen Grüßen\nIhr Serviceteam",
     "status": "offen",
     "anbieter": "langdock",
     "modell": "gpt-5.1",
-    "dauer_ms": 3084,
-    "zeitpunkt": "2026-09-09T10:17:32"
+    "dauer_ms": 3460,
+    "zeitpunkt": "2026-09-10T13:39:30"
   },
   "m11": {
     "mail_id": "m11",
-    "roh_text": "Hallo Herr Braun,\n\nwie besprochen möchte ich für unseren Toyota Hilux, Baujahr 2019, jetzt 85.000 km, die große Inspektion machen lassen. Kennzeichen AB-SM 1919. Ich bringe ihn am liebsten Dienstag oder Mittwoch nächste Woche früh vorbei.\n\nViele Grüße\nSandra Möller",
-    "pseudonym_text": "Hallo Herr [NAME_2],\n\nwie besprochen möchte ich für unseren Toyota Hilux, Baujahr 2019, jetzt 85.000 km, die große Inspektion machen lassen. Kennzeichen [KENNZEICHEN_1]. Ich bringe ihn am liebsten Dienstag oder Mittwoch nächste Woche früh vorbei.\n\nViele Grüße\n[NAME_1]",
+    "roh_text": "Sehr geehrter Herr Braun,\n\nnach dem Serviceeinsatz Ihrer Kollegen am 2. September an unserer VIM 40 (Anlage VIM-4000-0088) schwankt die Temperatur in der Haltephase um bis zu 15 Grad, vorher waren es 3. Wir haben die Aufzeichnungen der letzten fünf Chargen. Ich erwarte, dass das im Rahmen des Einsatzes nachgebessert wird, und bitte um einen Termin in der Woche vom 21. September.\n\nMit freundlichen Grüßen\nClaudia Nordmann\nWerksleiterin\nNordlicht Turbinentechnik AG",
+    "pseudonym_text": "Sehr geehrter Herr [NAME_2],\n\nnach dem Serviceeinsatz Ihrer Kollegen am 2. September an unserer VIM 40 (Anlage VIM-4000-0088) schwankt die Temperatur in der Haltephase um bis zu 15 Grad, vorher waren es 3. Wir haben die Aufzeichnungen der letzten fünf Chargen. Ich erwarte, dass das im Rahmen des Einsatzes nachgebessert wird, und bitte um einen Termin in der Woche vom 21. September.\n\nMit freundlichen Grüßen\n[NAME_1]\nWerksleiterin\n[FIRMA_1]",
     "platzhalter": [
       {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_1]",
-        "original": "AB-SM 1919"
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Nordlicht Turbinentechnik AG"
       },
       {
         "typ": "NAME",
         "platzhalter": "[NAME_1]",
-        "original": "Sandra Möller"
+        "original": "Claudia Nordmann"
       },
       {
         "typ": "NAME",
@@ -667,295 +753,307 @@
     ],
     "extraktion": {
       "kunde": {
-        "anrede": null,
-        "name": "Sandra Möller"
+        "firma": "Nordlicht Turbinentechnik AG"
       },
-      "fahrzeug": {
-        "marke": "Toyota",
-        "modell": "Hilux",
-        "baujahr": 2019,
-        "kilometerstand": 85000
+      "ansprechpartner": {
+        "anrede": "Frau",
+        "name": "Claudia Nordmann"
       },
-      "kennzeichen": "AB-SM 1919",
+      "anlage": {
+        "typ": "VIM 40",
+        "nummer": "VIM-4000-0088",
+        "baujahr": null
+      },
       "anliegen": [
         {
-          "kategorie": "wartung",
-          "beschreibung": "große Inspektion durchführen"
+          "kategorie": "stoerung",
+          "beschreibung": "Seit dem Serviceeinsatz am 02.09. schwankt die Temperatur der VIM 40 (VIM-4000-0088) in der Haltephase um bis zu 15°C statt zuvor 3°C; Kunde erwartet Nachbesserung."
         }
       ],
       "dringlichkeit": "mittel",
       "wunschzeitraum": {
-        "von": "2026-09-22",
-        "bis": "2026-09-23",
-        "tageszeit": "vormittag"
-      },
-      "zustaendigkeit": "werkstatt",
-      "unklarheiten": []
-    },
-    "extraktion_fehler": null,
-    "termin": {
-      "datum": "2026-09-22",
-      "halbtag": "vormittag",
-      "hinweis": ""
-    },
-    "antwort_entwurf": "Guten Tag Sandra Möller,\n\nvielen Dank für Ihre Anfrage „Große Inspektion Hilux\".\n\nFür Toyota Hilux (AB-SM 1919) haben wir folgende Punkte notiert:\n- Wartung: große Inspektion durchführen\n\nWir schlagen Ihnen einen Termin am Dienstag, 22.09.2026 am Vormittag vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nMit freundlichen Grüßen\nIhr Serviceteam",
-    "status": "offen",
-    "anbieter": "langdock",
-    "modell": "gpt-5.1",
-    "dauer_ms": 2370,
-    "zeitpunkt": "2026-09-09T10:17:35"
-  },
-  "m12": {
-    "mail_id": "m12",
-    "roh_text": "Hallo,\n\nmeine Frau Sabine Krämer hat gestern beim Einparken die Fahrertür unseres Lexus UX an einem Poller beschädigt (AB-PK 404). Eine deutliche Beule, Lack ist ab. Wir hätten gern einen Kostenvoranschlag. Sie kann den Wagen jederzeit vorbeibringen, tagsüber ist egal.\n\nGruß\nPeter Krämer\nRosenweg 3\n63739 Aschaffenburg\n06021 / 45 67 89",
-    "pseudonym_text": "Hallo,\n\nmeine Frau [NAME_1] hat gestern beim Einparken die Fahrertür unseres Lexus UX an einem Poller beschädigt ([KENNZEICHEN_1]). Eine deutliche Beule, Lack ist ab. Wir hätten gern einen Kostenvoranschlag. Sie kann den Wagen jederzeit vorbeibringen, tagsüber ist egal.\n\nGruß\n[NAME_2]\n[ADRESSE_1]\n[ORT_1]\n[TELEFON_1]",
-    "platzhalter": [
-      {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_1]",
-        "original": "AB-PK 404"
-      },
-      {
-        "typ": "TELEFON",
-        "platzhalter": "[TELEFON_1]",
-        "original": "06021 / 45 67 89"
-      },
-      {
-        "typ": "ADRESSE",
-        "platzhalter": "[ADRESSE_1]",
-        "original": "Rosenweg 3"
-      },
-      {
-        "typ": "ORT",
-        "platzhalter": "[ORT_1]",
-        "original": "63739 Aschaffenburg"
-      },
-      {
-        "typ": "NAME",
-        "platzhalter": "[NAME_1]",
-        "original": "Sabine Krämer"
-      },
-      {
-        "typ": "NAME",
-        "platzhalter": "[NAME_2]",
-        "original": "Peter Krämer"
-      }
-    ],
-    "extraktion": {
-      "kunde": {
-        "anrede": null,
-        "name": "Sabine Krämer"
-      },
-      "fahrzeug": {
-        "marke": "Lexus",
-        "modell": "UX",
-        "baujahr": null,
-        "kilometerstand": null
-      },
-      "kennzeichen": "AB-PK 404",
-      "anliegen": [
-        {
-          "kategorie": "karosserie",
-          "beschreibung": "Fahrertür an Poller gestoßen, deutliche Beule und Lackschaden, Kostenvoranschlag gewünscht"
-        }
-      ],
-      "dringlichkeit": "mittel",
-      "wunschzeitraum": {
-        "von": null,
-        "bis": null,
+        "von": "2026-09-21",
+        "bis": "2026-09-25",
         "tageszeit": "egal"
       },
-      "zustaendigkeit": "werkstatt",
+      "zustaendigkeit": "service",
       "unklarheiten": [
-        "Konkretes Wunschdatum für die Besichtigung und Erstellung des Kostenvoranschlags fehlt",
-        "Baujahr des Fahrzeugs fehlt",
-        "Kilometerstand des Fahrzeugs fehlt"
+        "Genaue Prozessparameter der betroffenen Programme/Rezepte (Soll-Haltetemperatur, Haltezeit, ggf. PID-Einstellungen).",
+        "Ob es aktuell zu Produktionsausfällen oder nur zu Qualitätsrisiken kommt.",
+        "Ob die Aufzeichnungen der letzten fünf Chargen vorab per E-Mail zur Analyse zugesendet werden können."
       ]
     },
     "extraktion_fehler": null,
     "termin": {
-      "datum": "2026-09-15",
-      "halbtag": "nachmittag",
+      "datum": "2026-09-21",
+      "techniker": "T2",
+      "qualifikation": "mechanik",
       "hinweis": ""
     },
-    "antwort_entwurf": "Guten Tag Sabine Krämer,\n\nvielen Dank für Ihre Anfrage „Beule in der Tür\".\n\nFür Lexus UX (AB-PK 404) haben wir folgende Punkte notiert:\n- Karosserie: Fahrertür an Poller gestoßen, deutliche Beule und Lackschaden, Kostenvoranschlag gewünscht\n\nWir schlagen Ihnen einen Termin am Dienstag, 15.09.2026 am Nachmittag vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Termin passend planen können, benötigen wir noch:\n- Konkretes Wunschdatum für die Besichtigung und Erstellung des Kostenvoranschlags fehlt\n- Baujahr des Fahrzeugs fehlt\n- Kilometerstand des Fahrzeugs fehlt\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "ersatzteile": [],
+    "antwort_entwurf": "Sehr geehrte Frau Nordmann,\n\nvielen Dank für Ihre Anfrage „Temperaturschwankungen nach Ihrem Serviceeinsatz“.\n\nFür Ihre Anlage VIM 40 (VIM-4000-0088) haben wir notiert:\n- Störung: Seit dem Serviceeinsatz am 02.09. schwankt die Temperatur der VIM 40 (VIM-4000-0088) in der Haltephase um bis zu 15°C statt zuvor 3°C; Kunde erwartet Nachbesserung.\n\nWir schlagen Ihnen den Einsatz eines Servicetechnikers (Mechanik) am Montag, 21.09.2026 vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Genaue Prozessparameter der betroffenen Programme/Rezepte (Soll-Haltetemperatur, Haltezeit, ggf. PID-Einstellungen).\n- Ob es aktuell zu Produktionsausfällen oder nur zu Qualitätsrisiken kommt.\n- Ob die Aufzeichnungen der letzten fünf Chargen vorab per E-Mail zur Analyse zugesendet werden können.\n\nMit freundlichen Grüßen\nIhr Serviceteam",
     "status": "offen",
     "anbieter": "langdock",
     "modell": "gpt-5.1",
-    "dauer_ms": 2823,
-    "zeitpunkt": "2026-09-09T10:17:37"
+    "dauer_ms": 2202,
+    "zeitpunkt": "2026-09-10T13:39:34"
   },
-  "m13": {
-    "mail_id": "m13",
-    "roh_text": "Hallo,\n\nbei meinem VW Amarok (MKK-ML 66) leuchtet seit heute Morgen die Motorkontrollleuchte ROT und der Motor ruckelt im Leerlauf. Ich habe ihn stehen lassen. Was soll ich tun, abschleppen lassen? Brauche dringend einen Termin.\n\nMarkus Lindner\n0160 98 76 54 32",
-    "pseudonym_text": "Hallo,\n\nbei meinem VW Amarok ([KENNZEICHEN_1]) leuchtet seit heute Morgen die Motorkontrollleuchte ROT und der Motor ruckelt im Leerlauf. Ich habe ihn stehen lassen. Was soll ich tun, abschleppen lassen? Brauche dringend einen Termin.\n\n[NAME_1]\n[TELEFON_1]",
+  "m12": {
+    "mail_id": "m12",
+    "roh_text": "Hallo,\n\nfür unsere beiden Anlagen VK-5000-0198 und VK-5000-0199 steht die halbjährliche Wartung an. Bitte beide in der KW 40 an einem Tag, vormittags, damit die Linie nur einmal steht. Den Wartungsvertrag haben wir, die Nummer ist WV-2024-117.\n\nBeste Grüße\nStefan Bergmann\nInstandhaltungsleitung\nBergmann Automotive Systems AG\nMotorenstraße 3\n60437 Frankfurt am Main\nTel. 069 / 12 34 56 78",
+    "pseudonym_text": "Hallo,\n\nfür unsere beiden Anlagen VK-5000-0198 und VK-5000-0199 steht die halbjährliche Wartung an. Bitte beide in der KW 40 an einem Tag, vormittags, damit die Linie nur einmal steht. Den Wartungsvertrag haben wir, die Nummer ist WV-2024-117.\n\nBeste Grüße\n[NAME_1] [FIRMA_1]\nInstandhaltungsleitung\n[FIRMA_1]\n[ADRESSE_1]\n[ORT_1] am Main\nTel. [TELEFON_1]",
     "platzhalter": [
       {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_1]",
-        "original": "MKK-ML 66"
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Bergmann Automotive Systems AG"
       },
       {
         "typ": "TELEFON",
         "platzhalter": "[TELEFON_1]",
-        "original": "0160 98 76 54 32"
+        "original": "069 / 12 34 56 78"
+      },
+      {
+        "typ": "ADRESSE",
+        "platzhalter": "[ADRESSE_1]",
+        "original": "Motorenstraße 3"
+      },
+      {
+        "typ": "ORT",
+        "platzhalter": "[ORT_1]",
+        "original": "60437 Frankfurt"
       },
       {
         "typ": "NAME",
         "platzhalter": "[NAME_1]",
-        "original": "Markus Lindner"
+        "original": "Stefan Bergmann"
       }
     ],
     "extraktion": {
       "kunde": {
+        "firma": "Bergmann Automotive Systems AG"
+      },
+      "ansprechpartner": {
         "anrede": null,
-        "name": "Markus Lindner"
+        "name": "Stefan Bergmann Bergmann Automotive Systems AG"
       },
-      "fahrzeug": {
-        "marke": "VW",
-        "modell": "Amarok",
-        "baujahr": null,
-        "kilometerstand": null
+      "anlage": {
+        "typ": "VK-5000",
+        "nummer": "VK-5000-0198, VK-5000-0199",
+        "baujahr": null
       },
-      "kennzeichen": "MKK-ML 66",
       "anliegen": [
         {
-          "kategorie": "reparatur",
-          "beschreibung": "Motorkontrollleuchte rot, Motor ruckelt im Leerlauf, Fahrzeug soll begutachtet und instandgesetzt werden"
+          "kategorie": "wartung",
+          "beschreibung": "Halbjährliche Wartung der Anlagen VK-5000-0198 und VK-5000-0199 gemäß Wartungsvertrag WV-2024-117, beide Anlagen an einem Tag vormittags, damit die Linie nur einmal steht."
         }
       ],
-      "dringlichkeit": "sicherheitsrelevant",
+      "dringlichkeit": "stillstand",
       "wunschzeitraum": {
-        "von": "2026-09-14",
-        "bis": "2026-09-21",
-        "tageszeit": "egal"
+        "von": "2026-09-28",
+        "bis": "2026-10-02",
+        "tageszeit": "vormittag"
       },
-      "zustaendigkeit": "werkstatt",
+      "zustaendigkeit": "service",
       "unklarheiten": [
-        "Soll ein Abschleppdienst von uns organisiert werden?",
-        "Wann genau passt ein Termin für die Fahrzeugannahme?",
-        "Ist das Fahrzeug aktuell noch an derselben Adresse erreichbar, unter der wir 0160 98 76 54 32 erreichen?"
+        "Konkreter Wartungstermin innerhalb der KW 40 (2026-09-28 bis 2026-10-02) ist noch zu vereinbaren."
       ]
     },
     "extraktion_fehler": null,
     "termin": {
       "datum": "2026-09-14",
-      "halbtag": "vormittag",
-      "hinweis": "Sicherheitsrelevant, Termin vorgezogen."
+      "techniker": "T2",
+      "qualifikation": "mechanik",
+      "hinweis": "Produktionsstillstand, Einsatz vorgezogen."
     },
-    "antwort_entwurf": "Guten Tag Markus Lindner,\n\nvielen Dank für Ihre Anfrage „Motorleuchte rot!\".\n\nFür VW Amarok (MKK-ML 66) haben wir folgende Punkte notiert:\n- Reparatur: Motorkontrollleuchte rot, Motor ruckelt im Leerlauf, Fahrzeug soll begutachtet und instandgesetzt werden\n\nWir schlagen Ihnen einen Termin am Montag, 14.09.2026 am Vormittag vor.\nSicherheitsrelevant, Termin vorgezogen.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Termin passend planen können, benötigen wir noch:\n- Soll ein Abschleppdienst von uns organisiert werden?\n- Wann genau passt ein Termin für die Fahrzeugannahme?\n- Ist das Fahrzeug aktuell noch an derselben Adresse erreichbar, unter der wir 0160 98 76 54 32 erreichen?\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "ersatzteile": [],
+    "antwort_entwurf": "Guten Tag Stefan Bergmann Bergmann Automotive Systems AG,\n\nvielen Dank für Ihre Anfrage „Turnuswartung KW 40, zwei Anlagen“.\n\nFür Ihre Anlage VK-5000 (VK-5000-0198, VK-5000-0199) haben wir notiert:\n- Wartung: Halbjährliche Wartung der Anlagen VK-5000-0198 und VK-5000-0199 gemäß Wartungsvertrag WV-2024-117, beide Anlagen an einem Tag vormittags, damit die Linie nur einmal steht.\n\nWir schlagen Ihnen den Einsatz eines Servicetechnikers (Mechanik) am Montag, 14.09.2026 vor.\nProduktionsstillstand, Einsatz vorgezogen.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Konkreter Wartungstermin innerhalb der KW 40 (2026-09-28 bis 2026-10-02) ist noch zu vereinbaren.\n\nMit freundlichen Grüßen\nIhr Serviceteam",
     "status": "offen",
     "anbieter": "langdock",
     "modell": "gpt-5.1",
-    "dauer_ms": 3287,
-    "zeitpunkt": "2026-09-09T10:17:40"
+    "dauer_ms": 2350,
+    "zeitpunkt": "2026-09-10T13:39:36"
   },
-  "m14": {
-    "mail_id": "m14",
-    "roh_text": "Hallo,\n\nbei meinem Auto leuchtet irgendwas gelb im Tacho, so ein Symbol. Mein Mann meint, das sei nicht schlimm, aber ich hätte gern, dass mal jemand draufschaut. Irgendwann im Oktober wäre gut. Sie können mich anrufen: 06181 / 23 45 67.\n\nIngrid Sauer",
-    "pseudonym_text": "Hallo,\n\nbei meinem Auto leuchtet irgendwas gelb im Tacho, so ein Symbol. Mein Mann meint, das sei nicht schlimm, aber ich hätte gern, dass mal jemand draufschaut. Irgendwann im Oktober wäre gut. Sie können mich anrufen: [TELEFON_1].\n\n[NAME_1]",
+  "m13": {
+    "mail_id": "m13",
+    "roh_text": "Hallo,\n\nan unserem Vakuumofen VK-3600-0304 fällt seit heute früh die Heizung aus, nach etwa zehn Minuten Aufheizen fliegt die Sicherung im Schaltschrank. Wir haben es dreimal probiert. Die Produktion steht, wir haben Liefertermine diese Woche. Bitte so schnell wie möglich jemanden schicken.\n\nKlaus Weber\nGussteile Weber KG\n0170 22 33 44 5",
+    "pseudonym_text": "Hallo,\n\nan unserem Vakuumofen VK-3600-0304 fällt seit heute früh die Heizung aus, nach etwa zehn Minuten Aufheizen fliegt die Sicherung im Schaltschrank. Wir haben es dreimal probiert. Die Produktion steht, wir haben Liefertermine diese Woche. Bitte so schnell wie möglich jemanden schicken.\n\n[NAME_1]\n[FIRMA_1]\n[TELEFON_1]",
     "platzhalter": [
+      {
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Gussteile Weber KG"
+      },
       {
         "typ": "TELEFON",
         "platzhalter": "[TELEFON_1]",
-        "original": "06181 / 23 45 67"
+        "original": "0170 22 33 44 5"
       },
       {
         "typ": "NAME",
         "platzhalter": "[NAME_1]",
-        "original": "Ingrid Sauer"
+        "original": "Klaus Weber"
       }
     ],
     "extraktion": {
       "kunde": {
+        "firma": "Gussteile Weber KG"
+      },
+      "ansprechpartner": {
         "anrede": null,
-        "name": "Ingrid Sauer"
+        "name": "Klaus Weber"
       },
-      "fahrzeug": {
-        "marke": null,
-        "modell": null,
-        "baujahr": null,
-        "kilometerstand": null
+      "anlage": {
+        "typ": "Vakuumofen VK-3600-0304",
+        "nummer": null,
+        "baujahr": null
       },
-      "kennzeichen": null,
       "anliegen": [
         {
-          "kategorie": "reparatur",
-          "beschreibung": "gelbe Kontrollleuchte im Tacho prüfen"
+          "kategorie": "stoerung",
+          "beschreibung": "Heizung des Vakuumofens VK-3600-0304 fällt seit heute früh nach ca. 10 Minuten Aufheizen aus, Sicherung im Schaltschrank löst dreimal aus, Produktion steht."
         }
       ],
-      "dringlichkeit": "mittel",
+      "dringlichkeit": "stillstand",
       "wunschzeitraum": {
-        "von": "2026-10-01",
-        "bis": "2026-10-31",
+        "von": "2026-09-14",
+        "bis": "2026-09-15",
         "tageszeit": "egal"
       },
-      "zustaendigkeit": "werkstatt",
+      "zustaendigkeit": "service",
       "unklarheiten": [
-        "Fahrzeugmarke und -modell fehlen",
-        "Kennzeichen fehlt",
-        "genauer Wunschtermin im Oktober fehlt"
+        "Genaue Anlagennummer bzw. Seriennummer fehlt.",
+        "Standort der Anlage ist nicht angegeben.",
+        "Angabe zur Netzspannung und betroffenen Sicherung(en)/Strang(en) (z. B. nur Heizung oder weitere Verbraucher?) fehlt.",
+        "Information, ob bereits Messungen (Isolationsmessung Heizelemente, Kontrolle Schütze/SSR) durchgeführt wurden, fehlt."
       ]
     },
     "extraktion_fehler": null,
     "termin": {
-      "datum": "2026-10-01",
-      "halbtag": "vormittag",
-      "hinweis": ""
+      "datum": "2026-09-14",
+      "techniker": "T2",
+      "qualifikation": "vakuumtechnik",
+      "hinweis": "Produktionsstillstand, Einsatz vorgezogen."
     },
-    "antwort_entwurf": "Guten Tag Ingrid Sauer,\n\nvielen Dank für Ihre Anfrage „Frage\".\n\nFür Ihr Fahrzeug haben wir folgende Punkte notiert:\n- Reparatur: gelbe Kontrollleuchte im Tacho prüfen\n\nWir schlagen Ihnen einen Termin am Donnerstag, 01.10.2026 am Vormittag vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Termin passend planen können, benötigen wir noch:\n- Fahrzeugmarke und -modell fehlen\n- Kennzeichen fehlt\n- genauer Wunschtermin im Oktober fehlt\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "ersatzteile": [],
+    "antwort_entwurf": "Guten Tag Klaus Weber,\n\nvielen Dank für Ihre Anfrage „Heizung ausgefallen, Produktion steht“.\n\nFür Ihre Anlage Vakuumofen VK-3600-0304 haben wir notiert:\n- Störung: Heizung des Vakuumofens VK-3600-0304 fällt seit heute früh nach ca. 10 Minuten Aufheizen aus, Sicherung im Schaltschrank löst dreimal aus, Produktion steht.\n\nWir schlagen Ihnen den Einsatz eines Servicetechnikers (Vakuumtechnik) am Montag, 14.09.2026 vor.\nProduktionsstillstand, Einsatz vorgezogen.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Genaue Anlagennummer bzw. Seriennummer fehlt.\n- Standort der Anlage ist nicht angegeben.\n- Angabe zur Netzspannung und betroffenen Sicherung(en)/Strang(en) (z. B. nur Heizung oder weitere Verbraucher?) fehlt.\n- Information, ob bereits Messungen (Isolationsmessung Heizelemente, Kontrolle Schütze/SSR) durchgeführt wurden, fehlt.\n\nMit freundlichen Grüßen\nIhr Serviceteam",
     "status": "offen",
     "anbieter": "langdock",
     "modell": "gpt-5.1",
-    "dauer_ms": 2566,
-    "zeitpunkt": "2026-09-09T10:17:43"
+    "dauer_ms": 3318,
+    "zeitpunkt": "2026-09-10T13:39:38"
   },
-  "m15": {
-    "mail_id": "m15",
-    "roh_text": "Guten Tag Herr Weber,\n\nich habe gelesen, dass es für den Toyota Proace einen Rückruf wegen der Airbags geben soll. Ist mein Fahrzeug (GN-SR 2222, Baujahr 2021) betroffen? Falls ja, würde ich den Termin gern mit dem fälligen Ölwechsel verbinden. Ich bin flexibel, außer Freitag.\n\nSchöne Grüße\nStefan Roth\nstefan.roth@example.net",
-    "pseudonym_text": "Guten Tag Herr [NAME_2],\n\nich habe gelesen, dass es für den Toyota Proace einen Rückruf wegen der Airbags geben soll. Ist mein Fahrzeug ([KENNZEICHEN_1], Baujahr 2021) betroffen? Falls ja, würde ich den Termin gern mit dem fälligen Ölwechsel verbinden. Ich bin flexibel, außer Freitag.\n\nSchöne Grüße\n[NAME_1]\n[EMAIL_1]",
+  "m14": {
+    "mail_id": "m14",
+    "roh_text": "Guten Tag,\n\nwir ziehen im Dezember mit der Produktion nach Hanau um und möchten unseren Vakuumofen VK-2200-0301 mitnehmen. Bitte machen Sie uns ein Angebot für Demontage, Transportbegleitung und Wiederinbetriebnahme am neuen Standort. Der genaue Termin steht noch nicht fest, irgendwann in der zweiten Dezemberhälfte.\n\nFreundliche Grüße\nLena Lindqvist\nGeschäftsführung\nLindqvist Härterei GmbH",
+    "pseudonym_text": "Guten Tag,\n\nwir ziehen im Dezember mit der Produktion nach Hanau um und möchten unseren Vakuumofen VK-2200-0301 mitnehmen. Bitte machen Sie uns ein Angebot für Demontage, Transportbegleitung und Wiederinbetriebnahme am neuen Standort. Der genaue Termin steht noch nicht fest, irgendwann in der zweiten Dezemberhälfte.\n\nFreundliche Grüße\n[NAME_1] [FIRMA_1]\nGeschäftsführung\n[FIRMA_1]",
     "platzhalter": [
       {
-        "typ": "EMAIL",
-        "platzhalter": "[EMAIL_1]",
-        "original": "stefan.roth@example.net"
-      },
-      {
-        "typ": "KENNZEICHEN",
-        "platzhalter": "[KENNZEICHEN_1]",
-        "original": "GN-SR 2222"
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Lindqvist Härterei GmbH"
       },
       {
         "typ": "NAME",
         "platzhalter": "[NAME_1]",
-        "original": "Stefan Roth"
-      },
-      {
-        "typ": "NAME",
-        "platzhalter": "[NAME_2]",
-        "original": "Weber"
+        "original": "Lena Lindqvist"
       }
     ],
     "extraktion": {
       "kunde": {
-        "anrede": "Herr",
-        "name": "Stefan Roth"
+        "firma": "Lindqvist Härterei GmbH"
       },
-      "fahrzeug": {
-        "marke": "Toyota",
-        "modell": "Proace",
-        "baujahr": 2021,
-        "kilometerstand": null
+      "ansprechpartner": {
+        "anrede": null,
+        "name": "Lena Lindqvist"
       },
-      "kennzeichen": "GN-SR 2222",
+      "anlage": {
+        "typ": "Vakuumofen VK-2200-0301",
+        "nummer": null,
+        "baujahr": null
+      },
       "anliegen": [
         {
-          "kategorie": "reparatur",
-          "beschreibung": "Prüfung, ob Fahrzeug von Airbag-Rückruf betroffen ist und ggf. Durchführung"
+          "kategorie": "angebot",
+          "beschreibung": "Angebot für Umzug des Vakuumofens VK-2200-0301: Demontage, Transportbegleitung und Wiederinbetriebnahme am neuen Standort in Hanau"
+        }
+      ],
+      "dringlichkeit": "mittel",
+      "wunschzeitraum": {
+        "von": "2026-12-15",
+        "bis": "2026-12-31",
+        "tageszeit": "egal"
+      },
+      "zustaendigkeit": "service",
+      "unklarheiten": [
+        "Genaue Anlagen- bzw. Seriennummer des Vakuumofens VK-2200-0301",
+        "Gewünschtes genaues Umzugs- und Inbetriebnahmedatum in der zweiten Dezemberhälfte",
+        "Adresse und Gegebenheiten am neuen Standort in Hanau (Zugänglichkeit, Kran/Stapler, Platzverhältnisse)",
+        "Ob zusätzliche Leistungen wie Kalibrierung, Schulung oder Leistungsprüfung nach Wiederinbetriebnahme gewünscht sind"
+      ]
+    },
+    "extraktion_fehler": null,
+    "termin": null,
+    "ersatzteile": [],
+    "antwort_entwurf": "Guten Tag Lena Lindqvist,\n\nvielen Dank für Ihre Anfrage „Umzug einer Anlage an neuen Standort“.\n\nFür Ihre Anlage Vakuumofen VK-2200-0301 haben wir notiert:\n- Angebot: Angebot für Umzug des Vakuumofens VK-2200-0301: Demontage, Transportbegleitung und Wiederinbetriebnahme am neuen Standort in Hanau\n\nWir melden uns mit einem Terminvorschlag, sobald die offenen Punkte geklärt sind.\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Genaue Anlagen- bzw. Seriennummer des Vakuumofens VK-2200-0301\n- Gewünschtes genaues Umzugs- und Inbetriebnahmedatum in der zweiten Dezemberhälfte\n- Adresse und Gegebenheiten am neuen Standort in Hanau (Zugänglichkeit, Kran/Stapler, Platzverhältnisse)\n- Ob zusätzliche Leistungen wie Kalibrierung, Schulung oder Leistungsprüfung nach Wiederinbetriebnahme gewünscht sind\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "status": "offen",
+    "anbieter": "langdock",
+    "modell": "gpt-5.1",
+    "dauer_ms": 5564,
+    "zeitpunkt": "2026-09-10T13:39:41"
+  },
+  "m15": {
+    "mail_id": "m15",
+    "roh_text": "Hallo,\n\nwir brauchen die Steuerungsplatine mit der Teilenummer 4711-0815-22 für unsere VK-3600-0177, die alte hat einen Wackelkontakt, die Anlage läuft aber noch. Wie ist die Lieferzeit? Und wann war eigentlich die letzte Wartung bei uns, ich finde den Bericht nicht.\n\nGruß\nMarkus Sauer\nMetallwerk Sauer GmbH\nHüttenweg 14\n63505 Langenselbold\nTel 06184 / 90 80 70",
+    "pseudonym_text": "Hallo,\n\nwir brauchen die Steuerungsplatine mit der Teilenummer 4711-0815-22 für unsere VK-3600-0177, die alte hat einen Wackelkontakt, die Anlage läuft aber noch. Wie ist die Lieferzeit? Und wann war eigentlich die letzte Wartung bei uns, ich finde den Bericht nicht.\n\nGruß\n[NAME_1]\n[FIRMA_1]\n[ADRESSE_1]\n[ORT_1]\nTel [TELEFON_1]",
+    "platzhalter": [
+      {
+        "typ": "FIRMA",
+        "platzhalter": "[FIRMA_1]",
+        "original": "Metallwerk Sauer GmbH"
+      },
+      {
+        "typ": "TELEFON",
+        "platzhalter": "[TELEFON_1]",
+        "original": "06184 / 90 80 70"
+      },
+      {
+        "typ": "ADRESSE",
+        "platzhalter": "[ADRESSE_1]",
+        "original": "Hüttenweg 14"
+      },
+      {
+        "typ": "ORT",
+        "platzhalter": "[ORT_1]",
+        "original": "63505 Langenselbold"
+      },
+      {
+        "typ": "NAME",
+        "platzhalter": "[NAME_1]",
+        "original": "Markus Sauer"
+      }
+    ],
+    "extraktion": {
+      "kunde": {
+        "firma": "Metallwerk Sauer GmbH"
+      },
+      "ansprechpartner": {
+        "anrede": null,
+        "name": "Markus Sauer"
+      },
+      "anlage": {
+        "typ": "VK-3600-0177",
+        "nummer": null,
+        "baujahr": null
+      },
+      "anliegen": [
+        {
+          "kategorie": "ersatzteil",
+          "beschreibung": "Anfrage Steuerungsplatine Teilenummer 4711-0815-22 für Anlage VK-3600-0177, alte Platine mit Wackelkontakt, Anlage läuft noch, Bitte um Auskunft zur Lieferzeit."
         },
         {
           "kategorie": "wartung",
-          "beschreibung": "Fälliger Ölwechsel"
+          "beschreibung": "Anfrage, wann die letzte Wartung an der Anlage bei Metallwerk Sauer GmbH durchgeführt wurde und bitte um Wartungsbericht."
         }
       ],
       "dringlichkeit": "mittel",
@@ -964,23 +1062,31 @@
         "bis": null,
         "tageszeit": "egal"
       },
-      "zustaendigkeit": "werkstatt",
+      "zustaendigkeit": "service",
       "unklarheiten": [
-        "Ist das Fahrzeug tatsächlich von der Airbag-Rückrufaktion betroffen?",
-        "Konkretes Wunschdatum für den Termin (nur Vorgabe: nicht freitags)"
+        "Keine eindeutige Anlagennummer oder Seriennummer angegeben, nur Typenbezeichnung VK-3600-0177.",
+        "Unklar, ob es sich bei VK-3600-0177 um den exakten Anlagentyp oder bereits die spezifische Anlagennummer handelt.",
+        "Für die Ermittlung der letzten Wartung fehlen ggf. zusätzliche Identifikationsdaten (z. B. Anlagennummer, Standortbezeichnung oder Kundennummer)."
       ]
     },
     "extraktion_fehler": null,
     "termin": {
       "datum": "2026-09-15",
-      "halbtag": "nachmittag",
+      "techniker": "T3",
+      "qualifikation": "steuerung",
       "hinweis": ""
     },
-    "antwort_entwurf": "Sehr geehrter Herr Roth,\n\nvielen Dank für Ihre Anfrage „Rückruf Airbag?\".\n\nFür Toyota Proace (GN-SR 2222) haben wir folgende Punkte notiert:\n- Reparatur: Prüfung, ob Fahrzeug von Airbag-Rückruf betroffen ist und ggf. Durchführung\n- Wartung: Fälliger Ölwechsel\n\nWir schlagen Ihnen einen Termin am Dienstag, 15.09.2026 am Nachmittag vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Termin passend planen können, benötigen wir noch:\n- Ist das Fahrzeug tatsächlich von der Airbag-Rückrufaktion betroffen?\n- Konkretes Wunschdatum für den Termin (nur Vorgabe: nicht freitags)\n\nMit freundlichen Grüßen\nIhr Serviceteam",
+    "ersatzteile": [
+      {
+        "teil": "Steuerungsbaugruppe",
+        "status": "Lieferzeit ca. 6 Wochen"
+      }
+    ],
+    "antwort_entwurf": "Guten Tag Markus Sauer,\n\nvielen Dank für Ihre Anfrage „Ersatzteil 4711-0815-22 und Frage zur Wartung“.\n\nFür Ihre Anlage VK-3600-0177 haben wir notiert:\n- Ersatzteil: Anfrage Steuerungsplatine Teilenummer 4711-0815-22 für Anlage VK-3600-0177, alte Platine mit Wackelkontakt, Anlage läuft noch, Bitte um Auskunft zur Lieferzeit.\n- Wartung: Anfrage, wann die letzte Wartung an der Anlage bei Metallwerk Sauer GmbH durchgeführt wurde und bitte um Wartungsbericht.\n\nErsatzteil Steuerungsbaugruppe: Lieferzeit ca. 6 Wochen\nEin Angebot mit Preisen und Lieferzeit folgt gesondert.\n\nWir schlagen Ihnen den Einsatz eines Servicetechnikers (Steuerung) am Dienstag, 15.09.2026 vor.\nBitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.\n\nDamit wir den Einsatz passend planen können, benötigen wir noch:\n- Keine eindeutige Anlagennummer oder Seriennummer angegeben, nur Typenbezeichnung VK-3600-0177.\n- Unklar, ob es sich bei VK-3600-0177 um den exakten Anlagentyp oder bereits die spezifische Anlagennummer handelt.\n- Für die Ermittlung der letzten Wartung fehlen ggf. zusätzliche Identifikationsdaten (z. B. Anlagennummer, Standortbezeichnung oder Kundennummer).\n\nMit freundlichen Grüßen\nIhr Serviceteam",
     "status": "offen",
     "anbieter": "langdock",
     "modell": "gpt-5.1",
-    "dauer_ms": 4497,
-    "zeitpunkt": "2026-09-09T10:17:46"
+    "dauer_ms": 3168,
+    "zeitpunkt": "2026-09-10T13:39:47"
   }
 }

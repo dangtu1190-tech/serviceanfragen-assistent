@@ -88,6 +88,42 @@ def test_vorname_aus_zitierter_von_zeile():
     assert "Thermoelement" in text
 
 
+def test_adresse_mit_park_hof_feld_chaussee():
+    """Gewerbepark, Kastanienhof und Co. sind Adressen, ein Wort ohne Hausnummer nicht."""
+    text, tab = anonymisiere("Am Gewerbepark 12\n36381 Schlüchtern")
+    assert [t["original"] for t in tab if t["typ"] == "ADRESSE"] == ["Am Gewerbepark 12"]
+    assert [t["original"] for t in tab if t["typ"] == "ORT"] == ["36381 Schlüchtern"]
+    assert text == "[ADRESSE_1]\n[ORT_1]"
+
+    text, tab = anonymisiere("Kastanienhof 4")
+    assert [t["original"] for t in tab if t["typ"] == "ADRESSE"] == ["Kastanienhof 4"]
+
+    text, tab = anonymisiere("Wir sitzen im Industriepark und warten.")
+    assert [t for t in tab if t["typ"] == "ADRESSE"] == []
+    assert "Industriepark" in text
+
+
+def test_absendername_faellt_vor_der_firmen_kurzform():
+    """Absender heißt wie seine Firma: die Signatur darf nicht zu
+    '[NAME_1] [FIRMA_1]' zerfallen, sonst ist der Nachname wieder ablesbar."""
+    text, tab = anonymisiere(
+        "Mit freundlichen Grüßen\nAndrea Wittmann\nWittmann Feinmechanik GmbH\nAm Bahndamm 7",
+        absender_name="Andrea Wittmann", absender_firma="Wittmann Feinmechanik GmbH")
+    assert "[NAME_1]\n[FIRMA_1]\n[ADRESSE_1]" in text
+    assert "[NAME_1] [FIRMA_1]" not in text
+    assert len([t for t in tab if t["typ"] == "NAME"]) == 1
+    assert len([t for t in tab if t["typ"] == "FIRMA"]) == 1
+    assert zuruecksetzen(text, tab).startswith("Mit freundlichen Grüßen\nAndrea Wittmann")
+
+
+def test_firma_ueberschreitet_die_satzgrenze_nicht():
+    text, tab = anonymisiere("Die Anlage meldet Stillstand. Unsere Hartmann GmbH auch.")
+    firmen = [t["original"] for t in tab if t["typ"] == "FIRMA"]
+    assert len(firmen) == 1
+    assert "Stillstand" not in firmen[0]
+    assert "Stillstand." in text
+
+
 def test_internationale_telefonnummer():
     text, tab = anonymisiere(
         "Phone +44 1234 567890 or +33 1 23 45 67 89. Serial VIM-3000-0917, part 4711-0815-22, R 03/118.")

@@ -19,7 +19,10 @@ _RECHTSFORM = r"(?:GmbH\s*&\s*Co\.\s*KGaA|GmbH\s*&\s*Co\.\s*KG|GmbH|AG|KGaA|KG|S
 # Artikel/Pronomen am Satzanfang sind grossgeschrieben wie ein Firmenwort ("Die Roth & Söhne...");
 # ausgeschlossen, sonst friesse das Muster sie mit ("Die GmbH als Rechtsform" waere sonst ein Treffer)
 _FIRMA_SPERRWORT = r"(?:Die|Der|Das|Ein|Eine)"
-_FIRMA_WORT = r"(?!" + _FIRMA_SPERRWORT + r"\b)[A-ZÄÖÜ][\wäöüß.\-]*"
+# Ohne Punkt im Wort: sonst zieht das Muster ueber die Satzgrenze hinweg
+# ("meldet Stillstand. Unsere Hartmann GmbH" ergab die Firma "Stillstand. Unsere
+# Hartmann GmbH"). Der Punkt bleibt allein in der Rechtsform erlaubt (Co. KG, e.K.).
+_FIRMA_WORT = r"(?!" + _FIRMA_SPERRWORT + r"\b)[A-ZÄÖÜ][\wäöüß\-]*"
 # bis zu vier grossgeschriebene Woerter oder "&" vor der Rechtsform; mindestens ein Wort
 _FIRMA = re.compile(
     r"\b(?:(?:" + _FIRMA_WORT + r"|&)\s+){0,4}" + _FIRMA_WORT + r"\s+" + _RECHTSFORM + r"(?![\wäöüß])"
@@ -40,7 +43,8 @@ _ADRESSE = re.compile(
     r"\b(?:(?:Am|An|Im|In|Auf|Zum|Zur|Zu|Bei|Hinter|Unter|Vor|Alte[nr]?|Neue[nr]?|Obere[nr]?|"
     r"Untere[nr]?|Große[nr]?|Grosse[nr]?|Kleine[nr]?|Lange[nr]?|Hohe[nr]?|Breite[nr]?)[- ])*"
     r"[A-ZÄÖÜ]?[\wäöüß\-]*"
-    r"(?:[Ss]traße|[Ss]trasse|[Ss]tr\.|[Ww]eg|[Pp]latz|[Aa]llee|[Gg]asse|[Rr]ing|[Dd]amm|[Uu]fer)"
+    r"(?:[Ss]traße|[Ss]trasse|[Ss]tr\.|[Ww]eg|[Pp]latz|[Aa]llee|[Gg]asse|[Rr]ing|[Dd]amm|[Uu]fer|"
+    r"[Pp]ark|[Hh]of|[Ff]eld|[Cc]haussee)"
     r"\s+\d+[a-z]?\b"
 )
 # Bewusst OHNE Zusatz nach dem Ortsnamen ("am Main", "ob der Tauber"): ein
@@ -182,6 +186,23 @@ def _ersetze_namen(text: str, kandidaten: list[str], tabelle: list, zuordnung: d
     return text
 
 
+def _ersetze_absendername(text: str, absender_name: str | None, tabelle: list, zuordnung: dict) -> str:
+    """Der volle Absendername muss VOR der Firmen-Kurzform fallen.
+
+    Heisst der Absender wie seine Firma ("Andrea Wittmann" / "Wittmann
+    Feinmechanik GmbH"), ersetzte die Firmen-Kurzform sonst zuerst den
+    Nachnamen und aus der Signatur wurde "[NAME_1] [FIRMA_1]" - ein Leck, das
+    Vor- und Nachname wieder trennbar macht. Der Platzhalter wird hier
+    registriert, der spaetere Namensdurchgang greift denselben wieder auf.
+    """
+    if not (absender_name and absender_name.strip()):
+        return text
+    name = absender_name.strip()
+    platz = _platzhalter("NAME", name, tabelle, zuordnung)
+    return _ersetze(text, re.compile(r"\b" + re.escape(name) + r"\b", re.IGNORECASE),
+                    "NAME", tabelle, zuordnung, fest=platz)
+
+
 def _ersetze_firma(text: str, absender_firma: str | None, tabelle: list, zuordnung: dict) -> str:
     """Firmen: erst die Absenderfirma (voll, Gross/Klein egal, plus Kurzform = erstes Wort),
     dann alle Namen mit Rechtsform-Endung im Text."""
@@ -203,6 +224,7 @@ def anonymisiere(text: str, absender_name: str | None = None, absender_firma: st
     tabelle: list[dict] = []
     zuordnung: dict = {}
     text = _ersetze(text, _EMAIL, "EMAIL", tabelle, zuordnung)
+    text = _ersetze_absendername(text, absender_name, tabelle, zuordnung)
     text = _ersetze_firma(text, absender_firma, tabelle, zuordnung)
     text = _ersetze(text, _TELEFON, "TELEFON", tabelle, zuordnung)
     text = _ersetze(text, _ADRESSE, "ADRESSE", tabelle, zuordnung)

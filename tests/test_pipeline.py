@@ -114,6 +114,16 @@ def test_von_zeile_und_auslandstelefon_werden_pseudonymisiert():
     assert "VIM-2200-0417" in gesendet
 
 
+def test_name_und_firma_bleiben_zusammen_nicht_lesbar():
+    """Absender, der wie seine Firma heisst: aus der Signatur darf nicht
+    '[NAME_1] [FIRMA_1]' werden - sonst laesst sich der Nachname zurueckrechnen."""
+    kal = lade_kalender("data/kalender.json")
+    mails = {m["id"]: m for m in lade_mails()}
+    for mail_id in ("m02", "m03", "m09", "m12", "m14"):
+        erg = verarbeite(mails[mail_id], FakeClient(ANTWORT), kal, HEUTE)
+        assert re.search(r"\[NAME_\d+\] \[FIRMA_\d+\]", erg["pseudonym_text"]) is None, mail_id
+
+
 def test_anlagennummern_erreichen_das_modell():
     """Bewusst: Anlagen-/Seriennummern und Fehlercodes sind keine Platzhalter."""
     kal = lade_kalender("data/kalender.json")

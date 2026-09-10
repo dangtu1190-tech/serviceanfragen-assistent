@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Werkstatt-Terminassistent – Demo</title>
 <style>
-  :root { --akzent: #26282e; --rot: #c8102e; --bg: #ffffff; --bg-alt: #f8f9fa; --rand: #d8dbe0; --text: #1c2126; --muted: #5a6472; }
+  :root { --akzent: #0b4f9c; --bg: #ffffff; --bg-alt: #f4f5f7; --rand: #d8dbe0; --text: #1c2126; --muted: #5a6472; }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: -apple-system, Segoe UI, Arial, sans-serif; background: var(--bg-alt); color: var(--text); }
-  header { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 20px; background: var(--akzent); color: #fff; border-bottom: 4px solid var(--rot); }
+  header { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 20px; background: var(--akzent); color: #fff; }
   header .untertitel { font-size: 12px; opacity: .85; margin-top: 2px; }
   header h1 { font-size: 18px; margin: 0; font-weight: 600; }
   #kopf-info { font-size: 13px; text-align: right; }
   .badge { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 12px; color: #fff; }
   .badge.unverarbeitet { background: #7a8290; }
-  .badge.offen { background: var(--rot); }
+  .badge.offen { background: #2563a8; }
   .badge.pruefung_noetig { background: #c1720a; }
   .badge.freigegeben { background: #1a7a3c; }
   .badge.abgelehnt { background: #b3261e; }
@@ -34,7 +34,7 @@
   button { font-family: inherit; font-size: 13px; padding: 6px 10px; border: 1px solid var(--akzent); background: #fff; color: var(--akzent); border-radius: 3px; cursor: pointer; }
   button:hover { background: #e7eefa; }
   button:disabled { opacity: .5; cursor: not-allowed; }
-  button.primaer { background: var(--rot); border-color: var(--rot); color: #fff; }
+  button.primaer { background: var(--akzent); color: #fff; }
   .knopfleiste { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
   .vergleich { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   @media (max-width: 700px) { .vergleich { grid-template-columns: 1fr; } }
@@ -56,7 +56,7 @@
 </head>
 <body>
 <header>
-  <div><h1>Werkstatt-Terminassistent – Demo</h1><div class="untertitel">Eigenprojekt für die Bewerbung bei Autohaus NIX, Wächtersbach. Alle Kundenmails sind erfunden.</div></div>
+  <div><h1>Werkstatt-Terminassistent – Demo</h1><div class="untertitel">Eigenprojekt für Bewerbungen. Alle Kundenmails und Kundendaten sind erfunden.</div></div>
   <div id="kopf-info">lädt …</div>
 </header>
 <div id="ladefehler"></div>

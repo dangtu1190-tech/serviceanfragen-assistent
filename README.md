@@ -161,21 +161,6 @@ Mailanbindung (Posteingang, IMAP/Graph), Login/Benutzerverwaltung,
 Deployment-Automatisierung, eine echte Datenbank. Die Demo arbeitet mit
 JSON-Dateien und manuell eingespielten Testmails.
 
-## 11. Wie ich das im Autohaus umsetzen würde
+## 11. Wie ich das in einem Betrieb umsetzen würde
 
-Klar als Ausblick markiert, keine bestehende Implementierung:
-
-**DMS-Anbindung** — Kunden- und Fahrzeugdaten direkt aus dem
-Dealer-Management-System ziehen, Kennzeichen als Schlüssel, statt Angaben
-aus der Mail zu erraten.
-
-**Freigabeworkflow** — der Entwurf entsteht in der gewohnten Oberfläche des
-Teams, ein Klick sendet die Antwort, ein Protokoll hält fest, wer wann
-freigegeben hat.
-
-**Auslastungssteuerung** — Kapazität je Arbeitsplatz und Qualifikation statt
-eines einzelnen Kalenders, damit ein Reifenwechsel nicht denselben Slot wie
-eine Motorreparatur belegt.
-
-**Sicherheitsrelevante Mängel vorziehen** — bleibt Grundprinzip: Anliegen
-mit Sicherheitsbezug bekommen Vorrang vor der Wunschzeit des Kunden.
+Das Folgende existiert nicht, es ist mein Vorschlag für den nächsten Schritt. Dasselbe Muster passt auf Serviceanfragen, Ersatzteilanfragen und Reklamationen, unabhängig von der Branche. Kunden-, Fahrzeug- oder Anlagendaten kämen aus dem führenden System statt aus der Mail (im Autohaus das Dealer-Management-System, im Anlagenbau das ERP), Kennzeichen oder Auftragsnummer wären der Schlüssel für den Abgleich. Der Sachbearbeiter sähe den Entwurf in seiner gewohnten Oberfläche, bestätigt und sendet, jede Antwort wird mit Absender und Zeitpunkt protokolliert. Dringlichkeit, Kapazität je Arbeitsplatz und Ersatzteilverfügbarkeit könnten die Priorisierung steuern.

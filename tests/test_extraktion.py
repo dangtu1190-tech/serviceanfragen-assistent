@@ -51,6 +51,7 @@ def test_parse_toleriert_fehlende_optionale_felder():
 
 def test_prompt_enthaelt_datum_und_platzhalterregel():
     p = baue_prompt(date(2026, 9, 14))
+    assert "2026-09-14" in p and "[NAME_1]" in p
     assert "[FIRMA_1]" in p and "stillstand" in p and "Seriennummer" in p and "Autohaus" not in p
     assert "Montag" in p and "Monday" not in p
 

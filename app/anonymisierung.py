@@ -1,8 +1,10 @@
 """Pseudonymisierung vor dem Modellaufruf: Platzhalter setzen und zurücksetzen.
 
 Reiner Rechenkern, deterministisch, ohne Modell. Reihenfolge der Muster:
-E-Mail, Kennzeichen, Telefon, Adresse, PLZ+Ort, Namen. Bereits gesetzte
-Platzhalter werden nie erneut angefasst (Text wird an ihnen zerlegt).
+E-Mail, Firma, Telefon, Adresse, PLZ+Ort, Namen. Anlagen-/Seriennummern und
+Fehlercodes werden bewusst nicht ersetzt (keine personenbezogenen Daten, das
+Modell braucht sie). Bereits gesetzte Platzhalter werden nie erneut angefasst
+(Text wird an ihnen zerlegt).
 Bekannte Grenzen: Namen im Fließtext ohne Anrede/Absender/Signatur bleiben.
 Ein allein stehender Nachname, den sich zwei bekannte Personen teilen, bleibt
 ebenfalls stehen — er lässt sich nicht zuordnen (siehe `_mehrdeutige_teile`).
@@ -10,18 +12,21 @@ Das Modul heißt aus historischen Gründen weiter `anonymisierung`.
 """
 import re
 
-PLATZHALTER_MUSTER = re.compile(r"\[(EMAIL|KENNZEICHEN|TELEFON|ADRESSE|ORT|NAME)_(\d+)\]")
+PLATZHALTER_MUSTER = re.compile(r"\[(EMAIL|FIRMA|TELEFON|ADRESSE|ORT|NAME)_(\d+)\]")
 
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
-# Drei Zweige, weil die Mindestzahl der Ziffern vom Trenner abhängt: mit
-# Bindestrich reicht eine Ziffer ("B-A 1"), mit Leerzeichen braucht es zwei,
-# sonst träfe das Muster Fahrzeugmodelle wie "BMW X5". Klein nur mit
-# Bindestrich (sonst träfe "und am 21").
-_KENNZEICHEN = re.compile(
-    r"\b(?:[A-ZÄÖÜ]{1,3}-[A-ZÄÖÜ]{1,2}[- ]?\d{1,4}[EH]?"      # Bindestrich: eine Ziffer reicht
-    r"|[A-ZÄÖÜ]{1,3} [A-ZÄÖÜ]{1,2}[- ]?\d{2,4}[EH]?"           # Leerzeichen: mindestens zwei (sonst "BMW X5")
-    r"|[a-zäöü]{1,3}-[a-zäöü]{1,2}[- ]?\d{1,4}[EH]?)\b"
+_RECHTSFORM = r"(?:GmbH\s*&\s*Co\.\s*KGaA|GmbH\s*&\s*Co\.\s*KG|GmbH|AG|KGaA|KG|SE|OHG|e\.K\.|Ltd\.?|Inc\.?|S\.p\.A\.|S\.A\.|B\.V\.)"
+# Artikel/Pronomen am Satzanfang sind grossgeschrieben wie ein Firmenwort ("Die Roth & Söhne...");
+# ausgeschlossen, sonst friesse das Muster sie mit ("Die GmbH als Rechtsform" waere sonst ein Treffer)
+_FIRMA_SPERRWORT = r"(?:Die|Der|Das|Ein|Eine)"
+_FIRMA_WORT = r"(?!" + _FIRMA_SPERRWORT + r"\b)[A-ZÄÖÜ][\wäöüß.\-]*"
+# bis zu vier grossgeschriebene Woerter oder "&" vor der Rechtsform; mindestens ein Wort
+_FIRMA = re.compile(
+    r"\b(?:(?:" + _FIRMA_WORT + r"|&)\s+){0,4}" + _FIRMA_WORT + r"\s+" + _RECHTSFORM + r"(?![\wäöüß])"
 )
+_RECHTSFORM_WOERTER = {"gmbh", "ag", "kg", "kgaa", "se", "ohg", "co", "co.", "&", "e.k.", "ltd", "ltd.", "inc", "inc.",
+                       "s.p.a.", "s.a.", "b.v.", "und"}
+_RECHTSFORM_ZEILE = re.compile(r"\b" + _RECHTSFORM + r"(?![\wäöüß])")
 # Trennzeichen bewusst ohne \n: eine Nummer am Zeilenende darf die Folgezeile
 # (PLZ+Ort, Datum) nicht mitfressen.
 _TELEFON = re.compile(r"(?<![\d.])(?:\+49|0)[ \t\-/()]*\d(?:[\d \t\-/()]{4,}\d)")
@@ -53,7 +58,8 @@ _GRUSS = re.compile(
     re.IGNORECASE,
 )
 _NAMENSZEILE = re.compile(r"^[A-ZÄÖÜ][\wäöüß\-.]*(?:\s+[A-ZÄÖÜ][\wäöüß\-.]*){0,2}$")
-_KEIN_NAME = {"team", "werkstatt", "zusammen", "autohaus", "service", "gmbh", "ag", "kg", "ohg", "alle", "leute"}
+_KEIN_NAME = {"team", "werkstatt", "zusammen", "autohaus", "service", "gmbh", "ag", "kg", "ohg", "alle", "leute",
+             "firma"}
 
 
 def _ersetze(text: str, muster: re.Pattern, typ: str, tabelle: list, zuordnung: dict,
@@ -106,7 +112,8 @@ def _namenskandidaten(text: str, absender_name: str | None) -> list[str]:
                     folge = folge.strip()
                     woerter = folge.lower().replace(",", " ").split()
                     if _NAMENSZEILE.match(folge) and not any(w in _KEIN_NAME for w in woerter) \
-                            and not PLATZHALTER_MUSTER.search(folge):
+                            and not PLATZHALTER_MUSTER.search(folge) \
+                            and not _RECHTSFORM_ZEILE.search(folge):
                         kandidaten.append(folge)
                     break
     gesehen, eindeutig = set(), []
@@ -159,12 +166,27 @@ def _ersetze_namen(text: str, kandidaten: list[str], tabelle: list, zuordnung: d
     return text
 
 
-def anonymisiere(text: str, absender_name: str | None = None) -> tuple[str, list[dict]]:
+def _ersetze_firma(text: str, absender_firma: str | None, tabelle: list, zuordnung: dict) -> str:
+    """Firmen: erst die Absenderfirma (voll, Gross/Klein egal, plus Kurzform = erstes Wort),
+    dann alle Namen mit Rechtsform-Endung im Text."""
+    if absender_firma and absender_firma.strip():
+        firma = absender_firma.strip()
+        platz = _platzhalter("FIRMA", firma, tabelle, zuordnung)
+        text = _ersetze(text, re.compile(r"(?<!\w)" + re.escape(firma) + r"(?!\w)", re.IGNORECASE),
+                        "FIRMA", tabelle, zuordnung, fest=platz)
+        kurz = firma.split()[0]
+        if len(kurz) >= 4 and kurz.lower() not in _RECHTSFORM_WOERTER:
+            text = _ersetze(text, re.compile(r"(?<!\w)" + re.escape(kurz) + r"(?!\w)", re.IGNORECASE),
+                            "FIRMA", tabelle, zuordnung, fest=platz)
+    return _ersetze(text, _FIRMA, "FIRMA", tabelle, zuordnung)
+
+
+def anonymisiere(text: str, absender_name: str | None = None, absender_firma: str | None = None) -> tuple[str, list[dict]]:
     """Liefert (pseudonymisierter Text, Platzhaltertabelle)."""
     tabelle: list[dict] = []
     zuordnung: dict = {}
     text = _ersetze(text, _EMAIL, "EMAIL", tabelle, zuordnung)
-    text = _ersetze(text, _KENNZEICHEN, "KENNZEICHEN", tabelle, zuordnung)
+    text = _ersetze_firma(text, absender_firma, tabelle, zuordnung)
     text = _ersetze(text, _TELEFON, "TELEFON", tabelle, zuordnung)
     text = _ersetze(text, _ADRESSE, "ADRESSE", tabelle, zuordnung)
     text = _ersetze(text, _ORT, "ORT", tabelle, zuordnung)

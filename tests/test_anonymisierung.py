@@ -23,18 +23,34 @@ def test_telefon_frisst_keine_daten_uhrzeiten_kilometer():
     assert "14.09.2026" in text and "08:30" in text and "85.000 km" in text
 
 
-def test_kennzeichen_varianten():
-    text, tab = anonymisiere("Kennzeichen MKK-AB 1234, AB CD 567, HU-X 99E, F-TR2020, ab-cd 1234")
-    originale = [t["original"] for t in tab if t["typ"] == "KENNZEICHEN"]
-    assert len(originale) == 5
-    for o in originale:
-        assert o not in text
+def test_firma_ueber_rechtsform():
+    text, tab = anonymisiere("Wir sind die Hartmann Wärmebehandlung GmbH. Die Roth & Söhne Metallguss GmbH & Co. KG "
+                             "und die Nordlicht Turbinentechnik AG kennen Sie.")
+    firmen = [t["original"] for t in tab if t["typ"] == "FIRMA"]
+    assert firmen == ["Hartmann Wärmebehandlung GmbH", "Roth & Söhne Metallguss GmbH & Co. KG",
+                      "Nordlicht Turbinentechnik AG"]
+    assert "Hartmann" not in text and "Söhne" not in text and "Nordlicht" not in text
+    assert text.startswith("Wir sind die [FIRMA_1]. Die [FIRMA_2] und die [FIRMA_3] kennen Sie.")
 
 
-def test_fahrzeugmodelle_bleiben():
-    text, tab = anonymisiere("VW T6.1, Toyota RAV4, BMW X5, VW ID.4, Audi A4, HU/AU fällig")
-    assert [t for t in tab if t["typ"] == "KENNZEICHEN"] == []
-    assert "VW T6.1" in text and "RAV4" in text
+def test_absenderfirma_auch_kurzform():
+    text, tab = anonymisiere("hier ist die präzisionsteile menzel ag, wir von Präzisionsteile brauchen Hilfe.",
+                             absender_firma="Präzisionsteile Menzel AG")
+    assert tab[0] == {"typ": "FIRMA", "platzhalter": "[FIRMA_1]", "original": "Präzisionsteile Menzel AG"}
+    assert "menzel" not in text.lower() and "Präzisionsteile" not in text
+    assert text.count("[FIRMA_1]") == 2
+
+
+def test_anlagen_und_seriennummern_bleiben():
+    text, tab = anonymisiere("Anlage VIM 30, SN VIM-3000-0917, Fehlercode F-217, alte Nummer R 03/118, Halle 3, "
+                             "Vakuum 5x10-3 mbar, Baujahr 2003.")
+    assert tab == []
+    assert "VIM-3000-0917" in text and "F-217" in text and "R 03/118" in text and "Halle 3" in text
+
+
+def test_rechtsform_allein_ist_keine_firma():
+    text, tab = anonymisiere("Die GmbH als Rechtsform. Eine AG auch.")
+    assert [t for t in tab if t["typ"] == "FIRMA"] == []
 
 
 def test_adresse_und_ort():
@@ -73,7 +89,7 @@ def test_gleicher_wert_gleicher_platzhalter():
 
 
 def test_platzhalter_werden_nicht_erneut_ersetzt():
-    text, tab = anonymisiere("Herr Weber, Tel 0176 12345678, Kennzeichen AB-CD 1234")
+    text, tab = anonymisiere("Herr Weber, Tel 0176 12345678, Firma Weber Stahl GmbH")
     text2, tab2 = anonymisiere(text)
     assert text2 == text
     assert tab2 == []
@@ -89,8 +105,8 @@ def test_zuruecksetzen_rekursiv():
 
 
 def test_platzhalter_muster():
-    assert PLATZHALTER_MUSTER.fullmatch("[KENNZEICHEN_12]")
-    assert not PLATZHALTER_MUSTER.fullmatch("[name_1]")
+    assert PLATZHALTER_MUSTER.fullmatch("[FIRMA_12]")
+    assert not PLATZHALTER_MUSTER.fullmatch("[KENNZEICHEN_1]")
 
 
 def test_adresse_frisst_kein_folgeleerzeichen():

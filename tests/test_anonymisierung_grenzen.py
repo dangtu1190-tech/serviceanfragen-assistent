@@ -1,4 +1,4 @@
-"""Grenzfälle der Pseudonymisierung: Zeilenumbrüche, kurze Kennzeichen,
+"""Grenzfälle der Pseudonymisierung: Zeilenumbrüche, Firmen mit Rechtsform,
 Ortszusätze, mehrdeutige Nachnamen, ASCII-Grußformeln."""
 from app.anonymisierung import anonymisiere, zuruecksetzen
 
@@ -23,17 +23,17 @@ def test_zwei_nummern_in_zwei_zeilen_sind_zwei_eintraege():
     assert text == "Telefon [TELEFON_1]\n[TELEFON_2]"
 
 
-def test_einstellige_kennzeichen_mit_bindestrich():
-    text, tab = anonymisiere("AB-C 1, B-A 1, M-X 2")
-    originale = [t["original"] for t in tab if t["typ"] == "KENNZEICHEN"]
-    assert originale == ["AB-C 1", "B-A 1", "M-X 2"]
-    assert text == "[KENNZEICHEN_1], [KENNZEICHEN_2], [KENNZEICHEN_3]"
+def test_firma_frisst_keine_folgeworte():
+    text, tab = anonymisiere("Die Kolb Zahnradfabrik GmbH meldet: Halle 3 steht. Bitte Rückruf.")
+    assert text == "Die [FIRMA_1] meldet: Halle 3 steht. Bitte Rückruf."
 
 
-def test_kurze_modellnamen_bleiben_trotz_einstelliger_kennzeichen():
-    text, tab = anonymisiere("BMW X5, VW T6.1, VW ID.4, Audi A4")
-    assert [t for t in tab if t["typ"] == "KENNZEICHEN"] == []
-    assert text == "BMW X5, VW T6.1, VW ID.4, Audi A4"
+def test_firma_in_signatur_und_email_domain():
+    text, tab = anonymisiere("Gruß\nAndrea Wittmann\nElektro Wittmann GmbH\na.wittmann@elektro-wittmann.example\n06051 881720",
+                             absender_name="Andrea Wittmann", absender_firma="Elektro Wittmann GmbH")
+    assert "Wittmann" not in text and "elektro-wittmann" not in text
+    typen = [t["typ"] for t in tab]
+    assert "FIRMA" in typen and "NAME" in typen and "EMAIL" in typen and "TELEFON" in typen
 
 
 def test_ort_zusatz_frisst_keine_folgeworte():
@@ -56,10 +56,15 @@ def test_gemeinsamer_nachname_bleibt_allein_stehen():
 
 
 def test_eindeutiger_nachname_wird_weiter_ersetzt():
-    """Dokumentierte Grenze: der Nachname wird zum vollen Namen zurückgesetzt."""
-    text, tab = anonymisiere("Elektro Wittmann GmbH", absender_name="Andrea Wittmann")
-    assert text == "Elektro [NAME_1] GmbH"
-    assert zuruecksetzen(text, tab) == "Elektro Andrea Wittmann GmbH"
+    """Dokumentierte Grenze: der Nachname wird zum vollen Namen zurückgesetzt.
+
+    "Elektro Wittmann GmbH" (das frühere Beispiel hier) ist seit der
+    Firmenerkennung selbst ein FIRMA-Treffer (siehe
+    test_firma_in_signatur_und_email_domain) — dieser Test prueft die reine
+    Namensteil-Ersetzung deshalb an einem Satz ohne Rechtsform."""
+    text, tab = anonymisiere("Anruf von Wittmann wegen der Anlage.", absender_name="Andrea Wittmann")
+    assert text == "Anruf von [NAME_1] wegen der Anlage."
+    assert zuruecksetzen(text, tab) == "Anruf von Andrea Wittmann wegen der Anlage."
 
 
 def test_ascii_grussformel_findet_die_signatur():

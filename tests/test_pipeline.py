@@ -95,6 +95,25 @@ def test_kein_original_erreicht_das_modell():
             assert not muster.search(gesendet), (mail["id"], wert)
 
 
+def test_von_zeile_und_auslandstelefon_werden_pseudonymisiert():
+    """Regression: Vorname in zitierter 'Von:'-Zeile (m06) und internationale
+    Telefonnummer ohne +49 (m07) duerfen den Prompt nicht erreichen; die
+    Seriennummer bleibt sichtbar."""
+    kal = lade_kalender("data/kalender.json")
+    mails = {m["id"]: m for m in lade_mails()}
+
+    fake = FakeClient(ANTWORT)
+    verarbeite(mails["m06"], fake, kal, HEUTE)
+    gesendet = fake.aufrufe[0]
+    assert "Bernd" not in gesendet and "Kolb" not in gesendet
+
+    fake = FakeClient(ANTWORT)
+    verarbeite(mails["m07"], fake, kal, HEUTE)
+    gesendet = fake.aufrufe[0]
+    assert "+44 1234 567890" not in gesendet
+    assert "VIM-2200-0417" in gesendet
+
+
 def test_anlagennummern_erreichen_das_modell():
     """Bewusst: Anlagen-/Seriennummern und Fehlercodes sind keine Platzhalter."""
     kal = lade_kalender("data/kalender.json")

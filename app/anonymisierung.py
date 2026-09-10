@@ -28,8 +28,10 @@ _RECHTSFORM_WOERTER = {"gmbh", "ag", "kg", "kgaa", "se", "ohg", "co", "co.", "&"
                        "s.p.a.", "s.a.", "b.v.", "und"}
 _RECHTSFORM_ZEILE = re.compile(r"\b" + _RECHTSFORM + r"(?![\wäöüß])")
 # Trennzeichen bewusst ohne \n: eine Nummer am Zeilenende darf die Folgezeile
-# (PLZ+Ort, Datum) nicht mitfressen.
-_TELEFON = re.compile(r"(?<![\d.])(?:\+49|0)[ \t\-/()]*\d(?:[\d \t\-/()]{4,}\d)")
+# (PLZ+Ort, Datum) nicht mitfressen. Landesvorwahl beliebig (+44, +33, ...),
+# nicht nur +49 — der Lookbehind und die Pflicht auf "+"/"0" am Anfang
+# verhindern trotzdem einen Treffer mitten in Anlagen-/Seriennummern.
+_TELEFON = re.compile(r"(?<![\d.])(?:\+\d{1,3}|0)[ \t\-/()]*\d(?:[\d \t\-/()]{4,}\d)")
 # "Musterstraße 12a", "Am Alten Weg 3", "Am Bahndamm 7": Vorworte mit Großbuchstaben,
 # Kern darf leer sein, damit "Weg"/"Platz" als eigenes Wort trifft
 # Vorworte nur aus einer Whitelist typischer Straßenvorworte, Kern darf Bindestriche enthalten,
@@ -49,6 +51,11 @@ _ADRESSE = re.compile(
 _ORT = re.compile(r"\b\d{5}\s+[A-ZÄÖÜ][a-zäöüß]+(?:[- ][A-ZÄÖÜ][a-zäöüß]+)*")
 _ANREDE = re.compile(r"\b(?:Herrn?|Frau|Hr\.|Fr\.)\s+([A-ZÄÖÜ][\wäöüß\-]+(?:\s+[A-ZÄÖÜ][\wäöüß\-]+)?)")
 _HALLO = re.compile(r"^\s*(?:Hallo|Hi|Servus|Moin|Guten Tag)\s+([A-ZÄÖÜ][\wäöüß\-]+)\s*[,!]?\s*$", re.MULTILINE)
+# Kopfzeile einer zitierten/weitergeleiteten Mail ("> Von: Bernd Kolb"): der
+# Vorname dort ist sonst kein Namenskandidat, nur der Nachname faellt per
+# Firmen-Kurzform. Rollenwoerter wie "Von: Instandhaltung" landen ebenfalls
+# hier und werden ueber _KEIN_NAME wieder verworfen.
+_VON_ZEILE = re.compile(r"^[\s>]*(?:Von|From):\s+([A-ZÄÖÜ][\wäöüß\-]+(?:\s+[A-ZÄÖÜ][\wäöüß\-]+)?)\s*$", re.MULTILINE)
 _GRUSS = re.compile(
     r"^\s*(?:Viele|Liebe|Beste|Schöne|Schoene|Herzliche|Freundliche)?\s*"
     r"(?:Mit freundlichen Grüßen|Mit freundlichen Gruessen|Mit freundlichem Gruß|"
@@ -59,7 +66,9 @@ _GRUSS = re.compile(
 )
 _NAMENSZEILE = re.compile(r"^[A-ZÄÖÜ][\wäöüß\-.]*(?:\s+[A-ZÄÖÜ][\wäöüß\-.]*){0,2}$")
 _KEIN_NAME = {"team", "werkstatt", "zusammen", "autohaus", "service", "gmbh", "ag", "kg", "ohg", "alle", "leute",
-             "firma"}
+             "firma", "instandhaltung", "schichtführer", "schichtfuehrer", "einkauf", "vertrieb", "werksleitung",
+             "geschäftsführung", "geschaeftsfuehrung", "technik", "produktion", "qualitätssicherung",
+             "serviceteam", "kundendienst"}
 
 
 def _ersetze(text: str, muster: re.Pattern, typ: str, tabelle: list, zuordnung: dict,
@@ -98,12 +107,19 @@ def _platzhalter(typ: str, original: str, tabelle: list, zuordnung: dict) -> str
     return zuordnung[schluessel]
 
 
-def _namenskandidaten(text: str, absender_name: str | None) -> list[str]:
+def _namenskandidaten(text: str, absender_name: str | None, roh_text: str | None = None) -> list[str]:
+    """`roh_text`: der Text vor Firmen-/Telefon-/Adress-Ersetzung. Die Von:-Zeile
+    braucht ihn, weil ein Nachname, der zugleich Firmen-Kurzform ist (z. B.
+    "Von: Bernd Kolb" bei Firma "Kolb ..."), bis hierher schon zu
+    "Bernd [FIRMA_1]" geworden ist — das Namensmuster faende dort keinen
+    zweiten Namensteil mehr und liesse den Vornamen ungeschuetzt stehen."""
     kandidaten = []
     if absender_name and absender_name.strip():
         kandidaten.append(absender_name.strip())
     kandidaten += _ANREDE.findall(text)
     kandidaten += [n for n in _HALLO.findall(text) if n.lower() not in _KEIN_NAME]
+    kandidaten += [n for n in _VON_ZEILE.findall(roh_text if roh_text is not None else text)
+                   if n.lower() not in _KEIN_NAME and not any(w.lower() in _KEIN_NAME for w in n.split())]
     zeilen = text.splitlines()
     for i, zeile in enumerate(zeilen):
         if _GRUSS.match(zeile):
@@ -183,6 +199,7 @@ def _ersetze_firma(text: str, absender_firma: str | None, tabelle: list, zuordnu
 
 def anonymisiere(text: str, absender_name: str | None = None, absender_firma: str | None = None) -> tuple[str, list[dict]]:
     """Liefert (pseudonymisierter Text, Platzhaltertabelle)."""
+    roh = text
     tabelle: list[dict] = []
     zuordnung: dict = {}
     text = _ersetze(text, _EMAIL, "EMAIL", tabelle, zuordnung)
@@ -190,7 +207,7 @@ def anonymisiere(text: str, absender_name: str | None = None, absender_firma: st
     text = _ersetze(text, _TELEFON, "TELEFON", tabelle, zuordnung)
     text = _ersetze(text, _ADRESSE, "ADRESSE", tabelle, zuordnung)
     text = _ersetze(text, _ORT, "ORT", tabelle, zuordnung)
-    text = _ersetze_namen(text, _namenskandidaten(text, absender_name), tabelle, zuordnung)
+    text = _ersetze_namen(text, _namenskandidaten(text, absender_name, roh), tabelle, zuordnung)
     return text, tabelle
 
 

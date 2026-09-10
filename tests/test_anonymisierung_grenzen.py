@@ -76,3 +76,21 @@ def test_ascii_grussformel_findet_die_signatur():
 def test_ascii_grussformel_lange_variante():
     text, tab = anonymisiere("Bitte um Termin.\n\nMit freundlichen Gruessen\nJens Ohlmann")
     assert [t["original"] for t in tab if t["typ"] == "NAME"] == ["Jens Ohlmann"]
+
+
+def test_vorname_aus_zitierter_von_zeile():
+    text, tab = anonymisiere(
+        "Bitte weiterleiten.\n\n> Von: Bernd Kolb\n> Petra, bitte an den Hersteller.\n>\n"
+        "> > Von: Instandhaltung\n> > Bernd, das Thermoelement zeigt zu wenig.",
+        absender_name="Petra Schulz", absender_firma="Kolb Zahnradfabrik GmbH")
+    assert "Bernd" not in text and "Kolb" not in text and "Petra" not in text
+    assert "Instandhaltung" in text          # Rollenwort ist kein Name
+    assert "Thermoelement" in text
+
+
+def test_internationale_telefonnummer():
+    text, tab = anonymisiere(
+        "Phone +44 1234 567890 or +33 1 23 45 67 89. Serial VIM-3000-0917, part 4711-0815-22, R 03/118.")
+    tel = [t["original"] for t in tab if t["typ"] == "TELEFON"]
+    assert tel == ["+44 1234 567890", "+33 1 23 45 67 89"]
+    assert "VIM-3000-0917" in text and "4711-0815-22" in text and "R 03/118" in text

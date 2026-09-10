@@ -54,6 +54,11 @@ def test_prompt_enthaelt_datum_und_platzhalterregel():
     assert "2026-09-14" in p and "[NAME_1]" in p
     assert "[FIRMA_1]" in p and "stillstand" in p and "Seriennummer" in p and "Autohaus" not in p
     assert "Montag" in p and "Monday" not in p
+    # Befunde des Gesamt-Reviews: Stillstand nur bei stehender Produktion,
+    # Anlagennummer ins Nummernfeld, Personenname ohne Firmenplatzhalter
+    assert "Eine geplante Wartung ist kein Stillstand" in p
+    assert "anlage.nummer" in p and "anlage.typ" in p
+    assert "nur der Personenname" in p
 
 
 def test_extrahiere_sendet_nur_uebergebenen_text():

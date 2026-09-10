@@ -37,6 +37,18 @@ def test_qualifikation_aus_anliegen():
     assert qualifikation_fuer(_ex()) == "mechanik"
 
 
+def test_produktwort_vakuumofen_ist_keine_vakuumstoerung():
+    """Der Anlagenname enthaelt fast immer "Vakuum"; die Qualifikation muss
+    sich am Fehlerbild entscheiden, nicht am Maschinenwort."""
+    elektrik = _ex(anliegen=[{"kategorie": "stoerung", "beschreibung":
+                              "Heizung des Vakuumofens VK-3600-0304 fällt aus, Sicherung im Schaltschrank löst aus"}])
+    assert qualifikation_fuer(elektrik) == "elektrik"
+    wartung = _ex(anliegen=[{"kategorie": "wartung", "beschreibung": "Jahreswartung am Vakuumhärteofen"}])
+    assert qualifikation_fuer(wartung) == "mechanik"
+    vakuum = _ex(anliegen=[{"kategorie": "stoerung", "beschreibung": "Vakuum wird nicht erreicht, 5x10-2 mbar"}])
+    assert qualifikation_fuer(vakuum) == "vakuumtechnik"
+
+
 def test_ohne_wunsch_ab_morgen_mit_passendem_techniker():
     t = finde_termin(_kal(), _ex(anliegen=[{"kategorie": "stoerung", "beschreibung": "Fehlercode E12 Steuerung"}]), HEUTE)
     # T1 ist die ganze Woche belegt, T3 hat Steuerung und ist am 15.09. frei

@@ -19,7 +19,12 @@ TECHNIKER = [
     {"kuerzel": "T5", "name": "Techniker 5", "qualifikationen": ["vakuumtechnik"]},
 ]
 _STEUERUNG = re.compile(r"fehlercode|steuerung|sps|bedienfeld|display|software|touch|f-\d|e\d\d", re.I)
-_VAKUUM = re.compile(r"vakuum|pumpe|leck|druck|mbar", re.I)
+# "Vakuum" ist hier das Produktwort des Herstellers und steht in fast jedem
+# Anlagennamen (Vakuumofen, Vakuumhaerteofen, Vakuumloetofen, Vakuumanlage).
+# Als Qualifikationswort gewertet, landete jede Heizungsstoerung an einem
+# Vakuumofen bei der Vakuumtechnik statt bei der Elektrik. Es zaehlt deshalb
+# nur, wenn kein Maschinenwort folgt.
+_VAKUUM = re.compile(r"vakuum(?!(?:härte|haerte|löt|loet|glüh|glueh)?ofen|anlage)|pumpe|leck|mbar", re.I)
 _ELEKTRIK = re.compile(r"heiz|elektr|sicherung|thermoelement|strom|trafo|schütz", re.I)
 
 

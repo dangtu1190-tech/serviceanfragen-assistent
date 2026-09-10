@@ -27,9 +27,18 @@ Was ich im Gespräch live zeige (5 Minuten):
 4. Mail m06 (WG: WG: Thermoelement Ofen 2) öffnen: eine Weiterleitung mit
    drei Zitatebenen. Die eigentliche Anfrage steht in der untersten Ebene
    (Thermoelement, SN VK-2200-0144), nicht im obersten Text von Petra
-   Schulz. Zusätzlich zeigen, dass „Von: Bernd Kolb" als zweite Person
-   erkannt wird, obwohl der Nachname „Kolb" zugleich die Firmen-Kurzform ist
-   und im laufenden Text bereits als Firma maskiert wäre.
+   Schulz. Auf die Zeile „Von: [NAME_2] [FIRMA_1]" zeigen: Aus „Von: Bernd
+   Kolb" werden im pseudonymisierten Text zwei verschiedene Platzhalter,
+   erkannt über zwei getrennte Mechanismen. „Bernd" wird über das
+   Von:-Zeilen-Muster als Vorname erkannt und bekommt denselben Platzhalter
+   wie die spätere Anrede „[NAME_2], das Thermoelement …". „Kolb" dagegen
+   wird gar nicht als Namensteil erkannt, sondern schon vorher als
+   Firmen-Kurzform von „Kolb Zahnradfabrik GmbH" maskiert, weil die
+   Firmenerkennung vor der Namenserkennung läuft. Zum Vergleich die Zeilen
+   „Von: Instandhaltung" und „Von: Schichtführer" in den tieferen
+   Zitatebenen zeigen: Die bleiben unverändert sichtbar, weil Rollenwörter
+   wie „Instandhaltung" und „Schichtführer" auf einer Ausschlussliste
+   stehen und nicht als Name durchgehen.
 
 5. Mail m07 (Vacuum leak VIM 22, line down) öffnen: eine englische Mail. Das
    Modell versteht sie trotzdem und liefert die deutschen Kategoriewerte

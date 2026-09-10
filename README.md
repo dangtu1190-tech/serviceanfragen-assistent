@@ -57,7 +57,7 @@ unbesehen auf andere Domänen übertragen ließe.
 
 Ehrliche Grenzen: Namen, die im Fließtext ohne Anrede, Absenderfeld oder
 Signatur auftauchen, werden nicht erkannt. Signaturen, die durchgehend klein
-geschrieben sind, ebenfalls nicht — die Namenszeile wird über den
+geschrieben sind, ebenfalls nicht, denn die Namenszeile wird über den
 Großbuchstaben am Wortanfang gefunden. Teilen sich zwei erkannte Personen
 einen Nachnamen, bleibt ein allein stehender Nachname stehen. Er ist nicht
 zuordenbar, und ein geratener Platzhalter setzte die falsche Person wieder
@@ -194,7 +194,7 @@ python -m pytest -q
 
 68 Tests laufen ohne Netzzugriff und ohne Schlüssel (Fake-Client). Ein
 Test, der wirklich gegen ein Modell fragt, wird nur ausgeführt, wenn
-`LLM_API_KEY` gesetzt ist — sonst übersprungen (skip), nie fehlgeschlagen.
+`LLM_API_KEY` gesetzt ist, sonst übersprungen (skip), nie fehlgeschlagen.
 
 Ergebnisse regenerieren sich mit:
 

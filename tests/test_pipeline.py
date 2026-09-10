@@ -114,6 +114,38 @@ def test_von_zeile_und_auslandstelefon_werden_pseudonymisiert():
     assert "VIM-2200-0417" in gesendet
 
 
+# Erwartete Platzhaltertypen je Mail, aus dem Mailtext abgelesen (nicht aus dem
+# Ergebnis der Pseudonymisierung erzeugt). FIRMA und NAME stehen ueberall, weil
+# Absenderfirma und Absendername immer einen Platzhalter bekommen. Ein
+# uebersehenes Feld - etwa die Adresse "Am Gewerbepark 12" in m01 - laesst diesen
+# Test scheitern, ein Test gegen die eigene Ausgabe koennte das nicht.
+ERWARTETE_TYPEN = {
+    "m01": {"FIRMA", "NAME", "ADRESSE", "ORT", "TELEFON"},
+    "m02": {"FIRMA", "NAME", "TELEFON"},
+    "m03": {"FIRMA", "NAME"},
+    "m04": {"FIRMA", "NAME", "ADRESSE", "ORT"},
+    "m05": {"FIRMA", "NAME", "ADRESSE", "ORT", "TELEFON"},
+    "m06": {"FIRMA", "NAME"},
+    "m07": {"FIRMA", "NAME", "TELEFON"},
+    "m08": {"FIRMA", "NAME", "TELEFON"},
+    "m09": {"FIRMA", "NAME", "ADRESSE", "ORT", "TELEFON"},
+    "m10": {"FIRMA", "NAME", "TELEFON"},
+    "m11": {"FIRMA", "NAME"},
+    "m12": {"FIRMA", "NAME", "ADRESSE", "ORT", "TELEFON"},
+    "m13": {"FIRMA", "NAME", "TELEFON"},
+    "m14": {"FIRMA", "NAME"},
+    "m15": {"FIRMA", "NAME", "ADRESSE", "ORT", "TELEFON"},
+}
+
+
+def test_erwartete_platzhaltertypen_je_mail():
+    kal = lade_kalender("data/kalender.json")
+    for mail in lade_mails():
+        erg = verarbeite(mail, FakeClient(ANTWORT), kal, HEUTE)
+        typen = {e["typ"] for e in erg["platzhalter"]}
+        assert typen == ERWARTETE_TYPEN[mail["id"]], mail["id"]
+
+
 def test_name_und_firma_bleiben_zusammen_nicht_lesbar():
     """Absender, der wie seine Firma heisst: aus der Signatur darf nicht
     '[NAME_1] [FIRMA_1]' werden - sonst laesst sich der Nachname zurueckrechnen."""

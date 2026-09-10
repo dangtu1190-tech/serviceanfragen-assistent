@@ -1,4 +1,4 @@
-"""FastAPI-Server der Demo. Start: uvicorn app.main:app --reload --port 8040"""
+"""FastAPI-Server des Serviceanfragen-Assistenten. Start: uvicorn app.main:app --reload --port 8040"""
 from datetime import date, datetime
 from pathlib import Path
 from typing import Literal
@@ -17,6 +17,7 @@ DOCS = Path(__file__).resolve().parent.parent / "docs"
 
 class NeueMail(BaseModel):
     absender_name: str
+    absender_firma: str = ""
     absender_email: str = ""
     betreff: str = ""
     text: str
@@ -43,9 +44,9 @@ def _mail(mail_id: str) -> dict:
 
 
 def _gib_alten_termin_frei(ergebnis: dict | None) -> None:
-    """Gibt den Halbtag eines bereits freigegebenen Termins zurück.
+    """Gibt den Techniker eines bereits freigegebenen Termins zurück.
 
-    Ohne das bliebe der alte Halbtag beim erneuten Verarbeiten für immer
+    Ohne das bliebe der alte Techniker beim erneuten Verarbeiten für immer
     belegt: das Ergebnis wird überschrieben, der Kalendereintrag nicht.
     """
     if not ergebnis or ergebnis.get("status") != "freigegeben":
@@ -54,12 +55,12 @@ def _gib_alten_termin_frei(ergebnis: dict | None) -> None:
     if not termin:
         return
     kalender = lade_kalender(_kalender_pfad())
-    if gebe_frei(kalender, termin["datum"], termin["halbtag"]):
+    if gebe_frei(kalender, termin["datum"], termin["techniker"]):
         speichere_kalender(kalender, _kalender_pfad())
 
 
 def erzeuge_app(client_factory=None) -> FastAPI:
-    app = FastAPI(title="Werkstatt-Terminassistent")
+    app = FastAPI(title="Serviceanfragen-Assistent")
     konfig = lade_konfig()
     factory = client_factory or (lambda: LLMClient(konfig))
 
@@ -77,7 +78,8 @@ def erzeuge_app(client_factory=None) -> FastAPI:
     @app.get("/api/mails")
     def mails():
         ergebnisse = speicher.lade_ergebnisse()
-        return [{"id": m["id"], "absender_name": m["absender_name"], "betreff": m["betreff"],
+        return [{"id": m["id"], "absender_name": m["absender_name"],
+                 "absender_firma": m.get("absender_firma", ""), "betreff": m["betreff"],
                  "empfangen": m["empfangen"],
                  "status": ergebnisse.get(m["id"], {}).get("status", "unverarbeitet")}
                 for m in speicher.lade_mails()]
@@ -119,13 +121,13 @@ def erzeuge_app(client_factory=None) -> FastAPI:
             kalender = lade_kalender(_kalender_pfad())
             geaendert = False
             if aenderung.status == "freigegeben":
-                geaendert = belege(kalender, termin["datum"], termin["halbtag"])
+                geaendert = belege(kalender, termin["datum"], termin["techniker"])
                 if not geaendert:
-                    # Halbtag inzwischen voll: Status bleibt, sonst stünde ein
-                    # freigegebener Termin ohne Kapazität im Kalender.
-                    raise HTTPException(409, "Halbtag ist voll, Termin kann nicht freigegeben werden")
+                    # Techniker inzwischen anderweitig verplant: Status bleibt,
+                    # sonst stünde ein freigegebener Termin ohne Techniker im Kalender.
+                    raise HTTPException(409, "Techniker ist an dem Tag inzwischen belegt, Termin kann nicht freigegeben werden")
             elif vorher == "freigegeben":
-                geaendert = gebe_frei(kalender, termin["datum"], termin["halbtag"])
+                geaendert = gebe_frei(kalender, termin["datum"], termin["techniker"])
             if geaendert:
                 speichere_kalender(kalender, _kalender_pfad())
         if aenderung.antwort_entwurf is not None:

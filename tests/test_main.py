@@ -10,14 +10,14 @@ from app.llm_client import FakeClient
 from app.main import erzeuge_app
 
 ANTWORT = {
-    "kunde": {"anrede": "Frau", "name": "[NAME_1]"},
-    "fahrzeug": {"marke": "Toyota", "modell": "Corolla", "baujahr": None, "kilometerstand": None},
-    "kennzeichen": "[KENNZEICHEN_1]",
-    "anliegen": [{"kategorie": "wartung", "beschreibung": "Inspektion"}],
+    "kunde": {"firma": "[FIRMA_1]"},
+    "ansprechpartner": {"anrede": "Herr", "name": "[NAME_1]"},
+    "anlage": {"typ": "Vakuumhärteofen", "nummer": None, "baujahr": 2019},
+    "anliegen": [{"kategorie": "wartung", "beschreibung": "Jahreswartung"}],
     "dringlichkeit": "mittel",
-    "wunschzeitraum": {"von": "2026-09-21", "bis": "2026-09-22", "tageszeit": "vormittag"},
-    "zustaendigkeit": "werkstatt",
-    "unklarheiten": [],
+    "wunschzeitraum": {"von": "2026-09-21", "bis": "2026-09-25", "tageszeit": "egal"},
+    "zustaendigkeit": "service",
+    "unklarheiten": ["Anlagennummer fehlt"],
 }
 
 
@@ -48,23 +48,25 @@ def test_mails_liste_und_detail(client):
 
 def test_verarbeiten_und_freigeben(client):
     r = client.post("/api/mails/m01/verarbeiten").json()
-    assert r["status"] == "offen" and r["extraktion"]["kunde"]["name"] == "Katrin Vollmer"
+    assert r["status"] == "offen" and r["extraktion"]["ansprechpartner"]["name"] == "Frank Lindemann"
     assert client.get("/api/mails").json()[0]["status"] == "offen"
     r = client.post("/api/mails/m01/status", json={"status": "freigegeben", "antwort_entwurf": "Geändert"}).json()
     assert r["status"] == "freigegeben" and r["antwort_entwurf"] == "Geändert"
     kal = json.loads((speicher.DATEN / "kalender.json").read_text(encoding="utf-8"))
     tag = [t for t in kal["tage"] if t["datum"] == "2026-09-21"][0]
-    assert tag["halbtage"]["vormittag"]["belegt"] == 1
+    assert "T2" in tag["belegt"]
     assert client.post("/api/mails/m01/status", json={"status": "kaputt"}).status_code == 422
 
 
 def test_neue_mail_anlegen(client):
-    r = client.post("/api/mails", json={"absender_name": "Test Person", "absender_email": "t@example.org",
+    r = client.post("/api/mails", json={"absender_name": "Test Person", "absender_firma": "Testfirma GmbH",
+                                        "absender_email": "t@example.org",
                                         "betreff": "Test", "text": "Hallo, Test Person hier."}).json()
     assert r["id"] == "m16"
     assert len(client.get("/api/mails").json()) == 16
     e = client.post("/api/mails/m16/verarbeiten").json()
     assert "Test Person" not in e["pseudonym_text"]
+    assert "Testfirma" not in e["pseudonym_text"]
 
 
 def test_freigabe_zyklus_belegt_nur_einmal(client):
@@ -73,43 +75,44 @@ def test_freigabe_zyklus_belegt_nur_einmal(client):
         assert client.post("/api/mails/m01/status", json={"status": status}).status_code == 200
     kal = json.loads((speicher.DATEN / "kalender.json").read_text(encoding="utf-8"))
     tag = [t for t in kal["tage"] if t["datum"] == "2026-09-21"][0]
-    assert tag["halbtage"]["vormittag"]["belegt"] == 0
+    assert "T2" not in tag["belegt"]
     client.post("/api/mails/m01/status", json={"status": "freigegeben"})
     kal = json.loads((speicher.DATEN / "kalender.json").read_text(encoding="utf-8"))
-    assert [t for t in kal["tage"] if t["datum"] == "2026-09-21"][0]["halbtage"]["vormittag"]["belegt"] == 1
+    tag = [t for t in kal["tage"] if t["datum"] == "2026-09-21"][0]
+    assert "T2" in tag["belegt"]
 
 
-def test_neu_verarbeiten_gibt_freigegebenen_halbtag_zurueck(client):
-    """Ohne Freigabe des alten Termins bliebe der Halbtag für immer belegt."""
-    def belegt() -> int:
+def test_neu_verarbeiten_gibt_freigegebenen_termin_zurueck(client):
+    """Ohne Freigabe des alten Termins bliebe der Techniker für immer belegt."""
+    def belegt() -> bool:
         kal = json.loads((speicher.DATEN / "kalender.json").read_text(encoding="utf-8"))
         tag = [t for t in kal["tage"] if t["datum"] == "2026-09-21"][0]
-        return tag["halbtage"]["vormittag"]["belegt"]
+        return "T2" in tag["belegt"]
 
     client.post("/api/mails/m01/verarbeiten")
     client.post("/api/mails/m01/status", json={"status": "freigegeben"})
-    assert belegt() == 1
+    assert belegt()
     r = client.post("/api/mails/m01/verarbeiten").json()
     assert r["status"] == "offen"
-    assert belegt() == 0
+    assert not belegt()
     client.post("/api/mails/m01/status", json={"status": "freigegeben"})
-    assert belegt() == 1
+    assert belegt()
 
 
-def test_freigabe_bei_vollem_halbtag_wird_abgelehnt(client):
-    """Der Vorschlag reserviert nichts: bis zur Freigabe kann der Halbtag vollaufen."""
+def test_freigabe_bei_belegtem_techniker_wird_abgelehnt(client):
+    """Der Vorschlag reserviert nichts: bis zur Freigabe kann der Techniker anderweitig verplant werden."""
     pfad = speicher.DATEN / "kalender.json"
     termin = client.post("/api/mails/m01/verarbeiten").json()["termin"]
 
     kal = json.loads(pfad.read_text(encoding="utf-8"))
-    halbtag = [t for t in kal["tage"] if t["datum"] == termin["datum"]][0]["halbtage"][termin["halbtag"]]
-    halbtag["belegt"] = halbtag["kapazitaet"]
+    tag = [t for t in kal["tage"] if t["datum"] == termin["datum"]][0]
+    tag["belegt"] += ["T2", "T4"]
     pfad.write_text(json.dumps(kal, ensure_ascii=False, indent=2), encoding="utf-8")
 
     r = client.post("/api/mails/m01/status", json={"status": "freigegeben"})
     assert r.status_code == 409
-    assert r.json()["detail"] == "Halbtag ist voll, Termin kann nicht freigegeben werden"
+    assert r.json()["detail"] == "Techniker ist an dem Tag inzwischen belegt, Termin kann nicht freigegeben werden"
     assert client.get("/api/mails/m01").json()["ergebnis"]["status"] == "offen"
     kal = json.loads(pfad.read_text(encoding="utf-8"))
-    halbtag = [t for t in kal["tage"] if t["datum"] == termin["datum"]][0]["halbtage"][termin["halbtag"]]
-    assert halbtag["belegt"] == halbtag["kapazitaet"]
+    tag = [t for t in kal["tage"] if t["datum"] == termin["datum"]][0]
+    assert tag["belegt"].count("T2") == 1

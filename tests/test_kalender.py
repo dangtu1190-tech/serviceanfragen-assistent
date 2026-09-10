@@ -64,6 +64,11 @@ def test_vertrieb_und_nur_ersatzteil_kein_termin():
     assert finde_termin(_kal(), _ex(anliegen=[{"kategorie": "ersatzteil", "beschreibung": "Heizelement"}]), HEUTE) is None
 
 
+def test_bis_vor_von_wird_offener_zeitraum():
+    t = finde_termin(_kal(), _ex(wunschzeitraum={"von": "2026-09-25", "bis": "2026-09-14", "tageszeit": "egal"}), HEUTE)
+    assert t["datum"] == "2026-09-25" and t["hinweis"] == ""
+
+
 def test_belegen_und_freigeben():
     kal = _kal()
     assert belege(kal, "2026-09-15", "T3") is True

@@ -7,13 +7,13 @@ from app.extraktion import Extraktion, ExtraktionsFehler, baue_prompt, extrahier
 from app.llm_client import FakeClient, lade_konfig
 
 GUELTIG = {
-    "kunde": {"anrede": "Herr", "name": "[NAME_1]"},
-    "fahrzeug": {"marke": "Toyota", "modell": "Corolla", "baujahr": 2019, "kilometerstand": 85000},
-    "kennzeichen": "[KENNZEICHEN_1]",
-    "anliegen": [{"kategorie": "wartung", "beschreibung": "Inspektion"}],
-    "dringlichkeit": "mittel",
-    "wunschzeitraum": {"von": "2026-09-21", "bis": "2026-09-25", "tageszeit": "vormittag"},
-    "zustaendigkeit": "werkstatt",
+    "kunde": {"firma": "[FIRMA_1]"},
+    "ansprechpartner": {"anrede": "Herr", "name": "[NAME_1]"},
+    "anlage": {"typ": "VIM 30", "nummer": "VIM-3000-0917", "baujahr": 2017},
+    "anliegen": [{"kategorie": "stoerung", "beschreibung": "Fehlercode F-217, Anlage steht"}],
+    "dringlichkeit": "stillstand",
+    "wunschzeitraum": {"von": "2026-09-14", "bis": None, "tageszeit": "egal"},
+    "zustaendigkeit": "service",
     "unklarheiten": [],
 }
 
@@ -21,12 +21,12 @@ GUELTIG = {
 def test_parse_gueltig():
     e = parse_antwort(json.dumps(GUELTIG))
     assert isinstance(e, Extraktion)
-    assert e.anliegen[0].kategorie == "wartung"
+    assert e.anliegen[0].kategorie == "stoerung"
 
 
 def test_parse_mit_codeblock():
     e = parse_antwort("```json\n" + json.dumps(GUELTIG) + "\n```")
-    assert e.kennzeichen == "[KENNZEICHEN_1]"
+    assert e.anlage.nummer == "VIM-3000-0917"
 
 
 def test_parse_ungueltiges_json():
@@ -35,30 +35,30 @@ def test_parse_ungueltiges_json():
 
 
 def test_parse_falsche_kategorie():
-    kaputt = dict(GUELTIG, anliegen=[{"kategorie": "motor", "beschreibung": "x"}])
+    kaputt = dict(GUELTIG, anliegen=[{"kategorie": "reifen", "beschreibung": "x"}])
     with pytest.raises(ExtraktionsFehler):
         parse_antwort(json.dumps(kaputt))
 
 
 def test_parse_toleriert_fehlende_optionale_felder():
-    knapp = {"kunde": {"anrede": None, "name": None}, "fahrzeug": {"marke": None, "modell": None},
-             "kennzeichen": None, "anliegen": [], "dringlichkeit": "niedrig",
+    knapp = {"kunde": {"firma": None}, "ansprechpartner": {"anrede": None, "name": None}, "anlage": {"typ": None, "nummer": None},
+             "anliegen": [], "dringlichkeit": "niedrig",
              "wunschzeitraum": {"von": None, "bis": None, "tageszeit": "egal"},
-             "zustaendigkeit": "werkstatt", "unklarheiten": ["kein Anliegen erkennbar"]}
+             "zustaendigkeit": "service", "unklarheiten": ["kein Anliegen erkennbar"]}
     e = parse_antwort(json.dumps(knapp))
-    assert e.fahrzeug.baujahr is None
+    assert e.anlage.baujahr is None
 
 
 def test_prompt_enthaelt_datum_und_platzhalterregel():
     p = baue_prompt(date(2026, 9, 14))
-    assert "2026-09-14" in p and "[NAME_1]" in p and "sicherheitsrelevant" in p
+    assert "[FIRMA_1]" in p and "stillstand" in p and "Seriennummer" in p and "Autohaus" not in p
     assert "Montag" in p and "Monday" not in p
 
 
 def test_extrahiere_sendet_nur_uebergebenen_text():
     fake = FakeClient(GUELTIG)
     e = extrahiere(fake, "Text mit [NAME_1]", date(2026, 9, 14))
-    assert e.kunde.name == "[NAME_1]"
+    assert e.ansprechpartner.name == "[NAME_1]"
     assert fake.aufrufe == ["Text mit [NAME_1]"]
 
 

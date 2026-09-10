@@ -1,7 +1,7 @@
 """Extraktion der Anfrage nach JSON: Schema (Pydantic), Prompt, Antwort parsen.
 
-Das Modell sieht nur den pseudonymisierten Text; Platzhalter wie [NAME_1]
-müssen wörtlich übernommen werden. Ungültige Antworten werfen
+Das Modell sieht nur den pseudonymisierten Text; Platzhalter wie [NAME_1],
+[FIRMA_1] müssen wörtlich übernommen werden. Ungültige Antworten werfen
 ExtraktionsFehler, nie einen rohen Absturz.
 """
 import json
@@ -10,21 +10,24 @@ from typing import Literal
 
 from pydantic import BaseModel, ValidationError
 
-Kategorie = Literal["wartung", "reparatur", "reifen", "hu_au", "karosserie", "verkauf", "sonstiges"]
+Kategorie = Literal["ersatzteil", "wartung", "stoerung", "angebot", "reklamation", "sonstiges"]
 
 WOCHENTAGE = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
 
 
 class Kunde(BaseModel):
+    firma: str | None = None
+
+
+class Ansprechpartner(BaseModel):
     anrede: str | None = None
     name: str | None = None
 
 
-class Fahrzeug(BaseModel):
-    marke: str | None = None
-    modell: str | None = None
+class Anlage(BaseModel):
+    typ: str | None = None
+    nummer: str | None = None
     baujahr: int | None = None
-    kilometerstand: int | None = None
 
 
 class Anliegen(BaseModel):
@@ -40,12 +43,12 @@ class Wunschzeitraum(BaseModel):
 
 class Extraktion(BaseModel):
     kunde: Kunde = Kunde()
-    fahrzeug: Fahrzeug = Fahrzeug()
-    kennzeichen: str | None = None
+    ansprechpartner: Ansprechpartner = Ansprechpartner()
+    anlage: Anlage = Anlage()
     anliegen: list[Anliegen] = []
-    dringlichkeit: Literal["niedrig", "mittel", "hoch", "sicherheitsrelevant"] = "mittel"
+    dringlichkeit: Literal["niedrig", "mittel", "hoch", "stillstand"] = "mittel"
     wunschzeitraum: Wunschzeitraum = Wunschzeitraum()
-    zustaendigkeit: Literal["werkstatt", "verkauf"] = "werkstatt"
+    zustaendigkeit: Literal["service", "vertrieb"] = "service"
     unklarheiten: list[str] = []
 
 
@@ -54,30 +57,36 @@ class ExtraktionsFehler(Exception):
 
 
 SCHEMA_TEXT = """{
-  "kunde": {"anrede": "Herr|Frau|null", "name": "Platzhalter wie [NAME_1] oder null"},
-  "fahrzeug": {"marke": "string|null", "modell": "string|null", "baujahr": "int|null", "kilometerstand": "int|null"},
-  "kennzeichen": "Platzhalter wie [KENNZEICHEN_1] oder null",
-  "anliegen": [{"kategorie": "wartung|reparatur|reifen|hu_au|karosserie|verkauf|sonstiges", "beschreibung": "kurz, deutsch"}],
-  "dringlichkeit": "niedrig|mittel|hoch|sicherheitsrelevant",
+  "kunde": {"firma": "Platzhalter wie [FIRMA_1] oder null"},
+  "ansprechpartner": {"anrede": "Herr|Frau|null", "name": "Platzhalter wie [NAME_1] oder null"},
+  "anlage": {"typ": "string|null", "nummer": "Anlagen- oder Seriennummer wörtlich|null", "baujahr": "int|null"},
+  "anliegen": [{"kategorie": "ersatzteil|wartung|stoerung|angebot|reklamation|sonstiges", "beschreibung": "kurz, deutsch, Fehlercodes und Teilebezeichnungen wörtlich"}],
+  "dringlichkeit": "niedrig|mittel|hoch|stillstand",
   "wunschzeitraum": {"von": "YYYY-MM-DD|null", "bis": "YYYY-MM-DD|null", "tageszeit": "vormittag|nachmittag|egal"},
-  "zustaendigkeit": "werkstatt|verkauf",
+  "zustaendigkeit": "service|vertrieb",
   "unklarheiten": ["string"]
 }"""
 
 
 def baue_prompt(heute: date) -> str:
     return (
-        "Du bist die Serviceannahme eines Autohauses. Du bekommst eine Kunden-E-Mail, in der "
-        "personenbezogene Daten durch Platzhalter ersetzt sind, z. B. [NAME_1], [KENNZEICHEN_1], "
-        "[TELEFON_1]. Übernimm Platzhalter wörtlich, erfinde keine Werte dahinter.\n"
+        "Du bist die Serviceannahme eines Herstellers von Vakuumanlagen für Metallurgie und "
+        "Wärmebehandlung. Du bekommst eine Kunden-E-Mail, in der personenbezogene Daten und "
+        "Firmennamen durch Platzhalter ersetzt sind, z. B. [NAME_1], [FIRMA_1], [TELEFON_1]. "
+        "Übernimm Platzhalter wörtlich, erfinde keine Werte dahinter. Anlagennummern, "
+        "Seriennummern, Fehlercodes und Teilebezeichnungen sind keine Platzhalter, übernimm sie "
+        "wörtlich, auch wenn sie ungewöhnlich aussehen.\n"
         f"Heute ist {heute.isoformat()} ({WOCHENTAGE[heute.weekday()]}). Relative Angaben wie "
-        "'nächste Woche' oder 'Mittwoch' rechnest du auf Kalenderdaten um.\n"
+        "'nächste Woche' oder 'KW 40' rechnest du auf Kalenderdaten um.\n"
         "Antworte ausschließlich mit einem JSON-Objekt nach diesem Schema:\n" + SCHEMA_TEXT + "\n"
-        "Regeln: Jedes eigenständige Anliegen ist ein Listeneintrag. Bremsen, Lenkung, Reifen mit "
-        "Druckverlust, Motorwarnleuchte rot oder Rauch sind 'sicherheitsrelevant'. Geht es um Kauf, "
-        "Probefahrt, Leasing oder Angebot für ein Fahrzeug, ist zustaendigkeit 'verkauf'. "
-        "Fehlt eine Information, die du für den Termin brauchst (Kennzeichen, konkretes Anliegen, "
-        "Zeitraum), schreibe sie in unklarheiten. Keine Erklärungen außerhalb des JSON."
+        "Regeln: Jedes eigenständige Anliegen ist ein Listeneintrag. Steht die Produktion, sitzt "
+        "eine Charge im Ofen fest oder läuft die Anlage gar nicht mehr, ist dringlichkeit "
+        "'stillstand'. Geht es um eine neue Anlage, einen Kauf oder ein Angebot für eine Neuanlage, "
+        "ist zustaendigkeit 'vertrieb'; Angebote für Wartung, Retrofit oder Ersatzteile bleiben "
+        "'service'. Bei weitergeleiteten Mails gilt die eigentliche Kundenanfrage in den Zitaten. "
+        "Fehlt eine Information, die du für den Einsatz brauchst (Anlagennummer, konkretes "
+        "Anliegen, Zeitraum, angekündigter aber fehlender Anhang), schreibe sie in unklarheiten. "
+        "Keine Erklärungen außerhalb des JSON."
     )
 
 

@@ -2,31 +2,50 @@
 
 Was ich im Gespräch live zeige (5 Minuten):
 
-1. Seite öffnen, Mail m12 (Beule in der Tür) anklicken: links steht das
-   Original, rechts das, was das Modell tatsächlich bekommen hat. Auf
-   „Sabine Krämer" zeigen: Der Name wurde aus der Anrede „meine Frau Sabine
-   Krämer" erkannt; Adresse, PLZ/Ort, Telefon und Kennzeichen sind ebenfalls
-   ersetzt.
+1. Seite öffnen, Mail m01 (Wartung ohne Anlagennummer) anklicken: links steht
+   das Original, rechts das, was das Modell tatsächlich bekommen hat. Auf
+   „[NAME_1]" zeigen, das aus der Signatur „Frank Lindemann" stammt, dazu
+   Firma „[FIRMA_1]" (Hartmann Wärmebehandlung GmbH), Adresse, Ort und
+   Telefon sind ebenfalls ersetzt. Der Kunde nennt keine Anlagennummer
+   („Die Nummer vom Typenschild habe ich gerade nicht zur Hand"), das landet
+   in den extrahierten Unklarheiten statt einer geratenen Nummer.
 
-2. Die extrahierten Felder zeigen: Kategorie Karosserie, Zuständigkeit
-   Werkstatt, Wunschzeitraum leer — der Termin fällt dadurch automatisch auf
-   den nächsten Werktag.
+2. Mail m02 (VIM 30 steht, Fehlercode F-217) öffnen: Dringlichkeit
+   Stillstand, weil die Produktion steht und die Charge im Ofen festsitzt.
+   Im pseudonymisierten Text auf „Fehlercode F-217" zeigen: Anlagen- und
+   Seriennummern sowie Fehlercodes werden bewusst nicht ersetzt, das Modell
+   braucht sie wörtlich. Der Fehlercode löst zugleich die Qualifikation
+   Steuerung aus, und die Terminregel für Stillstand sucht den ersten freien
+   Techniker mit dieser Qualifikation ab heute statt im Wunschzeitraum, mit
+   dem Hinweis „Produktionsstillstand, Einsatz vorgezogen."
 
-3. Mail m13 (Motorleuchte rot) öffnen: Dringlichkeit sicherheitsrelevant,
-   Termin bereits für heute, mit dem Hinweis „vorgezogen".
+3. Mail m05 (zweiter Vakuumlötofen) öffnen: Zuständigkeit Vertrieb, weil es
+   um eine neue Anlage geht, kein Servicetechniker wird gesucht. Die
+   Oberfläche zeigt „kein Einsatz (Vertrieb)", der Antwortentwurf leitet an
+   den Vertrieb weiter statt einen Termin vorzuschlagen.
 
-4. Mail m06 (Probefahrt) öffnen: Zuständigkeit Verkauf, kein Termin, dafür
-   ein Weiterleitungstext an die Verkaufsabteilung.
+4. Mail m06 (WG: WG: Thermoelement Ofen 2) öffnen: eine Weiterleitung mit
+   drei Zitatebenen. Die eigentliche Anfrage steht in der untersten Ebene
+   (Thermoelement, SN VK-2200-0144), nicht im obersten Text von Petra
+   Schulz. Zusätzlich zeigen, dass „Von: Bernd Kolb" als zweite Person
+   erkannt wird, obwohl der Nachname „Kolb" zugleich die Firmen-Kurzform ist
+   und im laufenden Text bereits als Firma maskiert wäre.
 
-5. Mail m07 (Mittwoch/Donnerstag) öffnen: Die gewünschten Wunschtage sind
-   ausgebucht, der Vorschlag liegt danach mit einem entsprechenden Hinweis.
+5. Mail m07 (Vacuum leak VIM 22, line down) öffnen: eine englische Mail. Das
+   Modell versteht sie trotzdem und liefert die deutschen Kategoriewerte
+   des Schemas (Kategorie, Dringlichkeit, Tageszeit). Auch die
+   internationale Telefonnummer („+44 1234 567890") und die Rechtsform
+   „Ltd." werden erkannt.
 
-6. Mail m03 (Dialekt) öffnen: Das Modell versteht auch „Nachmittags, morgens
-   bin isch aufm Bau" und übersetzt das korrekt in Tageszeit und Zeitraum.
+6. Mail m09 (Türdichtung, Foto vom Typenschild anbei) öffnen: der Text
+   kündigt ein Foto des Typenschilds an, das in dieser Demo keinen
+   tatsächlichen Anhang gibt. Das gehört ebenfalls in die Unklarheiten,
+   sonst würde die Anlagennummer stillschweigend fehlen.
 
-7. Über „Neue Mail" eine Anfrage live eintippen und verarbeiten lassen.
-   Dabei erwähnen: Der Modellanbieter ist umschaltbar, mit Ollama bliebe
-   dabei alles auf dem eigenen Rechner statt bei einem externen Anbieter.
+7. Über „Neue Mail" eine Anfrage live eintippen und verarbeiten lassen,
+   inklusive des neuen Felds Firma. Dabei erwähnen: Der Modellanbieter ist
+   umschaltbar, mit Ollama bliebe dabei alles auf dem eigenen Rechner statt
+   bei einem externen Anbieter.
 
 8. Zum Schluss den Fehlerpfad zeigen: Liefert das Modell kein gültiges
    JSON, bekommt die Mail den Status „Prüfung nötig" statt eines Absturzes.

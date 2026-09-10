@@ -1,21 +1,24 @@
-# Werkstatt-Terminassistent
+# Serviceanfragen-Assistent
 
 ## 1. Was das ist
 
-Ein Assistent, der eingehende Werkstatt-Mails eines Autohauses liest, die
-relevanten Angaben strukturiert herauszieht und einen Terminvorschlag samt
-Antwortentwurf erzeugt. Eigenprojekt, Demo mit erfundenen Testdaten,
-entstanden für eine Bewerbung.
+Ein Assistent, der eingehende Servicemails eines Sonderanlagenbauers (Vakuumöfen
+für Metallurgie und Wärmebehandlung) liest, die relevanten Angaben strukturiert
+herauszieht und den Einsatz eines Servicetechnikers vorschlägt, samt
+Antwortentwurf zur Freigabe. Abgedeckt sind Wartung, Störung, Ersatzteil,
+Reklamation und Angebot. Eigenprojekt, Demo mit erfundenen Testdaten,
+entstanden für Bewerbungen.
 
 ## 2. Demo im Browser ohne Installation
 
-`https://dangtu1190-tech.github.io/werkstatt-terminassistent/`
+`https://dangtu1190-tech.github.io/serviceanfragen-assistent/`
 
 Das ist der statische Modus: vorberechnete Ergebnisse aus `docs/data/`,
 keine Modellaufrufe. Alle 15 Testmails lassen sich anklicken und zeigen den
-kompletten Ablauf inklusive Pseudonymisierung, Extraktion und Terminvorschlag,
-so wie sie beim letzten Echtlauf entstanden sind. Für eine neue Mail
-„live" gegen ein Modell rechnen zu lassen, geht nur lokal (Abschnitt 5).
+kompletten Ablauf inklusive Pseudonymisierung, Extraktion und
+Einsatzvorschlag, so wie sie beim letzten Echtlauf entstanden sind. Für eine
+neue Mail „live" gegen ein Modell rechnen zu lassen, geht nur lokal
+(Abschnitt 5).
 
 ## 3. Das Kernstück: Pseudonymisierung vor dem Modellaufruf
 
@@ -28,41 +31,48 @@ heißt aus der Entstehungsgeschichte heraus weiterhin `anonymisierung.py`.)
 
 | Typ | Beispiel | Platzhalter |
 |---|---|---|
-| E-Mail | `p.kraemer@example.net` | `[EMAIL_1]` |
-| Kennzeichen | `AB-PK 404` | `[KENNZEICHEN_1]` |
-| Telefon | `0160 98 76 54 32` | `[TELEFON_1]` |
-| Adresse | `Rosenweg 3` | `[ADRESSE_1]` |
-| Ort | `63571 Gelnhausen` | `[ORT_1]` |
-| Name | `Sabine Krämer` | `[NAME_1]` |
+| E-Mail | `f.lindemann@hartmann-wb.example` | `[EMAIL_1]` |
+| Firma | `Hartmann Wärmebehandlung GmbH` | `[FIRMA_1]` |
+| Telefon | `06661 / 90 12 34` | `[TELEFON_1]` |
+| Adresse | `Am Gewerbepark 12` | `[ADRESSE_1]` |
+| Ort | `36381 Schlüchtern` | `[ORT_1]` |
+| Name | `Frank Lindemann` | `[NAME_1]` |
 
 Dieselbe Angabe bekommt immer denselben Platzhalter, auch bei
 unterschiedlicher Schreibweise (Groß-/Kleinschreibung, Namensteile). Die
-Antwort des Modells enthält deshalb dieselben Platzhalter; erst danach
+Antwort des Modells enthält deshalb dieselben Platzhalter. Erst danach
 werden sie anhand der Zuordnungstabelle wieder auf die Originalwerte
 zurückgesetzt, rekursiv über das ganze JSON-Ergebnis.
+
+### Warum diese Felder und keine anderen
+
+Anlagen- und Seriennummern, Fehlercodes und Anlagentypen werden bewusst nicht
+ersetzt. Sie sind keine personenbezogenen Daten, und das Modell braucht sie
+wörtlich, um die Anfrage der richtigen Anlage zuzuordnen. Firmennamen werden
+dagegen ersetzt, aber nicht aus Datenschutzgründen: sie berühren
+Geschäftsgeheimnisse, denn wer welche Anlage betreibt und welche Störungen
+sie hat, ist selbst schützenswert. Die Auswahl der zu ersetzenden Felder ist
+damit eine Entscheidung je Anwendungsfall, keine Pauschalregel, die sich
+unbesehen auf andere Domänen übertragen ließe.
 
 Ehrliche Grenzen: Namen, die im Fließtext ohne Anrede, Absenderfeld oder
 Signatur auftauchen, werden nicht erkannt. Signaturen, die durchgehend klein
 geschrieben sind, ebenfalls nicht — die Namenszeile wird über den
 Großbuchstaben am Wortanfang gefunden. Teilen sich zwei erkannte Personen
-einen Nachnamen, bleibt ein allein stehender Nachname stehen; er ist nicht
+einen Nachnamen, bleibt ein allein stehender Nachname stehen. Er ist nicht
 zuordenbar, und ein geratener Platzhalter setzte die falsche Person wieder
 ein. Umgekehrt gilt: ist nur eine Person mit diesem Nachnamen bekannt, wird
 auch der allein stehende Nachname ersetzt und beim Zurücksetzen zum vollen
-Namen aufgefüllt — aus „Elektro Wittmann GmbH" wird so „Elektro Andrea
-Wittmann GmbH". Orte ohne vorangestellte PLZ bleiben stehen, und Ortsnamen
-mit Zusatz wie „am Main" bleiben teilweise sichtbar: maskiert wird
-„60313 Frankfurt", das „am Main" bleibt stehen. Ein Muster, das den Zusatz
-mitnimmt, verschluckt sonst gewöhnlichen Fließtext („bei Herrn Mueller") und
-verdeckt damit eine Anrede, hinter der ein Name steht. Straßen mit
-unüblichen Vorworten fallen durch das Muster. Zeichenfolgen, die wie ein
-Kennzeichen aussehen (z. B. „Raum A-B 4"), werden ebenfalls maskiert; diese
-Über-Maskierung ist gewollt, weil ein übersehenes Kennzeichen schwerer wiegt
-als ein maskierter Raumname. Fahrzeugmodelle bleiben absichtlich sichtbar —
-ohne sie ist keine sinnvolle Terminplanung möglich, und sie sind für sich
-genommen nicht personenbezogen.
+Namen aufgefüllt. Orte ohne vorangestellte PLZ bleiben stehen, und
+Ortsnamen mit Zusatz wie „am Main" bleiben teilweise sichtbar: maskiert wird
+„60437 Frankfurt", das „am Main" bleibt stehen. Ein Muster, das den Zusatz
+mitnimmt, verschluckt sonst gewöhnlichen Fließtext und verdeckt damit eine
+Anrede, hinter der ein Name steht. Firmennamen ohne Rechtsform im Namen
+(also ohne GmbH, AG, KG und ähnliche Endungen) werden nur erkannt, wenn sie
+als Absenderfirma aus den Mail-Metadaten bekannt sind. Taucht ein solcher
+Name nur im Fließtext auf, etwa in einer Weiterleitung, bleibt er stehen.
 
-## 4. Pipeline
+## 4. Pipeline, Technikerkalender, Ersatzteilhinweise
 
 ```
 Mail
@@ -72,17 +82,38 @@ Mail
   │
   ▼
 2. Extraktion        – Modellaufruf liefert strukturiertes JSON (Kunde,
-  │                     Fahrzeug, Anliegen, Dringlichkeit, Wunschzeitraum)
+  │                     Ansprechpartner, Anlage, Anliegen, Dringlichkeit,
+  │                     Wunschzeitraum, Zuständigkeit)
   ▼
-3. Terminsuche        – freien Halbtag im Kapazitätskalender finden
-  │
+3. Terminsuche        – freien Servicetechniker mit passender Qualifikation
+  │                     im Kapazitätskalender finden
   ▼
 4. Antwortentwurf     – deutscher Text aus einer festen Vorlage, nicht vom
                          Modell
 ```
 
-Das Modell liefert ausschließlich das JSON aus Schritt 2; der Antworttext
+Das Modell liefert ausschließlich das JSON aus Schritt 2. Der Antworttext
 in Schritt 4 kommt aus einer Vorlage im Code, damit er vorhersagbar bleibt.
+
+Der Technikerkalender kennt fünf Servicetechniker mit je ein bis zwei
+Qualifikationen (Elektrik, Vakuumtechnik, Steuerung, Mechanik). Die
+benötigte Qualifikation wird aus Kategorie und Beschreibung der Anliegen
+abgeleitet, zum Beispiel führt ein genannter Fehlercode oder ein Hinweis
+auf die Steuerung zur Qualifikation Steuerung. Bei Dringlichkeit
+„Stillstand" (Produktion steht oder eine Charge sitzt im Ofen fest) wird
+der Einsatz vorgezogen: gesucht wird der erste freie Tag ab heute statt im
+Wunschzeitraum, mit dem Hinweis „Produktionsstillstand, Einsatz
+vorgezogen." Geht es um eine Neuanlage, einen Kauf oder ein Angebot für
+eine neue Anlage, ist die Zuständigkeit Vertrieb, und es wird kein Termin
+gesucht. Reine Ersatzteilanliegen ohne weiteren Servicebedarf bekommen
+ebenfalls keinen Termin. Der Vorschlag reserviert nichts, erst die Freigabe
+belegt den Techniker. Ablehnen oder erneutes Verarbeiten geben ihn wieder
+frei.
+
+Für Anliegen der Kategorie Ersatzteil liefert ein kleiner Katalog
+Verfügbarkeitshinweise (etwa „ab Lager" oder „Lieferzeit ca. 3 Wochen"),
+die im Antwortentwurf mit aufgeführt werden. Ohne Treffer im Katalog steht
+dort „Verfügbarkeit wird geprüft".
 
 ## 5. Lokal starten
 
@@ -99,6 +130,13 @@ Danach im Browser `http://localhost:8040` öffnen. Ohne `.env` starten die
 Skripte den Server trotzdem, mit einem Hinweis: die 15 vorberechneten
 Ergebnisse aus `data/` lassen sich ansehen, ein neuer Modellaufruf scheitert
 am fehlenden Schlüssel und endet sichtbar als `pruefung_noetig`.
+
+Den statischen Modus selbst ansehen (ohne Server), zum Beispiel um
+`docs/index.html` unverändert von der Festplatte zu prüfen:
+
+```
+python -m http.server 8041 -d docs
+```
 
 Alle Testmails auf einmal verarbeiten (ohne Server):
 
@@ -119,19 +157,34 @@ konfiguriert:
 | `LLM_API_KEY` | Langdock-Schlüssel | beliebiger Wert |
 
 Alle ausgelieferten Ergebnisse in `data/ergebnisse.json` und `docs/data/`
-stammen aus echten Läufen gegen Langdock mit `gpt-5.1`, im Schnitt rund
-3,5 Sekunden pro Mail. Der Ollama-Pfad ist gebaut, aber von mir noch nicht
-gegen eine laufende Ollama-Instanz geprüft.
+stammen aus echten Läufen gegen Langdock mit `gpt-5.1`. Der Ollama-Pfad ist
+gebaut, aber von mir noch nicht gegen eine laufende Ollama-Instanz geprüft.
 
 ## 7. Testdaten
 
-15 erfundene Mails in `data/mails.json`, die typische Störfälle abdecken:
-Dialekt (m03), Anfrage ohne Kennzeichen (m04, Winterreifen), drei Anliegen
-in einer Mail (m05, Crafter mit Ölwechsel/HU/Klima), Verkaufsanfrage statt
-Werkstatt (m06, Probefahrt), sicherheitsrelevanter Fall (m13,
-Motorwarnleuchte rot), ausgebuchter Wunschzeitraum (m07,
-Mittwoch/Donnerstag), englische Mail (m10), sehr kurze Mail (m08) und
-Firmensignatur mit Adresse (m09, Elektro Wittmann GmbH).
+15 erfundene Mails in `data/mails.json`, geschrieben von Instandhaltern,
+Werksleitern und Einkäufern erfundener Industriefirmen, die typische
+Störfälle abdecken:
+
+- Anfrage ohne Anlagennummer (m01, „der Ofen in Halle 3")
+- Produktionsstillstand mit Fehlercode am Bedienfeld (m02)
+- alte Anlage mit einer Nummer außerhalb des üblichen Schemas (m03)
+- drei Anliegen in einer Mail: Ersatzteil, Wartungstermin, Angebot (m04)
+- Vertriebsfall, Anfrage für eine neue Anlage (m05)
+- Weiterleitung mit drei Zitatebenen (m06)
+- englische Mail (m07)
+- vager Fall ohne klare Diagnose („riecht komisch, Charge nicht
+  durchgehärtet", m08)
+- Anhang-Bezug ohne tatsächlichen Anhang (m09)
+- sehr knappe Mail ohne Anrede und Signatur (m10)
+- Reklamation nach einem vorangegangenen Serviceeinsatz (m11)
+- zwei Anlagen in einem Wartungswunsch, an einem Tag (m12)
+- weiterer Stillstandsfall (m13)
+- Anfrage außerhalb des Kerngeschäfts, Anlagenumzug (m14)
+- Ersatzteil- und Wartungsfrage kombiniert (m15)
+
+Vier Mails sind dringlich (Produktionsstillstand), erkennbar nur aus dem
+Text, nicht aus Betreff oder Metadaten.
 
 ## 8. Tests
 
@@ -139,9 +192,15 @@ Firmensignatur mit Adresse (m09, Elektro Wittmann GmbH).
 python -m pytest -q
 ```
 
-61 Tests laufen ohne Netzzugriff und ohne Schlüssel (Fake-Client). Ein
+68 Tests laufen ohne Netzzugriff und ohne Schlüssel (Fake-Client). Ein
 Test, der wirklich gegen ein Modell fragt, wird nur ausgeführt, wenn
 `LLM_API_KEY` gesetzt ist — sonst übersprungen (skip), nie fehlgeschlagen.
+
+Ergebnisse regenerieren sich mit:
+
+```
+python -m app.cli --neu --pages
+```
 
 ## 9. GitHub Pages einschalten
 

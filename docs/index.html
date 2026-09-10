@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Werkstatt-Terminassistent – Demo</title>
+<title>Serviceanfragen-Assistent – Demo</title>
 <style>
   :root { --akzent: #0b4f9c; --bg: #ffffff; --bg-alt: #f4f5f7; --rand: #d8dbe0; --text: #1c2126; --muted: #5a6472; }
   * { box-sizing: border-box; }
@@ -56,7 +56,7 @@
 </head>
 <body>
 <header>
-  <div><h1>Werkstatt-Terminassistent – Demo</h1><div class="untertitel">Eigenprojekt für Bewerbungen. Alle Kundenmails und Kundendaten sind erfunden.</div></div>
+  <div><h1>Serviceanfragen-Assistent – Demo</h1><div class="untertitel">Eigenprojekt für Bewerbungen. Alle Kundenmails und Kundendaten sind erfunden.</div></div>
   <div id="kopf-info">lädt …</div>
 </header>
 <div id="ladefehler"></div>
@@ -69,6 +69,7 @@
     </div>
     <div id="neue-mail-formular" style="display:none">
       <label>Absender</label><input type="text" id="f-absender">
+      <label>Firma</label><input type="text" id="f-firma">
       <label>Betreff</label><input type="text" id="f-betreff">
       <label>Text</label><textarea id="f-text" style="min-height:100px"></textarea>
       <div class="knopfleiste">
@@ -105,7 +106,7 @@
   <section class="spalte" id="spalte-rechts">
     <div id="rechts-leer" class="hinweis">–</div>
     <div id="rechts-inhalt" style="display:none">
-      <h2>Terminvorschlag</h2>
+      <h2>Einsatzvorschlag</h2>
       <div id="termin-block"></div>
       <h3>Antwortentwurf</h3>
       <textarea id="antwort-text"></textarea>
@@ -266,9 +267,11 @@ function renderExtraktion(ex) {
   var tbody = document.querySelector("#tabelle-extraktion tbody");
   tbody.innerHTML = "";
   if (!ex) { tbody.innerHTML = feldZeile("Hinweis", "keine Extraktion vorhanden"); return; }
-  var kunde = (ex.kunde && (ex.kunde.anrede ? esc(ex.kunde.anrede) + " " : "") + esc(ex.kunde.name)) || "–";
-  var fzg = ex.fahrzeug || {};
-  var fahrzeugText = [fzg.marke, fzg.modell, fzg.baujahr, fzg.kilometerstand ? fzg.kilometerstand + " km" : null]
+  var kunde = esc(ex.kunde && ex.kunde.firma) || "–";
+  var ap = ex.ansprechpartner || {};
+  var ansprechpartner = [ap.anrede, ap.name].filter(function (x) { return x; }).map(esc).join(" ") || "–";
+  var anlage = ex.anlage || {};
+  var anlageText = [anlage.typ, anlage.nummer, anlage.baujahr]
     .filter(function (x) { return x; }).map(esc).join(" · ") || "–";
   var anliegen = (ex.anliegen || []).map(function (a) {
     return "<li>" + esc(a.kategorie) + ": " + esc(a.beschreibung) + "</li>";
@@ -278,8 +281,8 @@ function renderExtraktion(ex) {
   var unklar = (ex.unklarheiten || []).map(function (u) { return "<li>" + esc(u) + "</li>"; }).join("") || "<li>keine</li>";
   tbody.innerHTML =
     feldZeile("Kunde", kunde) +
-    feldZeile("Fahrzeug", fahrzeugText) +
-    feldZeile("Kennzeichen", esc(ex.kennzeichen) || "–") +
+    feldZeile("Ansprechpartner", ansprechpartner) +
+    feldZeile("Anlage", anlageText) +
     feldZeile("Anliegen", "<ul>" + anliegen + "</ul>") +
     feldZeile("Dringlichkeit", esc(ex.dringlichkeit) || "–") +
     feldZeile("Wunschzeitraum", wunsch) +
@@ -326,15 +329,22 @@ function zeigeRechts(ergebnis) {
   if (!ergebnis) return;
 
   var terminBlock = document.getElementById("termin-block");
+  var html;
   if (ergebnis.termin) {
-    terminBlock.innerHTML =
-      "<p><strong>" + esc(ergebnis.termin.datum) + "</strong>, " + esc(ergebnis.termin.halbtag) +
-      (ergebnis.termin.hinweis ? "<br>" + esc(ergebnis.termin.hinweis) : "") + "</p>";
-  } else if (ergebnis.extraktion && ergebnis.extraktion.zustaendigkeit === "verkauf") {
-    terminBlock.innerHTML = "<p class=\"hinweis\">kein Termin (Verkauf)</p>";
+    var t = ergebnis.termin;
+    html = "<p><strong>" + esc(t.datum) + "</strong>, Techniker " + esc(t.techniker) + " (" + esc(t.qualifikation) + ")" +
+      (t.hinweis ? "<br>" + esc(t.hinweis) : "") + "</p>";
+  } else if (ergebnis.extraktion && ergebnis.extraktion.zustaendigkeit === "vertrieb") {
+    html = "<p class=\"hinweis\">kein Einsatz (Vertrieb)</p>";
   } else {
-    terminBlock.innerHTML = "<p class=\"hinweis\">kein Termin</p>";
+    html = "<p class=\"hinweis\">kein Einsatz</p>";
   }
+  if (ergebnis.ersatzteile && ergebnis.ersatzteile.length) {
+    html += "<h3>Ersatzteile</h3><ul>" + ergebnis.ersatzteile.map(function (e) {
+      return "<li>" + esc(e.teil) + ": " + esc(e.status) + "</li>";
+    }).join("") + "</ul>";
+  }
+  terminBlock.innerHTML = html;
 
   document.getElementById("antwort-text").value = ergebnis.antwort_entwurf || "";
   document.getElementById("fussnote").textContent =
@@ -366,13 +376,15 @@ document.getElementById("f-abbrechen").addEventListener("click", function () {
 document.getElementById("f-senden").addEventListener("click", function () {
   if (statisch) { statischerHinweis(); return; }
   var absender = document.getElementById("f-absender").value.trim();
+  var firma = document.getElementById("f-firma").value.trim();
   var betreff = document.getElementById("f-betreff").value.trim();
   var text = document.getElementById("f-text").value.trim();
   if (!absender || !text) { alert("Absender und Text sind erforderlich."); return; }
-  anfrage("POST", "/api/mails", { absender_name: absender, betreff: betreff, text: text })
+  anfrage("POST", "/api/mails", { absender_name: absender, absender_firma: firma, betreff: betreff, text: text })
     .then(function (mail) {
       document.getElementById("neue-mail-formular").style.display = "none";
       document.getElementById("f-absender").value = "";
+      document.getElementById("f-firma").value = "";
       document.getElementById("f-betreff").value = "";
       document.getElementById("f-text").value = "";
       return anfrage("POST", "/api/mails/" + mail.id + "/verarbeiten").then(function () {

@@ -3,14 +3,15 @@ from datetime import date
 
 WOCHENTAGE = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
 KATEGORIE_TEXT = {
-    "wartung": "Wartung", "reparatur": "Reparatur", "reifen": "Reifen", "hu_au": "HU/AU",
-    "karosserie": "Karosserie", "verkauf": "Verkauf", "sonstiges": "Sonstiges",
+    "ersatzteil": "Ersatzteil", "wartung": "Wartung", "stoerung": "Störung", "angebot": "Angebot",
+    "reklamation": "Reklamation", "sonstiges": "Sonstiges",
 }
+QUALIFIKATION_TEXT = {"elektrik": "Elektrik", "vakuumtechnik": "Vakuumtechnik", "steuerung": "Steuerung", "mechanik": "Mechanik"}
 
 
-def _anrede(kunde: dict) -> str:
-    name = (kunde or {}).get("name")
-    anrede = (kunde or {}).get("anrede")
+def _anrede(person: dict) -> str:
+    name = (person or {}).get("name")
+    anrede = (person or {}).get("anrede")
     if not name:
         return "Guten Tag,"
     nachname = name.split()[-1]
@@ -26,50 +27,50 @@ def _datum_text(iso: str) -> str:
     return f"{WOCHENTAGE[d.weekday()]}, {d.strftime('%d.%m.%Y')}"
 
 
-def _fahrzeug_text(ex: dict) -> str:
-    f = ex.get("fahrzeug") or {}
-    teile = [f.get("marke"), f.get("modell")]
-    text = " ".join(t for t in teile if t)
-    if ex.get("kennzeichen"):
-        text = f"{text} ({ex['kennzeichen']})" if text else ex["kennzeichen"]
-    return text or "Ihr Fahrzeug"
+def _anlage_text(ex: dict) -> str:
+    a = ex.get("anlage") or {}
+    text = a.get("typ") or ""
+    if a.get("nummer"):
+        text = f"{text} ({a['nummer']})" if text else a["nummer"]
+    return f"Ihre Anlage {text}" if text else "Ihre Anlage"
 
 
 def _anliegen_zeilen(ex: dict) -> list[str]:
-    """Baut die itemisierte Liste der Anliegen."""
-    anliegen = ex.get("anliegen") or []
-    if not anliegen:
-        return []
-    zeilen = ["Wir haben notiert:"]
-    zeilen += [f"- {KATEGORIE_TEXT.get(a['kategorie'], a['kategorie'])}: {a['beschreibung']}" for a in anliegen]
-    return zeilen
+    return [f"- {KATEGORIE_TEXT.get(a['kategorie'], a['kategorie'])}: {a['beschreibung']}" for a in ex.get("anliegen") or []]
 
 
-def baue_antwort(ex: dict, termin: dict | None, betreff: str) -> str:
-    dank = f'vielen Dank für Ihre Anfrage „{betreff}".' if betreff else "vielen Dank für Ihre Anfrage."
-    zeilen = [_anrede(ex.get("kunde")), "", dank]
-    if ex.get("zustaendigkeit") == "verkauf":
-        zeilen += ["", "Ihr Anliegen betrifft unseren Verkauf. Ich habe Ihre Nachricht an die "
-                   "Kolleginnen und Kollegen dort weitergeleitet; sie melden sich in Kürze bei Ihnen."]
-        anliegen_zeilen = _anliegen_zeilen(ex)
-        if anliegen_zeilen:
-            zeilen += [""] + anliegen_zeilen
+def _ersatzteil_zeilen(ersatzteile: list[dict] | None) -> list[str]:
+    return [f"Ersatzteil {e['teil']}: {e['status']}" for e in ersatzteile or []]
+
+
+def baue_antwort(ex: dict, termin: dict | None, betreff: str, ersatzteile: list[dict] | None = None) -> str:
+    dank = f"vielen Dank für Ihre Anfrage „{betreff}“." if betreff else "vielen Dank für Ihre Anfrage."
+    zeilen = [_anrede(ex.get("ansprechpartner")), "", dank]
+    anliegen = _anliegen_zeilen(ex)
+    nur_ersatzteil = bool(ex.get("anliegen")) and all(a.get("kategorie") == "ersatzteil" for a in ex["anliegen"])
+    if ex.get("zustaendigkeit") == "vertrieb":
+        zeilen += ["", "Ihr Anliegen betrifft unseren Vertrieb. Ich habe Ihre Nachricht an die Kolleginnen und "
+                   "Kollegen dort weitergeleitet, sie melden sich in Kürze bei Ihnen."]
+        if anliegen:
+            zeilen += ["", "Wir haben notiert:"] + anliegen
     else:
-        anliegen_zeilen = _anliegen_zeilen(ex)
-        if anliegen_zeilen:
-            zeilen += ["", f"Für {_fahrzeug_text(ex)} haben wir folgende Punkte notiert:"]
-            zeilen += anliegen_zeilen[1:]  # skip "Wir haben notiert:" header
+        if anliegen:
+            zeilen += ["", f"Für {_anlage_text(ex)} haben wir notiert:"] + anliegen
+        teile = _ersatzteil_zeilen(ersatzteile)
+        if teile:
+            zeilen += [""] + teile + ["Ein Angebot mit Preisen und Lieferzeit folgt gesondert."]
         if termin:
-            halbtag = "Vormittag" if termin["halbtag"] == "vormittag" else "Nachmittag"
-            zeilen += ["", f"Wir schlagen Ihnen einen Termin am {_datum_text(termin['datum'])} am {halbtag} vor."]
+            quali = QUALIFIKATION_TEXT.get(termin.get("qualifikation"), termin.get("qualifikation", ""))
+            zeilen += ["", f"Wir schlagen Ihnen den Einsatz eines Servicetechnikers ({quali}) am "
+                       f"{_datum_text(termin['datum'])} vor."]
             if termin.get("hinweis"):
                 zeilen.append(termin["hinweis"])
             zeilen.append("Bitte bestätigen Sie den Termin kurz per Antwort auf diese E-Mail.")
-        else:
+        elif not nur_ersatzteil:
             zeilen += ["", "Wir melden uns mit einem Terminvorschlag, sobald die offenen Punkte geklärt sind."]
     unklar = ex.get("unklarheiten") or []
     if unklar:
-        zeilen += ["", "Damit wir den Termin passend planen können, benötigen wir noch:"]
+        zeilen += ["", "Damit wir den Einsatz passend planen können, benötigen wir noch:"]
         zeilen += [f"- {u}" for u in unklar]
     zeilen += ["", "Mit freundlichen Grüßen", "Ihr Serviceteam"]
     return "\n".join(zeilen)
